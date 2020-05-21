@@ -1,4 +1,3 @@
-
 const { Pool } = require('pg');
 
 const isProduccion = process.env.NODE_ENV=== "production";
