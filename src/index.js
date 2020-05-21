@@ -8,11 +8,10 @@ const path = require('path');
 
 
 //Settings
-app.set('port',process.env.port||3000)
+app.set('port',process.env.port||4000)
 
 //middlewares
 app.use(morgan('dev'));
-
 
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'public/uploads'),
