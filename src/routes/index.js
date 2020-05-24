@@ -1,16 +1,25 @@
 const { Router} = require('express');
 const router = Router();
 
-const { getTotales, getCuatrienio, getCuatriCompare, getCuatriComuna , getCuatrienioDetalleComuna}= require('../controllers/index.controllers');
+const   {   getTotales, getCuatrienio, getCuatriCompare,
+            getCuatriComuna , getCuatrienioDetalleComuna, 
+            getDetalleAlonso, getDetalleAnibal, getDetalleFico
+        }= require('../controllers/index.controllers');
+
 const {getVigencias, getSearchVigencias, getVig } = require('../controllers/taskVigencias');
 const {getComuna , getComunaVigencia, getComunaDep}= require('../controllers/taskComunas');
+
+
+
 
 router.get('/api/totales', getTotales);//totales por año, descripción de los tipos de inversión (2004-2019)
 router.get('/api/cuatrienios',getCuatrienio );// total alonso, aníbal, federico
 router.get('/api/cuatrienios/busqueda',getCuatriCompare );//consultar los totales de 2 vigencias (vigencia1, vigencia2)
 router.get('/api/cuatrienios/comuna', getCuatriComuna);
 router.get('/api/cuatrienios/detalle/:cod_comuna', getCuatrienioDetalleComuna);
-
+router.get('/api/cuatrienios/alonso', getDetalleAlonso);
+router.get('/api/cuatrienios/anibal', getDetalleAnibal);
+router.get('/api/cuatrienios/fico', getDetalleFico);
 
 
 router.get('/api/vigencias', getVigencias);//totales por año (2004-2019)
