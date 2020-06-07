@@ -3,7 +3,9 @@ const router = Router();
 
 const   {   getTotales, getCuatrienio, getCuatriCompare,
             getCuatriComuna , getCuatrienioDetalleComuna, 
-            getDetalleAlonso, getDetalleAnibal, getDetalleFico
+            getDetalleAlonso, getDetalleAnibal, getDetalleFico,
+            getDetalleAlonsoTotal, getDetalleAnibalTotal,
+            getDetalleFicoTotal
         }= require('../controllers/index.controllers');
 
 const {getVigencias, getSearchVigencias, getVig } = require('../controllers/taskVigencias');
@@ -18,8 +20,12 @@ router.get('/api/cuatrienios/busqueda',getCuatriCompare );//consultar los totale
 router.get('/api/cuatrienios/comuna', getCuatriComuna);
 router.get('/api/cuatrienios/detalle/:cod_comuna', getCuatrienioDetalleComuna);
 router.get('/api/cuatrienios/alonso', getDetalleAlonso);
+router.get('/api/cuatrienios/alonso/total', getDetalleAlonsoTotal);
 router.get('/api/cuatrienios/anibal', getDetalleAnibal);
+router.get('/api/cuatrienios/anibal/total',getDetalleAnibalTotal);
+
 router.get('/api/cuatrienios/fico', getDetalleFico);
+router.get('/api/cuatrienios/fico/total', getDetalleFicoTotal);
 
 
 router.get('/api/vigencias', getVigencias);//totales por año (2004-2019)

@@ -1,7 +1,5 @@
 
-
 const { pool } = require('../sql/dbConfig');
-
 
 
 const getTotales = async (req, res) =>{
@@ -180,10 +178,51 @@ const getDetalleAlonso= async (req, res)=>{
    
 }
 
+const getDetalleAlonsoTotal = async(req, res)=>{
+    try{
+        const response = await pool.query(process.env.sqlTotalAlonso);
+        res.status(200).json({
+            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+            Fecha_Emision:"2020-04-15",
+            Fecha_Inicial:"2004-12-31",
+            Fecha_Final:"2019-12-31",
+            Frecuencia_actualizacion:"Anual",
+            Version: "1.0",
+            Cobertura:"Municipio de Medelín",
+            Fecha_ultima__actualizacion:"2020-01-30",
+            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2008-2011 - Municipio de Medellín)",
+            variables: [
+                {
+                    id:"total_localizada_alonso",
+                    type:"numeric",
+                    contenido:"Sumatoria de la inversión tipo Localizada"
+                },
+                {
+                    id:"localizadatotal_inversión_ciudad",
+                    type:"numeric",
+                    contenido:"La sumatoria de la inversión  de ciudad  desde el 2008-2011"
+                },
+                {
+                    id:"ppalonso",
+                    type:"numeric",
+                    contenido:"La sumatoria de la inversión por presupuesto participativo desde el 2008-2011"
+                }
+            ] ,
+            data: response.rows
+        });
+    }catch(e){ 
+        console.log(e);
+    }
+}
+
+
 const getDetalleAnibal= async (req, res)=>{
     try{
         //recibe dos valores el año incial al año final
         const response = await pool.query(process.env.sqlAnibal);
+      
         res.status(200).json({
             Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
             Fecha_Emision:"2020-04-15",
@@ -229,6 +268,91 @@ const getDetalleAnibal= async (req, res)=>{
         console.log(e);
     }
 }
+
+const getDetalleAnibalTotal= async(req, res)=>{
+    try{
+        const response = await pool.query(process.env.sqlTotalAnibal);
+       
+        res.status(200).json({
+            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+            Fecha_Emision:"2020-04-15",
+            Fecha_Inicial:"2004-12-31",
+            Fecha_Final:"2019-12-31",
+            Frecuencia_actualizacion:"Anual",
+            Version: "1.0",
+            Cobertura:"Municipio de Medelín",
+            Fecha_ultima__actualizacion:"2020-01-30",
+            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2008-2011 - Municipio de Medellín)",
+            variables: [
+                {
+                    id:"total_localizada_anibal",
+                    type:"numeric",
+                    contenido:"Sumatoria de la inversión tipo Localizada"
+                },
+                {
+                    id:"localizadatotal_inversión_ciudad",
+                    type:"numeric",
+                    contenido:"La sumatoria de la inversión  de ciudad  desde el 2012-2015"
+                },
+                {
+                    id:"ppanibal",
+                    type:"numeric",
+                    contenido:"La sumatoria de la inversión por presupuesto participativo desde el 2012-2015"
+                }
+            ] ,
+            data: response.rows
+        });
+    }catch(e){ 
+        console.log(e);
+    }
+
+}
+
+const getDetalleFicoTotal = async(req, res)=>{
+    try{
+        const response = await pool.query(process.env.sqlTotalFico);
+       
+        res.status(200).json({
+            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+            Fecha_Emision:"2020-04-15",
+            Fecha_Inicial:"2004-12-31",
+            Fecha_Final:"2019-12-31",
+            Frecuencia_actualizacion:"Anual",
+            Version: "1.0",
+            Cobertura:"Municipio de Medelín",
+            Fecha_ultima__actualizacion:"2020-01-30",
+            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2008-2011 - Municipio de Medellín)",
+            variables: [
+                {
+                    id:"total_localizada_fico",
+                    type:"numeric",
+                    contenido:"Sumatoria de la inversión tipo Localizada"
+                },
+                {
+                    id:"localizadatotal_inversión_ciudad",
+                    type:"numeric",
+                    contenido:"La sumatoria de la inversión  de ciudad  desde el 2016-2019"
+                },
+                {
+                    id:"ppfico",
+                    type:"numeric",
+                    contenido:"La sumatoria de la inversión por presupuesto participativo desde el 2016-2019"
+                }
+            ] ,
+            data: response.rows
+        });
+    }catch(e){ 
+        console.log(e);
+    }
+
+
+}
+
+
 const getDetalleFico= async (req, res)=>{
     try{
         //recibe dos valores el año incial al año final
@@ -279,11 +403,14 @@ const getDetalleFico= async (req, res)=>{
     }
 }
 
+
+
 module.exports= {   
                     getTotales, getCuatrienio, 
                     getCuatriCompare, getCuatriComuna ,
                     getCuatrienioDetalleComuna,
                     getDetalleAlonso, getDetalleAnibal,
-                    getDetalleFico
+                    getDetalleFico, getDetalleAlonsoTotal,
+                    getDetalleAnibalTotal, getDetalleFicoTotal
                 
                 }
