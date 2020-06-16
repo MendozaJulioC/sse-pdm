@@ -217,6 +217,31 @@ const getDetalleAlonsoTotal = async(req, res)=>{
     }
 }
 
+const postAlonsoDepComuna = async(req, res)=>{
+
+    try{
+        //recibe dos valores el año incial al año final
+        const { vigencia1, vigencia2 , cod_comuna} = req.body;
+        const response = await pool.query('select * from inverpublica.sp_alonso_dep_comuna($1, $2, $3)', [vigencia1, vigencia2, cod_comuna]);
+        res.status(200).json({
+            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+            Fecha_Emision:"2020-04-15",
+            Fecha_Inicial:"2004-12-31",
+            Fecha_Final:"2019-12-31",
+            Frecuencia_actualizacion:"Anual",
+            Version: "1.0",
+            Cobertura:"Municipio de Medelín",
+            Fecha_ultima__actualizacion:"2020-01-30",
+            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
+            data: response.rows
+        });
+    }catch(e){ 
+        console.log(e);
+    }
+
+}
 
 const getDetalleAnibal= async (req, res)=>{
     try{
@@ -308,6 +333,31 @@ const getDetalleAnibalTotal= async(req, res)=>{
         console.log(e);
     }
 
+}
+
+const postAnibalDepComuna = async(req, res)=>{
+
+    try{
+        //recibe dos valores el año incial al año final
+        const { vigencia1, vigencia2 , cod_comuna} = req.body;
+        const response = await pool.query('select * from inverpublica.sp_alonso_dep_comuna($1, $2, $3)', [vigencia1, vigencia2, cod_comuna]);
+        res.status(200).json({
+            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+            Fecha_Emision:"2020-04-15",
+            Fecha_Inicial:"2004-12-31",
+            Fecha_Final:"2019-12-31",
+            Frecuencia_actualizacion:"Anual",
+            Version: "1.0",
+            Cobertura:"Municipio de Medelín",
+            Fecha_ultima__actualizacion:"2020-01-30",
+            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
+            data: response.rows
+        });
+    }catch(e){ 
+        console.log(e);
+    }
 }
 
 const getDetalleFicoTotal = async(req, res)=>{
@@ -403,7 +453,60 @@ const getDetalleFico= async (req, res)=>{
     }
 }
 
+const postFicoDepComuna= async(req, res)=>{
+    try{
+        //recibe dos valores el año incial al año final
+        const { vigencia1, vigencia2 , cod_comuna} = req.body;
+        const response = await pool.query('select * from inverpublica.sp_alonso_dep_comuna($1, $2, $3)', [vigencia1, vigencia2, cod_comuna]);
+        res.status(200).json({
+            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+            Fecha_Emision:"2020-04-15",
+            Fecha_Inicial:"2004-12-31",
+            Fecha_Final:"2019-12-31",
+            Frecuencia_actualizacion:"Anual",
+            Version: "1.0",
+            Cobertura:"Municipio de Medelín",
+            Fecha_ultima__actualizacion:"2020-01-30",
+            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
+            data: response.rows
+        });
+    }catch(e){ 
+        console.log(e);
+    }
+}
 
+const getFortalecimientoFico = async(req, res)=>{
+    try{
+        //recibe dos valores el año incial al año final
+        
+        const response = await pool.query(` SELECT tbl_comuna.cod_comuna,tbl_comuna.nom_comuna, mview_cuatrienio_detalle.localizada2016_2019
+                                            FROM territorio.tbl_comuna
+                                                LEFT JOIN inverpublica.mview_cuatrienio_detalle ON tbl_comuna.cod_comuna = mview_cuatrienio_detalle.cod_comuna
+                                            WHERE tbl_comuna.cod_comuna = 97
+                                            GROUP BY tbl_comuna.cod_comuna, mview_cuatrienio_detalle.localizada2016_2019
+                                            ORDER BY tbl_comuna.cod_comuna`);
+        res.status(200).json({
+            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+            Fecha_Emision:"2020-04-15",
+            Fecha_Inicial:"2004-12-31",
+            Fecha_Final:"2019-12-31",
+            Frecuencia_actualizacion:"Anual",
+            Version: "1.0",
+            Cobertura:"Municipio de Medelín",
+            Fecha_ultima__actualizacion:"2020-01-30",
+            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
+            data: response.rows
+        });
+    }catch(e){ 
+        console.log(e);
+    }
+
+
+}
 
 module.exports= {   
                     getTotales, getCuatrienio, 
@@ -411,6 +514,7 @@ module.exports= {
                     getCuatrienioDetalleComuna,
                     getDetalleAlonso, getDetalleAnibal,
                     getDetalleFico, getDetalleAlonsoTotal,
-                    getDetalleAnibalTotal, getDetalleFicoTotal
-                
+                    getDetalleAnibalTotal, getDetalleFicoTotal,
+                    postAlonsoDepComuna, postAnibalDepComuna, postFicoDepComuna,
+                    getFortalecimientoFico
                 }
