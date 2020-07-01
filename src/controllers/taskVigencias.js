@@ -86,7 +86,7 @@ const getVigenciaDeps= async(req, res)=>{
             Cobertura:"Municipio de Medelín",
             Fecha_ultima__actualizacion:"2020-01-30",
             Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co", 
             Def: "Descripción de los totales por tipo de inversión de la vigencia consultada",
             data: response.rows
         });
@@ -142,12 +142,36 @@ const getVigenciaComuna= async(req, res)=>{
     }
 }
 
+
+const getVigenciaPlay= async(req, res)=>{
+    try{
+        const response =  await pool.query (' select comuna, nom_comuna, inver_total, ano from inverpublica.tbl_ejecpptal_comunas where comuna<=90 order by ano ');
+        res.status(200).json({
+            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+            Fecha_Emision:"2020-04-15",
+            Fecha_Inicial:"2004-12-31",
+            Fecha_Final:"2019-12-31",
+            Frecuencia_actualizacion:"Anual",
+            Version: "1.0",
+            Cobertura:"Municipio de Medelín",
+            Fecha_ultima__actualizacion:"2020-01-30",
+            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+            eMail_Contacto: "julio.mendoza@medellin.gov.co",
+            Def: "Total de cada vigencia",
+            data: response.rows
+        });
+    }catch(e){ 
+        console.log(e);
+    }
+ 
+}
+
 module.exports= {
     getVigencias,
     getSearchVigencias,
     getVig,
     getVigenciaDeps,
     getVigenciaFortInst,
-    getVigenciaComuna
+    getVigenciaComuna, getVigenciaPlay
    
 }

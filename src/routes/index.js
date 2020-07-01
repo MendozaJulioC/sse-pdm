@@ -9,7 +9,7 @@ const   {   getTotales, getCuatrienio, getCuatriCompare,
             postFicoDepComuna, getFortalecimientoFico
         }= require('../controllers/index.controllers');
 
-const {getVigencias, getSearchVigencias, getVig , getVigenciaDeps, getVigenciaFortInst, getVigenciaComuna} = require('../controllers/taskVigencias');
+const {getVigencias, getSearchVigencias, getVig , getVigenciaDeps, getVigenciaFortInst, getVigenciaComuna, getVigenciaPlay} = require('../controllers/taskVigencias');
 const {getComuna , getComunaVigencia, getComunaDep}= require('../controllers/taskComunas');
 
 
@@ -28,7 +28,8 @@ router.post('/api/cuatrienios/anibal/dependencias', postAnibalDepComuna);
 router.get('/api/cuatrienios/fico', getDetalleFico);
 router.get('/api/cuatrienios/fico/total', getDetalleFicoTotal);
 router.post('/api/cuatrienios/fico/dependencias', postFicoDepComuna);
-router.get('/api/cuatrienios/fico/fortalecimiento', getFortalecimientoFico)
+router.get('/api/cuatrienios/fico/fortalecimiento', getFortalecimientoFico);
+
 
 
 /**Vigencias */
@@ -38,7 +39,7 @@ router.get('/api/vigencias/:ano', getSearchVigencias);// devuelve la descripció
 router.get('/api/vigencias/dependencias/:ano', getVigenciaDeps);
 router.get('/api/vigencias/fortalecimiento/:ano', getVigenciaFortInst)// devuelve el valor de fortalecimiento institucional de la vigencia consultada
 router.get('/api/vigencias/total-comuna/:ano', getVigenciaComuna)//Devuelve el total de cada tipo de inversión en la vigencia consultada
-
+router.get('/api/vigencias-tiempo', getVigenciaPlay);
 
 
 /**Comunas */
