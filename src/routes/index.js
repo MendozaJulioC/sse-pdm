@@ -1,7 +1,7 @@
 const { Router} = require('express');
 const router = Router();
 
-const   {   getTotales, getCuatrienio, getCuatriCompare,
+const   {   getHome, getTotales, getCuatrienio, getCuatriCompare,
             getCuatriComuna , getCuatrienioDetalleComuna, 
             getDetalleAlonso, getDetalleAnibal, getDetalleFico,
             getDetalleAlonsoTotal, getDetalleAnibalTotal,
@@ -49,7 +49,7 @@ router.get('/api/comuna/dependencias',getComunaDep)// recibe la comuna y devuelv
 
 
 
-
+router.get('/',getHome)
 
 
 
