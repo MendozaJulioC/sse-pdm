@@ -511,7 +511,8 @@ const getFortalecimientoFico = async(req, res)=>{
 const getHome= async(req, res)=>{
     try {
         res.send(
-                `       <!-- CSS only -->
+                ` 
+                <!-- CSS only -->
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
               
@@ -534,11 +535,8 @@ const getHome= async(req, res)=>{
                     </div>
                   </div>
                 </div>
-                <!-- Jumbotron -->
-
-
-                    <nav>
-                    <div class="accordion" id="accordionExample">
+                <nav>
+                  <div class="accordion" id="accordionExample">
                     <div class="card">
                       <div class="card-header" id="headingOne">
                         <h2 class="mb-0">

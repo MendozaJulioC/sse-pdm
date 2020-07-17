@@ -10,7 +10,7 @@ const   {   getHome, getTotales, getCuatrienio, getCuatriCompare,
         }= require('../controllers/index.controllers');
 
 const {getVigencias, getSearchVigencias, getVig , getVigenciaDeps, getVigenciaFortInst, getVigenciaComuna, getVigenciaPlay} = require('../controllers/taskVigencias');
-const {getComuna , getComunaVigencia, getComunaDep}= require('../controllers/taskComunas');
+const {getComuna , postComunaVigencia, postComunaDep, postComunaProyectos }= require('../controllers/taskComunas');
 
 
 /** cuatrienios */
@@ -44,8 +44,9 @@ router.get('/api/vigencias-tiempo', getVigenciaPlay);
 
 /**Comunas */
 router.get('/api/comuna', getComuna);// devuelve los valores invertidos en la comuna consultada desde el año 2008 al 2019
-router.get('/api/comuna/vigencia', getComunaVigencia); //recibe la comuna y un año especifico
-router.get('/api/comuna/dependencias',getComunaDep)// recibe la comuna y devuelve detalle por dependencias de lo invertido
+router.post('/api/comuna/vigencia', postComunaVigencia); //recibe la comuna y un año especifico
+router.post('/api/comuna/dependencias',postComunaDep)// recibe la comuna y devuelve detalle por dependencias de lo invertido
+router.post('/api/comuna/proyectos', postComunaProyectos)
 
 
 
