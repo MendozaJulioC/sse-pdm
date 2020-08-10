@@ -340,7 +340,17 @@ const postAnibalDepComuna = async(req, res)=>{
     try{
         //recibe dos valores el año incial al año final
         const { vigencia1, vigencia2 , cod_comuna} = req.body;
-        const response = await pool.query('select * from inverpublica.sp_alonso_dep_comuna($1, $2, $3)', [vigencia1, vigencia2, cod_comuna]);
+        const response = await pool.query(` select 
+		                                        inverpublica.tbl_estructurado.cod_dep_actual,
+		                                        dependencias.tbl_dependencias.nombre_dep,
+		                                        sum(inverpublica.tbl_estructurado.inversion)as total,
+		                                        inverpublica.tbl_estructurado.comuna
+	                                            from dependencias.tbl_dependencias
+	                                            LEFT JOIN inverpublica.tbl_estructurado ON dependencias.tbl_dependencias.cod_dep = inverpublica.tbl_estructurado.cod_dep_actual
+	                                            where ano between $1 and $2 and comuna = $3
+	                                            group by inverpublica.tbl_estructurado.cod_dep_actual,dependencias.tbl_dependencias.nombre_dep, inverpublica.tbl_estructurado.comuna
+                                                order by inverpublica.tbl_estructurado.cod_dep_actual,  inverpublica.tbl_estructurado.comuna`,
+         [vigencia1, vigencia2, cod_comuna]);
         res.status(200).json({
             Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
             Fecha_Emision:"2020-04-15",
@@ -401,7 +411,6 @@ const getDetalleFicoTotal = async(req, res)=>{
 
 
 }
-
 
 const getDetalleFico= async (req, res)=>{
     try{
@@ -867,6 +876,9 @@ const getHome= async(req, res)=>{
         console.log(e);
     }
 }
+
+
+
 module.exports= {   
                     getTotales, getCuatrienio, 
                     getCuatriCompare, getCuatriComuna ,

@@ -11,7 +11,7 @@ const   {   getHome, getTotales, getCuatrienio, getCuatriCompare,
 
 const {getVigencias, getSearchVigencias, getVig , getVigenciaDeps, getVigenciaFortInst, getVigenciaComuna, getVigenciaPlay} = require('../controllers/taskVigencias');
 const {getComuna , postComunaVigencia, postComunaDep, postComunaProyectos }= require('../controllers/taskComunas');
-
+const {getDependencias,getQueryDep, postDepVigencia} = require('../controllers/taskDependencias')
 
 /** cuatrienios */
 router.get('/api/totales', getTotales);//totales por año, descripción de los tipos de inversión (2004-2019)
@@ -49,9 +49,13 @@ router.post('/api/comuna/dependencias',postComunaDep)// recibe la comuna y devue
 router.post('/api/comuna/proyectos', postComunaProyectos)
 
 
+/**Dependencias */
+router.get('/api/dependencias', getDependencias);
+router.get('/api/dependencias/:cod_dep', getQueryDep);
+router.post('/api/dependencias/vigencia',postDepVigencia)
+//ruta para consultar la inversión de la dependencia en la vigencia
+//ruta para consultar la inversión de la dependencoa
 
 router.get('/',getHome)
-
-
 
 module.exports = router;

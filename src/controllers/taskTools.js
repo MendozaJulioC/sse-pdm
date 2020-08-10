@@ -1,0 +1,1 @@
+// Consultas estandares para el funcionamiento y actualización de los controles de consultab de la plataforma

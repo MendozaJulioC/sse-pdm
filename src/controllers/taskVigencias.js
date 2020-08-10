@@ -47,7 +47,6 @@ const getSearchVigencias = async (req, res) =>{
 
 }
 
-
 const getVig= async (req, res)=>{
     try {
         const { vigencia1, vigencia2 } = req.body;
@@ -75,8 +74,21 @@ const getVig= async (req, res)=>{
 const getVigenciaDeps= async(req, res)=>{
     try{
         const ano = req.params.ano;
-        const response =  await pool.query ('select * from inverpublica.view_total_dep  where ano = $1 ',[ano]);
-        res.status(200).json({
+        const response =  await pool.query (`select 
+		                                        tbl_estructurado.cod_dep_actual,
+		                                        tbl_dependencias.nom_cortp,
+		                                        sum(tbl_estructurado.inversion)as total
+	                                        from
+		                                        inverpublica.tbl_estructurado 
+	                                        LEFT JOIN dependencias.tbl_dependencias ON tbl_dependencias.cod_dep = tbl_estructurado.cod_dep_actual	
+	                                        where 
+		                                        ano= $1
+	                                        group by
+		                                        inverpublica.tbl_estructurado.cod_dep_actual,
+		                                        tbl_dependencias.nom_cortp
+	                                        order by
+		                                    cod_dep_actual`,[ano]);
+        res.json({
             Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
             Fecha_Emision:"2020-04-15",
             Fecha_Inicial:"2004-12-31",
