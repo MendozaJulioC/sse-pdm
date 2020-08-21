@@ -34,7 +34,8 @@ const getBuscaProyect = async (req, res)=>{
         select ano,nomproy,tbl_estructurado.cod_dep,dependencias.tbl_dependencias.nombre_dep, cod_dep_actual ,sum(inversion) as total 
 FROM dependencias.tbl_dependencias
      LEFT JOIN inverpublica.tbl_estructurado ON tbl_estructurado.cod_dep_actual = tbl_dependencias.cod_dep
-where nomproy = $1
+where nomproy = 
+$1
 
 group by ano, nomproy, tbl_estructurado.cod_dep, dependencias.tbl_dependencias.nombre_dep,cod_dep_actual 
 order by ano `, [nomproy]
