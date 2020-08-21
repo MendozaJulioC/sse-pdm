@@ -11,7 +11,8 @@ const   {   getHome, getTotales, getCuatrienio, getCuatriCompare,
 
 const {getVigencias, getSearchVigencias, getVig , getVigenciaDeps, getVigenciaFortInst, getVigenciaComuna, getVigenciaPlay} = require('../controllers/taskVigencias');
 const {getComuna , postComunaVigencia, postComunaDep, postComunaProyectos }= require('../controllers/taskComunas');
-const {getDependencias,getQueryDep, postDepVigencia} = require('../controllers/taskDependencias')
+const {getDependencias,getQueryDep, postDepVigencia, postDepTipoInversion, postDepProyectVigencia} = require('../controllers/taskDependencias')
+const {getProyectos, getBuscaProyect, getDetalleProyect} = require('../controllers/taskProyect')
 
 /** cuatrienios */
 router.get('/api/totales', getTotales);//totales por año, descripción de los tipos de inversión (2004-2019)
@@ -53,8 +54,14 @@ router.post('/api/comuna/proyectos', postComunaProyectos)
 router.get('/api/dependencias', getDependencias);
 router.get('/api/dependencias/:cod_dep', getQueryDep);
 router.post('/api/dependencias/vigencia',postDepVigencia)
-//ruta para consultar la inversión de la dependencia en la vigencia
-//ruta para consultar la inversión de la dependencoa
+router.post('/api/dependencias/inversion', postDepTipoInversion )
+router.post('/api/dependencias/proyectos', postDepProyectVigencia)
+
+/** proyectos */
+
+router.get('/api/proyectos', getProyectos)
+router.get('/api/proyectos/:nomproy', getBuscaProyect)
+router.get('/api/proyectos/detalle/:nomproy', getDetalleProyect)
 
 router.get('/',getHome)
 

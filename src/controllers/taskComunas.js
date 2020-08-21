@@ -127,9 +127,9 @@ const postComunaProyectos = async (req, res)=>{
             Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
             eMail_Contacto: "julio.mendoza@medellin.gov.co",
             Def: "Total de la inversión pública en la comuna consultados detallando las diferentes dependencias del Municipio d Medellín",
-           datam: responseTotal.rows.length,
+            datam: responseTotal.rows.length,
             Current: page,
-          pages: Math.ceil(responseTotal.rows.length/perPage),
+            pages: Math.ceil(responseTotal.rows.length/perPage),
             data: response.rows
            
         })
