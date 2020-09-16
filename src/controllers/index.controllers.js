@@ -1,665 +1,258 @@
 
 const { pool } = require('../sql/dbConfig');
 
-
-const getTotales = async (req, res) =>{
-    try{
-        const response =  await pool.query ('select * from inverpublica.view_resumen ');
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def: "Suma totales por año y tipo de inversión pública del Municipio d Medellín",
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-
+const getLineas = async (req, res)=>{
+  try {
+    const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
+    res.status(200).json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Fecha_Emision:'2020-08-30',
+        Fecha_Inicial:'2020-01-31',
+        Fecha_Final:'2023-12-31',
+        Frecuencia_actualizacion:'Semestral',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Fecha_ultima__actualizacion:'2020-08-30',
+        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+        Def: 'Total indicadores por cada línea del PDM 2020-2023',
+        data: response.rows
+    });
+  } catch (error) { console.log('Error getLineas', error)}
 }
 
-const getCuatrienio = async (req , res)=>{
-    try{
-        const response = await pool.query('select * from inverpublica.sp_cuatrienios()');
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Totales última tres administraciones del Municipio de Medellín",
-            data: response.rows
-         });
-    }
-    catch(e){ 
-        console.log(e);
-    }
-   
+const getComponentes = async (req, res)=>{
+  try {
+
+    const response = await pool.query(`
+    select cod_linea,nom_linea,cod_componente, nom_componente, count (cod_componente) 
+    from indicativo.tbl_indicador 
+    group by cod_linea,nom_linea, cod_componente, nom_componente 
+    order by cod_linea, cod_componente
+    `);
+    res.status(200).json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Fecha_Emision:'2020-08-30',
+        Fecha_Inicial:'2020-01-31',
+        Fecha_Final:'2023-12-31',
+        Frecuencia_actualizacion:'Semestral',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Fecha_ultima__actualizacion:'2020-08-30',
+        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+        Def: 'Total indicadores por cada componente del PDM 2020-2023',
+        data: response.rows
+    });
+
+    
+  } catch (error) {console.log('Error getComponentes', error)}
 }
 
-const getCuatriCompare= async (req, res)=>{
-    try{
-        //recibe dos valores el año incial al año final
-        const { vigencia1, vigencia2 } = req.body;
-        const response = await pool.query('select * from inverpublica.sp_cuatrienios_compare($1, $2)', [vigencia1, vigencia2]);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-   
-}
-
-const getCuatriComuna = async(req, res)=>{
-    try {
-        const response = await pool.query('select * from inverpublica.mview_comuna_total_Cuatrienio');
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Total cuatrienios por comunas",
-            data: response.rows
-        });
-
-        
-    } catch (error) {
-        console.log(e);
-    }
-}
-
-//ojo: cambiar la consulta de esta función por la nueva mviwe que contiene el dato de percapita
-//reevaluar esa mview en la base de datos
-
-const getCuatrienioDetalleComuna= async (req, res)=>{
-    try{
-        //recibe dos valores el año incial al año final
-        const comuna = req.params.cod_comuna;
-        const response = await pool.query('select * from inverpublica.mview_detalle_inversion_cuatrienios where cod_comuna = $1', [comuna]);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Total por tipo de inversión por cuatrienios de la comuna seleccionada (Cuatrienios- Municipio de Medellín)",
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-   
-}
-
-const getDetalleAlonso= async (req, res)=>{
-    try{
-        //recibe dos valores el año incial al año final
-       
-        const response = await pool.query(process.env.sqlAlonso);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2008-2011 - Municipio de Medellín)",
-            variables: [
-                {
-                    id:"cod_comuna",
-                    type:"integer",
-                    contenido:"Código de la comuna a la cual pertenece la inversión"
-                },
-                {
-                    id:"localizada2008_2011",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión localizada desde el 2008-2011"
-                },
-                {
-                    id:"percapita2008_2011",
-                    type:"numeric",
-                    contenido:"La sumatoria del producto del número de población de cada comuna por el total de inversión de ciudad de los años 2008-2011"
-                },
-                {
-                    id:"pp2008_2011",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión por presupuesto participativo de los años 2008-2011"
-                },
-                {   
-                    id:"total_alonso",
-                    type:"numeric",
-                    contenido:"La sumatoria de los diferentes tipos de inversión en cada comuna de los años 2008-2011"
-                }
-            ] ,
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-   
-}
-
-const getDetalleAlonsoTotal = async(req, res)=>{
-    try{
-        const response = await pool.query(process.env.sqlTotalAlonso);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2008-2011 - Municipio de Medellín)",
-            variables: [
-                {
-                    id:"total_localizada_alonso",
-                    type:"numeric",
-                    contenido:"Sumatoria de la inversión tipo Localizada"
-                },
-                {
-                    id:"localizadatotal_inversión_ciudad",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión  de ciudad  desde el 2008-2011"
-                },
-                {
-                    id:"ppalonso",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión por presupuesto participativo desde el 2008-2011"
-                }
-            ] ,
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-}
-
-const postAlonsoDepComuna = async(req, res)=>{
-
-    try{
-        //recibe dos valores el año incial al año final
-        const { vigencia1, vigencia2 , cod_comuna} = req.body;
-        const response = await pool.query('select * from inverpublica.sp_alonso_dep_comuna($1, $2, $3)', [vigencia1, vigencia2, cod_comuna]);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-
-}
-
-const getDetalleAnibal= async (req, res)=>{
-    try{
-        //recibe dos valores el año incial al año final
-        const response = await pool.query(process.env.sqlAnibal);
+const getProgramas= async( req, res)=>{
+  try {
+    
+    const response = await pool.query(`
+    select cod_linea, nom_linea,cod_componente, nom_componente, cod_programa, nom_programa, count (cod_programa)
+    from indicativo.tbl_indicador where cod_programa<>'0' 
+    group by cod_linea,nom_linea, nom_linea,cod_componente, nom_componente,cod_programa, nom_programa order by cod_linea, cod_programa
       
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2012-2015 - Municipio de Medellín)",
-            variables: [
-                {
-                    id:"cod_comuna",
-                    type:"integer",
-                    contenido:"Código de la comuna a la cual pertenece la inversión"
-                },
-                {
-                    id:"localizada2012_2015",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión localizada desde el 2012 al 2015"
-                },
-                {
-                    id:"percapita2012_2015",
-                    type:"numeric",
-                    contenido:"La sumatoria del producto del número de población de cada comuna por el total de inversión de ciudad de los años  2012 al 2015"
-                },
-                {
-                    id:"pp2012_2015",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión por presupuesto participativo de los años 2012 al 2015"
-                },
-                {   
-                    id:"total_anibal",
-                    type:"numeric",
-                    contenido:"La sumatoria de los diferentes tipos de inversión en cada comuna de los años 2012 al 2015"
-                }
-            ],
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
+    `);
+    res.status(200).json({
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+      eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+      Def: 'Total indicadores por cada programa del PDM 2020-2023',
+      data: response.rows
+  });
+
+  } catch (error) {console.log('Error getProgramas', error)}
 }
 
-const getDetalleAnibalTotal= async(req, res)=>{
-    try{
-        const response = await pool.query(process.env.sqlTotalAnibal);
-       
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2008-2011 - Municipio de Medellín)",
-            variables: [
-                {
-                    id:"total_localizada_anibal",
-                    type:"numeric",
-                    contenido:"Sumatoria de la inversión tipo Localizada"
-                },
-                {
-                    id:"localizadatotal_inversión_ciudad",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión  de ciudad  desde el 2012-2015"
-                },
-                {
-                    id:"ppanibal",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión por presupuesto participativo desde el 2012-2015"
-                }
-            ] ,
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-
+const getTipoIndicador= async(req, res)=>{
+  try {
+    const response = await pool.query(`
+      select tipo_ind,count(tipo_ind) as tipo_indicador from indicativo.tbl_indicador group by  tipo_ind
+    `);
+    res.status(200).json({
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+      eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+      Def: 'Total indicadores por tipo de indicador del PDM 2020-2023',
+      data: response.rows
+    });   
+  } catch (error) {console.log('Error getTipoIndicador', error)}
 }
 
-const postAnibalDepComuna = async(req, res)=>{
-
-    try{
-        //recibe dos valores el año incial al año final
-        const { vigencia1, vigencia2 , cod_comuna} = req.body;
-        const response = await pool.query(` select 
-		                                        inverpublica.tbl_estructurado.cod_dep_actual,
-		                                        dependencias.tbl_dependencias.nombre_dep,
-		                                        sum(inverpublica.tbl_estructurado.inversion)as total,
-		                                        inverpublica.tbl_estructurado.comuna
-	                                            from dependencias.tbl_dependencias
-	                                            LEFT JOIN inverpublica.tbl_estructurado ON dependencias.tbl_dependencias.cod_dep = inverpublica.tbl_estructurado.cod_dep_actual
-	                                            where ano between $1 and $2 and comuna = $3
-	                                            group by inverpublica.tbl_estructurado.cod_dep_actual,dependencias.tbl_dependencias.nombre_dep, inverpublica.tbl_estructurado.comuna
-                                                order by inverpublica.tbl_estructurado.cod_dep_actual,  inverpublica.tbl_estructurado.comuna`,
-         [vigencia1, vigencia2, cod_comuna]);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
+const getTotalReportDep = async(req, res)=>{
+  try {
+      const response = await pool.query(`
+        select cod_responsable_reporte, dependencias.tbl_dependencias.nombre_dep,
+        count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores 
+        from dependencias.tbl_dependencias
+        LEFT JOIN indicativo.tbl_indicador ON indicativo.tbl_indicador.cod_responsable_reporte =  dependencias.tbl_dependencias.cod_dep
+        where cod_responsable_reporte> 700
+        group by cod_responsable_reporte, dependencias.tbl_dependencias.nombre_dep
+        order by cod_responsable_reporte
+      `);
+      res.status(200).json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Fecha_Emision:'2020-08-30',
+        Fecha_Inicial:'2020-01-31',
+        Fecha_Final:'2023-12-31',
+        Frecuencia_actualizacion:'Semestral',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Fecha_ultima__actualizacion:'2020-08-30',
+        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+        Def: 'Total indicadores por cada reposnable del reporte en el sistema del PDM 2020-2023',
+        data: response.rows
+    });
+  } catch (error) {console.log('Error: getTotalReportDep', error)}
 }
 
-const getDetalleFicoTotal = async(req, res)=>{
-    try{
-        const response = await pool.query(process.env.sqlTotalFico);
-       
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2008-2011 - Municipio de Medellín)",
-            variables: [
-                {
-                    id:"total_localizada_fico",
-                    type:"numeric",
-                    contenido:"Sumatoria de la inversión tipo Localizada"
-                },
-                {
-                    id:"localizadatotal_inversión_ciudad",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión  de ciudad  desde el 2016-2019"
-                },
-                {
-                    id:"ppfico",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión por presupuesto participativo desde el 2016-2019"
-                }
-            ] ,
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
+const getTotalResponsable = async (req, res)=>{
 
+  try {
+    
+    const response = await pool.query(`
+      select responsable_plan, count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores 
+      from indicativo.tbl_indicador
+      group by responsable_plan
+      order by responsable_plan
+    `);
+    res.status(200).json({
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+      eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+      Def: 'Total indicadores por cada reposnsable ante el PDM 2020-2023',
+      data: response.rows
+    })
 
+  } catch (error) { console.log('Error getTotalResponsable', error)}
 }
 
-const getDetalleFico= async (req, res)=>{
-    try{
-        //recibe dos valores el año incial al año final
-        const response = await pool.query(process.env.sqlFico);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Total por tipo de inversión en las comunas en el cuatrienio 2016-2019 - Municipio de Medellín)",
-            variables: [
-                {
-                    id:"cod_comuna",
-                    type:"integer",
-                    contenido:"Código de la comuna a la cual pertenece la inversión"
-                },
-                {
-                    id:"localizada2016_2019",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión localizada desde el 2016-2019"
-                },
-                {
-                    id:"percapita2016_2019",
-                    type:"numeric",
-                    contenido:"La sumatoria del producto del número de población de cada comuna por el total de inversión de ciudad de los años 2016-2019"
-                },
-                {   
-                    id:"pp2016_2019",
-                    type:"numeric",
-                    contenido:"La sumatoria de la inversión por presupuesto participativo de los años 2016-2019"
-                },
-                {   
-                    id:"total_fico",
-                    type:"numeric",
-                    contenido:"La sumatoria de los diferentes tipos de inversión en cada comuna de los años 2016-2019"
-                }
-            ],
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-}
-
-const postFicoDepComuna= async(req, res)=>{
-    try{
-        //recibe dos valores el año incial al año final
-        const { vigencia1, vigencia2 , cod_comuna} = req.body;
-        const response = await pool.query('select * from inverpublica.sp_alonso_dep_comuna($1, $2, $3)', [vigencia1, vigencia2, cod_comuna]);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
-}
-
-const getFortalecimientoFico = async(req, res)=>{
-    try{
-        //recibe dos valores el año incial al año final
-        
-        const response = await pool.query(` SELECT tbl_comuna.cod_comuna,tbl_comuna.nom_comuna, mview_cuatrienio_detalle.localizada2016_2019
-                                            FROM territorio.tbl_comuna
-                                                LEFT JOIN inverpublica.mview_cuatrienio_detalle ON tbl_comuna.cod_comuna = mview_cuatrienio_detalle.cod_comuna
-                                            WHERE tbl_comuna.cod_comuna = 97
-                                            GROUP BY tbl_comuna.cod_comuna, mview_cuatrienio_detalle.localizada2016_2019
-                                            ORDER BY tbl_comuna.cod_comuna`);
-        res.status(200).json({
-            Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-            Fecha_Emision:"2020-04-15",
-            Fecha_Inicial:"2004-12-31",
-            Fecha_Final:"2019-12-31",
-            Frecuencia_actualizacion:"Anual",
-            Version: "1.0",
-            Cobertura:"Municipio de Medelín",
-            Fecha_ultima__actualizacion:"2020-01-30",
-            Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-            eMail_Contacto: "julio.mendoza@medellin.gov.co",
-            Def:     "Comparación entre rangos de vigencias (Cuatrienios- Municipio de Medellín)",
-            data: response.rows
-        });
-    }catch(e){ 
-        console.log(e);
-    }
 
 
-}
 
-const getHome= async(req, res)=>{
+
+
+const getHome = async(req, res)=>{
     try {
         res.send(
                 ` 
                 <!-- CSS only -->
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+                <meta name='viewport' content='width=device-width, initial-scale=1'>
+                <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css' integrity='sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk' crossorigin='anonymous'>
               
                 <!-- JS, Popper.js, and jQuery -->
-                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-                <section class="container mt-2">
+                <script src='https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin='anonymous'></script>
+                <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js' integrity='sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo' crossorigin='anonymous'></script>
+                <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js' integrity='sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI' crossorigin='anonymous'></script>
+                <section class='container mt-2'>
                 <!-- Jumbotron -->
-                <div class="card card-image " style="background-image: url(https://i0.wp.com/www.acimedellin.org/wp-content/uploads/2019/11/medellin-newsweek-1.jpg?w=1584&ssl=1);">
-                  <div class="text-white text-center rgba-stylish-strong py-5 px-4">
-                    <div class="py-5">
+                <div class='card card-image ' style='background-image: url(https://i0.wp.com/www.acimedellin.org/wp-content/uploads/2019/11/medellin-newsweek-1.jpg?w=1584&ssl=1);'>
+                  <div class='text-white text-center rgba-stylish-strong py-5 px-4'>
+                    <div class='py-5'>
                 
                       <!-- Content -->
-                      <h5 class="h5 orange-text"><i class="fas fa-camera-retro"></i> </h5>
-                      <h2 class="card-title h2 my-4 py-2" style="color:yellow">geoInverApp</h2>
-                      <p class="mb-4 pb-2 px-md-5 mx-md-5"></p>
-                      <a href="http://localhost:5000"class="btn peach-gradient"><i class="fas fa-clone left"></i> View project</a>
+                      <h5 class='h5 orange-text'><i class='fas fa-camera-retro'></i> </h5>
+                      <h2 class='card-title h2 my-4 py-2' style='color:yellow'></h2>
+                      <p class='mb-4 pb-2 px-md-5 mx-md-5'></p>
+                      <a href='http://localhost:5000'class='btn peach-gradient'><i class='fas fa-clone left'></i> View project</a>
                 
                     </div>
                   </div>
                 </div>
                 <nav>
-                  <div class="accordion" id="accordionExample">
-                    <div class="card">
-                      <div class="card-header" id="headingOne">
-                        <h2 class="mb-0">
-                          <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <div class='accordion' id='accordionExample'>
+                    <div class='card'>
+                      <div class='card-header' id='headingOne'>
+                        <h2 class='mb-0'>
+                          <button class='btn btn-link btn-block text-left' type='button' data-toggle='collapse' data-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
                             Cuatrienios
                           </button>
                         </h2>
                       </div>
-                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                        <div class="card-body">
-                        <a href="http://localhost:4000/api/totales">/api/totales</a>
-                         <pre><code>
-                         {
-                            "Autor": "Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-                            "Fecha_Emision": "2020-04-15",
-                            "Fecha_Inicial": "2004-12-31",
-                            "Fecha_Final": "2019-12-31",
-                            "Frecuencia_actualizacion": "Anual",
-                            "Version": "1.0",
-                            "Cobertura": "Municipio de Medelín",
-                            "Fecha_ultima__actualizacion": "2020-01-30",
-                            "Datos_Contacto": "Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-                            "eMail_Contacto": "julio.mendoza@medellin.gov.co",
-                            "Def": "Suma totales por año y tipo de inversión pública del Municipio d Medellín",  
-                            "data": []//12 ítems
-                         }
-                                         
-                      </code></pre>  
-
-                      <a href="http://localhost:4000/api/cuatrienios">/api/cuatrienios</a>
-                         <pre><code>
-                         {
-                            "Autor": "Alcaldía de Medellin - Departamento Administrativo de Planeación ",
-                            "Fecha_Emision": "2020-04-15",
-                            "Fecha_Inicial": "2004-12-31",
-                            "Fecha_Final": "2019-12-31",
-                            "Frecuencia_actualizacion": "Anual",
-                            "Version": "1.0",
-                            "Cobertura": "Municipio de Medelín",
-                            "Fecha_ultima__actualizacion": "2020-01-30",
-                            "Datos_Contacto": "Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
-                            "eMail_Contacto": "julio.mendoza@medellin.gov.co",
-                            "Def": "Suma totales por año y tipo de inversión pública del Municipio d Medellín",  
-                            "data": []//12 ítems
-                         }
-                                         
-                      </code></pre>  
-                       
-              
-                        </div>
-
-                        
+                    </div>  
                       </div>
                     </div>
-                    <div class="card">
-                      <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0">
-                          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <div class='card'>
+                      <div class='card-header' id='headingTwo'>
+                        <h2 class='mb-0'>
+                          <button class='btn btn-link btn-block text-left collapsed' type='button' data-toggle='collapse' data-target='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>
                             Vigencias
                           </button>
                         </h2>
                       </div>
-                      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                        <div class="card-body">
+                      <div id='collapseTwo' class='collapse' aria-labelledby='headingTwo' data-parent='#accordionExample'>
+                        <div class='card-body'>
                           Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                         </div>
                       </div>
                     </div>
-                    <div class="card">
-                      <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <div class='card'>
+                      <div class='card-header' id='headingThree'>
+                        <h2 class='mb-0'>
+                          <button class='btn btn-link btn-block text-left collapsed' type='button' data-toggle='collapse' data-target='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
                            Comunas
                           </button>
                         </h2>
                       </div>
-                      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                        <div class="card-body">
+                      <div id='collapseThree' class='collapse' aria-labelledby='headingThree' data-parent='#accordionExample'>
+                        <div class='card-body'>
                           Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                         </div>
                       </div>
                     </div>
 
-                    <div class="card">
-                    <div class="card-header" id="headingThree">
-                      <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    <div class='card'>
+                    <div class='card-header' id='headingThree'>
+                      <h2 class='mb-0'>
+                        <button class='btn btn-link btn-block text-left collapsed' type='button' data-toggle='collapse' data-target='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
                          Dependencias
                         </button>
                       </h2>
                     </div>
-                    <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                      <div class="card-body">
+                    <div id='collapseFour' class='collapse' aria-labelledby='headingThree' data-parent='#accordionExample'>
+                      <div class='card-body'>
                         Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                       </div>
                     </div>
                   </div>
                   </div>
-              
                 </section>
-              
-              
-              
               <style>
                   @import url('https://fonts.googleapis.com/css?family=Cardo:400i|Rubik:400,700&display=swap');
-              
                   $imageIds: '1517021897933-0e0319cfbc28',
                   '1533903345306-15d1c30952de',
                   '1545243424-0ce743321e11',
                   '1531306728370-e2ebd9d7bb99';
-              
                   $bp-md: 600px;
                   $bp-lg: 800px;
-              
+            
                   :root {
                       --d: 700ms;
                       --e: cubic-bezier(0.19, 1, 0.22, 1);
@@ -877,15 +470,4 @@ const getHome= async(req, res)=>{
     }
 }
 
-
-
-module.exports= {   
-                    getTotales, getCuatrienio, 
-                    getCuatriCompare, getCuatriComuna ,
-                    getCuatrienioDetalleComuna,
-                    getDetalleAlonso, getDetalleAnibal,
-                    getDetalleFico, getDetalleAlonsoTotal,
-                    getDetalleAnibalTotal, getDetalleFicoTotal,
-                    postAlonsoDepComuna, postAnibalDepComuna, postFicoDepComuna,
-                    getFortalecimientoFico, getHome
-                }
+module.exports= {getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable}

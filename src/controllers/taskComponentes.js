@@ -1,0 +1,1 @@
+// aqui pondré todas las rutas y consultas acerca de los componentes del pdm
