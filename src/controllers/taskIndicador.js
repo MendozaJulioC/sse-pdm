@@ -34,7 +34,13 @@ const getIndicador = async(req, res)=>{
 }
 
 
+const getIndicadorFicha = async (req, res)=>{
+    try {
+        
+    } catch (error) {
+        console.log()
+    }
+}
 
 
-
-module.exports = {getIndicador} 
+module.exports = {getIndicador, getIndicadorFicha} 
