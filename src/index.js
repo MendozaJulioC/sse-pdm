@@ -8,6 +8,6 @@ app.set('port',process.env.port)
 app.use(morgan('dev'));
 app.use(require('./routes/index'));
 //Star server
-app.listen(app.get('port'),()=>{
-    console.log ('Server Port', app.get('port'));
-})
+
+
+app.listen((process.env.PORT || 5000), function(){ console.log('listening on *:5000'); }); 
