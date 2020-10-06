@@ -4,6 +4,7 @@ const { pool } = require('../sql/dbConfig');
 
 const getLineTotalComp = async(req, res)=>{
     try {
+        
         const {cod_linea } = req.body;
         const response = await pool.query(`
             select  cod_linea, nom_linea, cod_componente, nom_componente, count(cod_componente) as total_ind 
@@ -65,14 +66,53 @@ const getLineTotalProg = async(req, res)=>{
 
 
 const getLineIndicadores= async (req, res)=>{
+
     try {
-        const {cod_linea}= req.body;
+        const codlinea = req.params.cod_linea;
+    
         const response = await pool.query(`
-        select  cod_linea, cod_componente, cod_programa, cod_indicador,
-        nom_indicador, tipo_ind, lb_ind, meta_plan, unidad, sentido,
-        cod_responsable_reporte, nombre_dep from dependencias.tbl_dependencias
-        LEFT JOIN indicativo.tbl_indicador ON indicativo.tbl_indicador.cod_responsable_reporte =  dependencias.tbl_dependencias.cod_dep where cod_linea = $1
-        `, [cod_linea]);
+        select 
+		logro_acumulado,
+		avance_cuatrienio,
+		cod_linea, 
+ 		nom_linea, 
+		cod_componente,
+		nom_componente,  
+		cod_programa,
+		nom_programa,
+		indicativo.tbl_indicador.cod_indicador,
+		indicativo.tbl_indicador.nom_indicador,
+		defincion,
+		objetivo,
+		normativa,
+		tipo_ind,
+		meta_plan,
+		unidad, 
+		sentido,
+		comportamiento_deseado,fc,
+		lb_ind,incluye_lb,
+		vigencia_lb,tipo_lb,
+		peso,periocidad_generacion,
+		formula_indicador,
+		variable_operativa,
+		meta_2020,logro_2020,cumple_2020,
+		meta_2021,logro_2021,cumple_2021,
+		meta_2022,logro_2022,cumple_2022,
+		meta_2023,logro_2023,cumple_2023,
+		fuente,
+		tipo_fuente,
+		responsable_plan,
+		cod_responsable_reporte,
+		nombre_dep,
+		responsable_reporte,
+		instrumento_recoleccion,
+		observaciones
+		from indicativo.tbl_indicador
+		LEFT JOIN indicativo.tbl_ficha_indicador ON indicativo.tbl_ficha_indicador.cod_indicador = indicativo.tbl_indicador.cod_indicador  
+		LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
+		where cod_linea=$1
+        `, [codlinea]);
+
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
