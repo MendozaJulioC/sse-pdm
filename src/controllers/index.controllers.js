@@ -90,10 +90,11 @@ const getComponentes = async (req, res)=>{
   try {
 
     const response = await pool.query(`
-    select cod_linea,nom_linea,cod_componente, nom_componente, count (cod_componente) 
-    from indicativo.tbl_indicador 
-    group by cod_linea,nom_linea, cod_componente, nom_componente 
-    order by cod_linea, cod_componente
+      select 
+        cod_linea,nom_linea,cod_componente, nom_componente, count (cod_componente) , sum(pesoxavnt) as peso_avance, sum(peso) as peso
+      from indicativo.tbl_indicador 
+      group by cod_linea,nom_linea, cod_componente, nom_componente 
+      order by cod_linea, cod_componente
     `);
     res.status(200).json({
         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
