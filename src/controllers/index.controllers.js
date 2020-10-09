@@ -1,8 +1,27 @@
-
+const XLSX = require('xlsx');
 const { pool } = require('../sql/dbConfig');
+
+
+
+const ExcelToJson = async (req, res)=>{
+  try {
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Libro6.xlsx');
+    var nombreHoja = excel.SheetNames;
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+      for (let i=0; i<datos.length; i++){
+        //console.log(datos[i].CodigoIndicador)
+        //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
+      }
+   } catch (error) {
+  }
+}
+
+
+
 
 const getLineas = async (req, res)=>{
   try {
+    //ExcelToJson()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -16,6 +35,7 @@ const getLineas = async (req, res)=>{
         Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
         eMail_Contacto: 'julio.mendoza@medellin.gov.co',
         Def: 'Total indicadores por cada línea del PDM 2020-2023',
+      
         data: response.rows
     });
   } catch (error) { console.log('Error getLineas', error)}
@@ -244,6 +264,7 @@ const getHome = async(req, res)=>{
                   </div>
                   </div>
                 </section>
+              
               <style>
                   @import url('https://fonts.googleapis.com/css?family=Cardo:400i|Rubik:400,700&display=swap');
                   $imageIds: '1517021897933-0e0319cfbc28',
@@ -470,4 +491,4 @@ const getHome = async(req, res)=>{
     }
 }
 
-module.exports= {getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable}
+module.exports= {getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable , ExcelToJson}
