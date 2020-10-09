@@ -4,9 +4,12 @@ const router = Router();
 
 
 
-const { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable}= require('../controllers/index.controllers');
+const { getHome,getTotal ,getLineas,getAvanceLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable}= require('../controllers/index.controllers');
 router.get('/',getHome);
-router.get('/pi/api/total-lineas', getLineas);
+router.get('/pi/api/total', getTotal)
+router.get('/pi/api/total-lineas', getLineas)
+        .get('/pi/api/total-avance-lineas', getAvanceLineas)
+
 router.get('/pi/api/total-componentes', getComponentes);
 router.get('/pi/api/total-programas', getProgramas);
 router.get('/pi/api/total-tipo-indicador', getTipoIndicador);

@@ -17,7 +17,29 @@ const ExcelToJson = async (req, res)=>{
 }
 
 
+const getTotal = async (req, res)=>{
+  try {
+    const response = await pool.query('select sum(pesoxavnt*100) as total_plan from indicativo.tbl_indicador');
+    res.status(200).json({
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+      eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+      Def: 'Total Avance PDM 2020-2023',
+      data: response.rows
+  }); 
 
+
+  } catch (error) {
+    console.log('Error: getTotal ', error)
+  }
+}
 
 const getLineas = async (req, res)=>{
   try {
@@ -40,6 +62,29 @@ const getLineas = async (req, res)=>{
     });
   } catch (error) { console.log('Error getLineas', error)}
 }
+
+const getAvanceLineas= async(req, res)=>{
+  try {
+  
+    const response = await pool.query(`SELECT cod_linea,nom_linea,(sum(total_plan/peso_linea)*100) as avance_linea 
+    from indicativo.view_avance group by cod_linea, nom_linea order by cod_linea`);
+    res.status(200).json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Fecha_Emision:'2020-08-30',
+        Fecha_Inicial:'2020-01-31',
+        Fecha_Final:'2023-12-31',
+        Frecuencia_actualizacion:'Semestral',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Fecha_ultima__actualizacion:'2020-08-30',
+        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+        Def: 'Total indicadores por cada línea del PDM 2020-2023',
+        data: response.rows
+    });
+  } catch (error) { console.log('Error getLineas', error)}
+}
+
 
 const getComponentes = async (req, res)=>{
   try {
@@ -491,4 +536,6 @@ const getHome = async(req, res)=>{
     }
 }
 
-module.exports= {getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable , ExcelToJson}
+module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
+                  getTotal, ExcelToJson, getAvanceLineas
+              }
