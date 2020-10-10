@@ -132,5 +132,29 @@ const getLineIndicadores= async (req, res)=>{
         console.log('Error getLineIndicadores',error) 
     }
 }
+const getAvanceLinea= async(req, res)=>{
+    try {
+        const codlinea = req.params.cod_linea;
+        const response = await pool.query(`
+        select cod_linea, nom_linea, sum((total_plan/peso_linea)*100) from indicativo.view_avance  where cod_linea=$1 group by cod_linea, nom_linea`, [codlinea]);
+        res.status(200).json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+            eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+            Def: 'Total avance de la linea consultada en el PDM 2020-2023',
+            data: response.rows
+        });
 
-module.exports={ getLineTotalComp, getLineTotalProg, getLineIndicadores}    
+    } catch (error) {
+        console.log('Error getAvanceLinea: ',error)
+    }
+}
+
+module.exports={ getLineTotalComp, getLineTotalProg, getLineIndicadores, getAvanceLinea}    
