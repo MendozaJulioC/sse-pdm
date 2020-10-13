@@ -69,4 +69,39 @@ const getComponente= async(req, res)=>{
     }
 }
 
-module.exports={getComponente}    
+const getCompAvanceLinea = async(req, res)=>{
+
+    try {
+        const codLinea= req.params.cod_linea;
+        const response = await pool.query(`
+       	    select 
+                cod_linea,nom_linea,cod_componente, nom_componente, count (cod_componente) , sum(pesoxavnt) as peso_avance, sum(peso) as peso
+            from indicativo.tbl_indicador 
+            where cod_linea=  $1
+            group by cod_linea,nom_linea, cod_componente, nom_componente 
+            order by cod_linea, cod_componente
+        `, [codLinea]);
+     
+     res.status(200).json({
+         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+         Fecha_Emision:'2020-08-30',
+         Fecha_Inicial:'2020-01-31',
+         Fecha_Final:'2023-12-31',
+         Frecuencia_actualizacion:'Semestral',
+         Version: '1.0',
+         Cobertura:'Municipio de Medelín',
+         Fecha_ultima__actualizacion:'2020-08-30',
+         Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+         eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+         Def: 'Total indicadores por programas pertenecientes a la línea consultada  del PDM 2020-2023',
+         data: response.rows
+       });   
+        
+
+
+ } catch (error) {
+     console.log('Error getComponente: ', error)
+ }
+}
+
+module.exports={getComponente, getCompAvanceLinea}    

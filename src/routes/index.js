@@ -1,15 +1,11 @@
 const { Router} = require('express');
 const router = Router();
 
-
-
-
 const { getHome,getTotal ,getLineas,getAvanceLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable}= require('../controllers/index.controllers');
 router.get('/',getHome);
 router.get('/pi/api/total', getTotal)
 router.get('/pi/api/total-lineas', getLineas)
         .get('/pi/api/total-avance-lineas', getAvanceLineas)
-
 router.get('/pi/api/total-componentes', getComponentes);
 router.get('/pi/api/total-programas', getProgramas);
 router.get('/pi/api/total-tipo-indicador', getTipoIndicador);
@@ -25,9 +21,9 @@ router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 
 
 
- const {getComponente}=  require('../controllers/taskComponentes');
+const {getComponente, getCompAvanceLinea}=  require('../controllers/taskComponentes');
 router.get('/pi/api/componentes/:cod_componente', getComponente)
-
+.get('/pi/api/componentes/avance/line/:cod_linea', getCompAvanceLinea)
 
 
 const{getIndicador, getListIndicador, getBuscaNombreIndicador}= require('../controllers/taskIndicador');
@@ -35,11 +31,18 @@ router.get('/pi/api/indicador/:cod_indicador', getIndicador);
 router.get('/pi/api/list-indicador',getListIndicador)
 router.get('/pi/api/indicador/consulta/nombre/:nom_indicador', getBuscaNombreIndicador)
 
+
 const {getPrograma} =  require('../controllers/taskProgramas');
 router.get('/pi/api/programas/:cod_programa', getPrograma)
 
 
 const {_postFichaCreate}= require('../controllers/taskFichasM')
 router.post('/pi/api/ficha', _postFichaCreate)
+
+
+const { _getRespIndLinea}= require('../controllers/takResponsables')
+router.get('/pi/api/responsables/line/:cod_linea', _getRespIndLinea)
+
+
 
 module.exports = router;    
