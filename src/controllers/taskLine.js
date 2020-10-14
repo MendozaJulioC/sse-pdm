@@ -157,4 +157,48 @@ const getAvanceLinea= async(req, res)=>{
     }
 }
 
-module.exports={ getLineTotalComp, getLineTotalProg, getLineIndicadores, getAvanceLinea}    
+const getLineIndResumen= async(req, res)=>{
+    try {
+        const codlinea = req.params.cod_linea;
+        const response = await pool.query(`
+            select 
+                cod_linea, 
+                cod_componente,
+                cod_programa,
+                indicativo.tbl_indicador.cod_indicador,
+                indicativo.tbl_indicador.nom_indicador,
+                tipo_ind, lb_ind, meta_plan,unidad, 
+                peso,pesoxavnt,sum((pesoxavnt/peso)*100) as avance,
+                logro_2020,
+                cod_responsable_reporte,
+                nombre_dep
+            from indicativo.tbl_indicador
+            LEFT JOIN indicativo.tbl_ficha_indicador ON indicativo.tbl_ficha_indicador.cod_indicador = indicativo.tbl_indicador.cod_indicador  
+            LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
+            where cod_linea=$1
+            group by 
+                cod_linea, cod_componente,cod_programa,indicativo.tbl_indicador.cod_indicador,indicativo.tbl_indicador.nom_indicador,
+                tipo_ind, lb_ind, meta_plan,unidad, logro_2020,cod_responsable_reporte,nombre_dep`,
+        [codlinea]);
+        res.status(200).json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+            eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+            Def: 'Indicadores resumen de la linea consultada en el PDM 2020-2023',
+            data: response.rows
+        });
+
+    } catch (error) {
+        console.log('Error getAvanceLinea: ',error)
+    }
+}
+
+
+module.exports={ getLineTotalComp, getLineTotalProg, getLineIndicadores, getAvanceLinea, getLineIndResumen}    

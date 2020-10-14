@@ -24,8 +24,8 @@ const updateLogro = async (req, res)=>{
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
      console.log(datos)
       for (let i=0; i<datos.length; i++){
-       console.log(datos[i].CodigoIndicador)
-        //await pool.query(`	UPDATE indicativo.tbl_indicador SET   logro_2020= ${datos[i].Log20}   WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
+       //console.log(datos[i].CodigoIndicador)
+      //  await pool.query(`	UPDATE indicativo.tbl_indicador SET   logro_2020= ${datos[i].Log20}   WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
       }
    } catch (error) {
   }
@@ -58,7 +58,7 @@ const getTotal = async (req, res)=>{
 const getLineas = async (req, res)=>{
   try {
 //    ExcelToJson()
-updateLogro()
+//  updateLogro()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',

@@ -13,11 +13,12 @@ router.get('/pi/api/total-dep-reporte', getTotalReportDep);
 router.get('/pi/api/total-dep-responsable',getTotalResponsable)
 
 
-const {getLineTotalComp, getLineTotalProg, getLineIndicadores,  getAvanceLinea} =require('../controllers/taskLine');
+const {getLineTotalComp, getLineTotalProg, getLineIndicadores,  getAvanceLinea, getLineIndResumen} =require('../controllers/taskLine');
 router.get('/pi/api/line/componentes', getLineTotalComp);
 router.get('/pi/api/line/programas', getLineTotalProg);
 router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 .get('/pi/api/avance/line/:cod_linea', getAvanceLinea)
+.get('/pi/api/line/indicadores/resumen/:cod_linea', getLineIndResumen)
 
 
 const {getComponente, getCompAvanceLinea}=  require('../controllers/taskComponentes');
