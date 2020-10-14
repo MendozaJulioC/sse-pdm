@@ -20,7 +20,6 @@ router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 .get('/pi/api/avance/line/:cod_linea', getAvanceLinea)
 
 
-
 const {getComponente, getCompAvanceLinea}=  require('../controllers/taskComponentes');
 router.get('/pi/api/componentes/:cod_componente', getComponente)
 .get('/pi/api/componentes/avance/line/:cod_linea', getCompAvanceLinea)
@@ -32,8 +31,9 @@ router.get('/pi/api/list-indicador',getListIndicador)
 router.get('/pi/api/indicador/consulta/nombre/:nom_indicador', getBuscaNombreIndicador)
 
 
-const {getPrograma} =  require('../controllers/taskProgramas');
+const {getPrograma, getPrgAvance} =  require('../controllers/taskProgramas');
 router.get('/pi/api/programas/:cod_programa', getPrograma)
+.get('/pi/api/programas/avance/line/:cod_linea',getPrgAvance)
 
 
 const {_postFichaCreate}= require('../controllers/taskFichasM')

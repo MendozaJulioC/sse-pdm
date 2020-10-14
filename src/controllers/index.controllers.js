@@ -8,6 +8,7 @@ const ExcelToJson = async (req, res)=>{
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Libro6.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+     console.log(datos)
       for (let i=0; i<datos.length; i++){
         //console.log(datos[i].CodigoIndicador)
         //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
@@ -43,7 +44,7 @@ const getTotal = async (req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-    //ExcelToJson()
+    ExcelToJson()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',

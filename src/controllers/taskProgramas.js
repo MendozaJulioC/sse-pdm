@@ -1,5 +1,6 @@
 // aquí colocaré todas las rutas y consultas que tengas como eje principal programas del pdmconst { pool } = require('../sql/dbConfig');
 const { pool } = require('../sql/dbConfig');
+
 const getPrograma= async(req, res)=>{
 
     try {
@@ -69,4 +70,43 @@ const getPrograma= async(req, res)=>{
     }
 }
 
-module.exports={getPrograma}    
+const getPrgAvance= async(req, res)=>{
+
+    try {
+           const codLInea= req.params.cod_linea;
+           const response = await pool.query(`
+           select 
+           cod_programa, nom_programa, count (cod_programa) , sum(pesoxavnt) as peso_avance, sum(peso) as peso
+         from indicativo.tbl_indicador 
+         where cod_linea=$1 and cod_programa <>'0'
+         group by cod_programa, nom_programa
+         order by cod_programa
+        `, [codLInea]);
+        
+        res.status(200).json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+            eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+            Def: 'Total avance por programas pertenecientes a la línea consultada  del PDM 2020-2023',
+            data: response.rows
+          });   
+           
+
+
+    } catch (error) {
+        console.log('Error getPrgAvance: ', error)
+    }
+}
+
+
+
+
+
+module.exports={getPrograma, getPrgAvance}    
