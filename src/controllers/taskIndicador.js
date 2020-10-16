@@ -42,12 +42,10 @@ const getIndicador = async(req, res)=>{
 		nombre_dep,
 		responsable_reporte,
 		instrumento_recoleccion,
-		observaciones
+		observaciones, peso, pesoxavnt
 		from indicativo.tbl_indicador
 		LEFT JOIN indicativo.tbl_ficha_indicador ON indicativo.tbl_ficha_indicador.cod_indicador = indicativo.tbl_indicador.cod_indicador  
 		LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
-		
-		--where indicativo.tbl_indicador.nom_indicador ilike'%conjunto de datos%'
 		where indicativo.tbl_indicador.cod_indicador=$1
         `,  [indicador]);
 
@@ -133,7 +131,7 @@ const getBuscaNombreIndicador= async(req, res)=>{
 		nombre_dep,
 		responsable_reporte,
 		instrumento_recoleccion,
-		observaciones
+		observaciones, pesoxavnt
 		from indicativo.tbl_indicador
 		LEFT JOIN indicativo.tbl_ficha_indicador ON indicativo.tbl_ficha_indicador.cod_indicador = indicativo.tbl_indicador.cod_indicador  
 		LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte

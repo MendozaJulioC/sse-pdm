@@ -178,7 +178,9 @@ const getLineIndResumen= async(req, res)=>{
             where cod_linea=$1
             group by 
                 cod_linea, cod_componente,cod_programa,indicativo.tbl_indicador.cod_indicador,indicativo.tbl_indicador.nom_indicador,
-                tipo_ind, lb_ind, meta_plan,unidad, logro_2020,cod_responsable_reporte,nombre_dep`,
+                tipo_ind, lb_ind, meta_plan,unidad, logro_2020,cod_responsable_reporte,nombre_dep
+            order by indicativo.tbl_indicador.cod_indicador
+                `,
         [codlinea]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
