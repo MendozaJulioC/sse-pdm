@@ -5,15 +5,31 @@ const { pool } = require('../sql/dbConfig');
 
 const ExcelToJson = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Libro6.xlsx');
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Estructuracion.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-     console.log(datos)
-      for (let i=0; i<datos.length; i++){
-       console.log(datos[i].CodigoIndicador)
+   
+    for (let i=0; i<datos.length; i++){
+
         //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
+
+          /*
+            await pool.query(`  INSERT INTO inverpublica.tbl_consolidado(
+                              cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
+                              VALUES ('${datos[i].CodDep}','${datos[i].EsPP}','${datos[i].CodProyecto}','${datos[i].NombreProyecto}', ${datos[i].inversion_real},${datos[i].vigencia},'${datos[i].corte}',${datos[i].Total_Georreferenciado},
+                                    ${datos[i].c1},${datos[i].c2}, ${datos[i].c3},${datos[i].c4}, ${datos[i].c5},${datos[i].c6}, ${datos[i].c7},${datos[i].c8}, ${datos[i].c9},${datos[i].c10}, ${datos[i].c11}, ${datos[i].c12}, ${datos[i].c13},
+                                    ${datos[i].c14}, ${datos[i].c15}, ${datos[i].c16}, ${datos[i].c50}, ${datos[i].c60},  ${datos[i].c70},  ${datos[i].c80},  ${datos[i].c90}, ${datos[i].c99}, ${datos[i].c97});
+                      `);
+            console.log(i, " ok")   
+          */       
+                                    
+
       }
+   
+
+
    } catch (error) {
+     console.log(error)
   }
 }
 
@@ -24,7 +40,7 @@ const updateLogro = async (req, res)=>{
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
      console.log(datos)
       for (let i=0; i<datos.length; i++){
-       //console.log(datos[i].CodigoIndicador)
+       console.log(datos[i].CodigoIndicador)
       //  await pool.query(`	UPDATE indicativo.tbl_indicador SET   logro_2020= ${datos[i].Log20}   WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
       }
    } catch (error) {
@@ -43,9 +59,9 @@ const getTotal = async (req, res)=>{
       Version: '1.0',
       Cobertura:'Municipio de Medelín',
       Fecha_ultima__actualizacion:'2020-08-30',
-      Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-      eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-      Def: 'Total Avance PDM 2020-2023',
+      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+      Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
       data: response.rows
   }); 
 
@@ -57,23 +73,22 @@ const getTotal = async (req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-//    ExcelToJson()
-//  updateLogro()
+   ExcelToJson()
+ // updateLogro()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
-        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
-        Fecha_Emision:'2020-08-30',
-        Fecha_Inicial:'2020-01-31',
-        Fecha_Final:'2023-12-31',
-        Frecuencia_actualizacion:'Semestral',
-        Version: '1.0',
-        Cobertura:'Municipio de Medelín',
-        Fecha_ultima__actualizacion:'2020-08-30',
-        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-        Def: 'Total indicadores por cada línea del PDM 2020-2023',
-      
-        data: response.rows
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+      Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+      data: response.rows
     });
   } catch (error) { console.log('Error getLineas', error)}
 }
@@ -84,18 +99,18 @@ const getAvanceLineas= async(req, res)=>{
     const response = await pool.query(`SELECT cod_linea,nom_linea,(sum(total_plan/peso_linea)*100) as avance_linea 
     from indicativo.view_avance group by cod_linea, nom_linea order by cod_linea`);
     res.status(200).json({
-        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
-        Fecha_Emision:'2020-08-30',
-        Fecha_Inicial:'2020-01-31',
-        Fecha_Final:'2023-12-31',
-        Frecuencia_actualizacion:'Semestral',
-        Version: '1.0',
-        Cobertura:'Municipio de Medelín',
-        Fecha_ultima__actualizacion:'2020-08-30',
-        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-        Def: 'Total indicadores por cada línea del PDM 2020-2023',
-        data: response.rows
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+      Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+      data: response.rows
     });
   } catch (error) { console.log('Error getLineas', error)}
 }
@@ -112,18 +127,18 @@ const getComponentes = async (req, res)=>{
       order by cod_linea, cod_componente
     `);
     res.status(200).json({
-        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
-        Fecha_Emision:'2020-08-30',
-        Fecha_Inicial:'2020-01-31',
-        Fecha_Final:'2023-12-31',
-        Frecuencia_actualizacion:'Semestral',
-        Version: '1.0',
-        Cobertura:'Municipio de Medelín',
-        Fecha_ultima__actualizacion:'2020-08-30',
-        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-        Def: 'Total indicadores por cada componente del PDM 2020-2023',
-        data: response.rows
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+      Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+      data: response.rows
     });
 
     
@@ -148,9 +163,9 @@ const getProgramas= async( req, res)=>{
       Version: '1.0',
       Cobertura:'Municipio de Medelín',
       Fecha_ultima__actualizacion:'2020-08-30',
-      Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-      eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-      Def: 'Total indicadores por cada programa del PDM 2020-2023',
+      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+      Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
       data: response.rows
   });
 
@@ -164,17 +179,17 @@ const getTipoIndicador= async(req, res)=>{
     `);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
-      Fecha_Emision:'2020-08-30',
-      Fecha_Inicial:'2020-01-31',
-      Fecha_Final:'2023-12-31',
-      Frecuencia_actualizacion:'Semestral',
-      Version: '1.0',
-      Cobertura:'Municipio de Medelín',
-      Fecha_ultima__actualizacion:'2020-08-30',
-      Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-      eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-      Def: 'Total indicadores por tipo de indicador del PDM 2020-2023',
-      data: response.rows
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+            data: response.rows
     });   
   } catch (error) {console.log('Error getTipoIndicador', error)}
 }
@@ -192,17 +207,17 @@ const getTotalReportDep = async(req, res)=>{
       `);
       res.status(200).json({
         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
-        Fecha_Emision:'2020-08-30',
-        Fecha_Inicial:'2020-01-31',
-        Fecha_Final:'2023-12-31',
-        Frecuencia_actualizacion:'Semestral',
-        Version: '1.0',
-        Cobertura:'Municipio de Medelín',
-        Fecha_ultima__actualizacion:'2020-08-30',
-        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-        Def: 'Total indicadores por cada reposnable del reporte en el sistema del PDM 2020-2023',
-        data: response.rows
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+            data: response.rows
     });
   } catch (error) {console.log('Error: getTotalReportDep', error)}
 }
@@ -219,17 +234,17 @@ const getTotalResponsable = async (req, res)=>{
     `);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
-      Fecha_Emision:'2020-08-30',
-      Fecha_Inicial:'2020-01-31',
-      Fecha_Final:'2023-12-31',
-      Frecuencia_actualizacion:'Semestral',
-      Version: '1.0',
-      Cobertura:'Municipio de Medelín',
-      Fecha_ultima__actualizacion:'2020-08-30',
-      Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-      eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-      Def: 'Total indicadores por cada reposnsable ante el PDM 2020-2023',
-      data: response.rows
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+            data: response.rows
     })
 
   } catch (error) { console.log('Error getTotalResponsable', error)}
@@ -255,13 +270,11 @@ const getHome = async(req, res)=>{
                 <div class='card card-image ' style='background-image: url(https://i0.wp.com/www.acimedellin.org/wp-content/uploads/2019/11/medellin-newsweek-1.jpg?w=1584&ssl=1);'>
                   <div class='text-white text-center rgba-stylish-strong py-5 px-4'>
                     <div class='py-5'>
-                
                       <!-- Content -->
                       <h5 class='h5 orange-text'><i class='fas fa-camera-retro'></i> </h5>
                       <h2 class='card-title h2 my-4 py-2' style='color:yellow'></h2>
                       <p class='mb-4 pb-2 px-md-5 mx-md-5'></p>
                       <a href='http://localhost:5000'class='btn peach-gradient'><i class='fas fa-clone left'></i> View project</a>
-                
                     </div>
                   </div>
                 </div>
@@ -332,18 +345,15 @@ const getHome = async(req, res)=>{
                   '1531306728370-e2ebd9d7bb99';
                   $bp-md: 600px;
                   $bp-lg: 800px;
-            
-                  :root {
+                              :root {
                       --d: 700ms;
                       --e: cubic-bezier(0.19, 1, 0.22, 1);
                       --font-sans: 'Rubik', sans-serif;
                       --font-serif: 'Cardo', serif;
                   }
-              
-                  * {
+                            * {
                       box-sizing: border-box;
                   }
-              
                   html,
                   body {
                       height: 100%;
