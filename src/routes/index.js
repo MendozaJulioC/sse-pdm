@@ -21,10 +21,15 @@ router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 .get('/pi/api/line/indicadores/resumen/:cod_linea', getLineIndResumen)
 
 
-const {getComponente, getCompAvanceLinea, getListComponente}=  require('../controllers/taskComponentes');
+const {getComponente, getCompAvanceLinea, getListComponente, getBuscaNombreComponente}=  require('../controllers/taskComponentes');
 router.get('/pi/api/componentes/:cod_componente', getComponente)
 .get('/pi/api/componentes/avance/line/:cod_linea', getCompAvanceLinea)
 .get('/pi/api/list-componente',getListComponente)
+.get ('/pi/api/componentes/consulta/nombre/:nom_componente',getBuscaNombreComponente)
+
+
+
+
 
 const{getIndicador, getListIndicador, getBuscaNombreIndicador}= require('../controllers/taskIndicador');
 router.get('/pi/api/indicador/:cod_indicador', getIndicador);

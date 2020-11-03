@@ -127,6 +127,37 @@ const getListComponente = async(req, res)=>{
     console.log('Error getListComponente ', error)
   }
 }
+ const getBuscaNombreComponente = async(req ,res)=>{
+     try {
+         const nomComponente = req.params.nom_componente;
+         const response = await pool.query(`
+            select
+             	cod_linea, nom_linea, cod_componente, nom_componente,
+                sum(pesoxavnt)as avancexpeso,sum(peso) as peso,
+                nombre_dep, count (cod_componente) as indicadores
+            from indicativo.tbl_indicador
+            LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
+            where  nom_componente=$1
+            group by 
+                cod_linea, nom_linea,nombre_dep, cod_componente, nom_componente`, [nomComponente])
+            res.status(200).json({
+                Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+                Fecha_Emision:'2020-08-30',
+                Fecha_Inicial:'2020-01-31',
+                Fecha_Final:'2023-12-31',
+                Frecuencia_actualizacion:'Semestral',
+                Version: '1.0',
+                Cobertura:'Municipio de Medelín',
+                Fecha_ultima__actualizacion:'2020-08-30',
+                Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+                eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+                Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+                data: response.rows
+            })
+            
+     } catch (error) {
+         console.log('Error getBuscaNombreComponente ', error)
+     }
+ }
 
-
-module.exports={getComponente, getCompAvanceLinea,getListComponente }    
+module.exports={getComponente, getCompAvanceLinea,getListComponente , getBuscaNombreComponente}    
