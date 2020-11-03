@@ -131,11 +131,10 @@ const getListComponente = async(req, res)=>{
      try {
          const nomComponente = req.params.nom_componente;
          const response = await pool.query(`
-            select
-             	cod_linea, nom_linea, cod_componente, nom_componente,
-                sum(pesoxavnt)as avancexpeso,sum(peso) as peso,
-                nombre_dep, count (cod_componente) as indicadores
-            from indicativo.tbl_indicador
+         select 	cod_linea, nom_linea, cod_componente, nom_componente,
+         sum(pesoxavnt)as avancexpeso,sum(peso) as peso,  sum((pesoxavnt/peso)*100) as avance, 
+          nombre_dep, count (cod_componente) as indicadores
+from indicativo.tbl_indicador
             LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
             where  nom_componente=$1
             group by 
