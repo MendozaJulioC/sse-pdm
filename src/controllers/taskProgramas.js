@@ -109,7 +109,10 @@ const getPrgAvance= async(req, res)=>{
 const getlistProgramas = async(req, res)=>{
     try
     {
-        const response =  await pool.query(`select cod_componente, nom_componente  from indicativo.tbl_indicador group by  cod_componente, nom_componente order by cod_componente` );
+        const response =  await pool.query(`select cod_programa, nom_programa from indicativo.tbl_indicador where cod_programa<>'0'
+        group by cod_programa , nom_programa
+        order by cod_programa
+        ` );
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
