@@ -41,15 +41,21 @@ router.get('/pi/api/list-indicador',getListIndicador)
 router.get('/pi/api/indicador/consulta/nombre/:nom_indicador', getBuscaNombreIndicador)
 
 
-const {getPrograma, getPrgAvance, getlistProgramas } =  require('../controllers/taskProgramas');
+const {getPrograma, getPrgAvance, getlistProgramas, getBuscaNombrePrograma, getBuscaCodigoPrograma, getRespPrograma , getRespCodPrograma} =  require('../controllers/taskProgramas');
 router.get('/pi/api/programas/:cod_programa', getPrograma)
 .get('/pi/api/programas/avance/line/:cod_linea',getPrgAvance)
 .get('/pi/api/list-programas', getlistProgramas)
+.get('/pi/api/programas/consulta/nombre/:nom_programa', getBuscaNombrePrograma)
+.get('/pi/api/programas/consulta/codigo/:cod_programa', getBuscaCodigoPrograma)
+.get('/pi/api/programas/responsables/nombre/:nom_programa', getRespPrograma)
+.get('/pi/api/programas/responsables/codigo/:cod_programa', getRespCodPrograma)
+
+
+
 
 
 const {_postFichaCreate}= require('../controllers/taskFichasM')
 router.post('/pi/api/ficha', _postFichaCreate)
-
 
 const { _getRespIndLinea}= require('../controllers/takResponsables')
 router.get('/pi/api/responsables/line/:cod_linea', _getRespIndLinea)
