@@ -137,16 +137,14 @@ const getBuscaNombrePrograma = async(req, res)=>{
         const nomPrograma = req.params.nom_programa;
         const response =  await pool.query(`
         select 	
-            cod_linea, nom_linea, cod_componente, nom_componente,
-            cod_indicador,nom_indicador,
-            count(cod_indicador) as indicador,
-            sum(pesoxavnt)as avancexpeso,sum(peso) as peso
+        cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa,cod_indicador,nom_indicador,
+        count(cod_indicador) as indicador,
+        sum(pesoxavnt)as avancexpeso,sum(peso) as peso
         from indicativo.tbl_indicador
         LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
         where  nom_programa=$1
         group by 
-        cod_linea, nom_linea, cod_componente, nom_componente,
-            cod_indicador,nom_indicador
+        cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa,cod_indicador,nom_indicador
         order by cod_indicador 
         ` ,[nomPrograma])
         res.status(200).json({
@@ -176,16 +174,14 @@ const getBuscaCodigoPrograma = async(req, res)=>{
         const codPrograma = req.params.cod_programa;
         const response =  await pool.query(`
         select 	
-            cod_linea, nom_linea, cod_componente, nom_componente,
-            cod_indicador,nom_indicador,
+            cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa,cod_indicador,nom_indicador,
             count(cod_indicador) as indicador,
             sum(pesoxavnt)as avancexpeso,sum(peso) as peso
         from indicativo.tbl_indicador
         LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
         where  cod_programa=$1
         group by 
-        cod_linea, nom_linea, cod_componente, nom_componente,
-            cod_indicador,nom_indicador
+        cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa,cod_indicador,nom_indicador
         order by cod_indicador 
         ` ,[codPrograma])
         res.status(200).json({
