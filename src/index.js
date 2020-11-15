@@ -7,6 +7,7 @@ const morgan = require ('morgan');
 //middlewares
 app.use(morgan('dev'));
 app.use(require('./routes/index'));
+app.use(require('./routes/auth'));
 //Star server
 
 

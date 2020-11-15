@@ -127,6 +127,7 @@ const getListComponente = async(req, res)=>{
     console.log('Error getListComponente ', error)
   }
 }
+
  const getBuscaNombreComponente = async(req ,res)=>{
      try {
         const nomComponente = req.params.nom_componente;
@@ -193,7 +194,6 @@ const getListComponente = async(req, res)=>{
     }
 }
 
-
 const getPrgNomComponente = async(req ,res)=>{
     try {
        const nomComponente = req.params.nom_componente;
@@ -226,7 +226,6 @@ const getPrgNomComponente = async(req ,res)=>{
         console.log('Error getPrgNomComponente ', error)
     }
 }
-
 
 const getprgCodComponente = async(req ,res)=>{
     try {
@@ -261,9 +260,6 @@ const getprgCodComponente = async(req ,res)=>{
     }
 }
 
-
-
-
 const getRespComponente = async(req ,res)=>{
     try {
        const nomComponente = req.params.nom_componente;
@@ -296,7 +292,6 @@ const getRespComponente = async(req ,res)=>{
     }
 }
 
-
 const getRespCodComponente = async(req ,res)=>{
     try {
        const codComponente = req.params.cod_componente;
@@ -328,11 +323,6 @@ const getRespCodComponente = async(req ,res)=>{
         console.log('Error getprgCodComponente ', error)
     }
 }
-
-
-
-
-
 
 
 module.exports={ getComponente, getCompAvanceLinea,getListComponente , getBuscaNombreComponente,

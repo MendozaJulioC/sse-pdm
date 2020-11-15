@@ -10,7 +10,6 @@ const ExcelToJson = async (req, res)=>{
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
    
     for (let i=0; i<datos.length; i++){
-
         //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
 
           /*
@@ -22,12 +21,8 @@ const ExcelToJson = async (req, res)=>{
                       `);
             console.log(i, " ok")   
           */       
-                                    
-
       }
-   
-
-
+ 
    } catch (error) {
      console.log(error)
   }
@@ -44,6 +39,118 @@ const updateLogro = async (req, res)=>{
       //  await pool.query(`	UPDATE indicativo.tbl_indicador SET   logro_2020= ${datos[i].Log20}   WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
       }
    } catch (error) {
+  }
+}
+
+const Excel_PA = async (req, res)=>{
+  try {
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/plan_accion_pdm.xlsx');
+    var nombreHoja = excel.SheetNames;
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+
+      for (let i=0; i<datos.length; i++){
+ 
+ //console.log(datos[i].cod_dependencia)
+
+
+       await pool.query(` INSERT INTO plan_accion.tbl_accion(
+                          cod_dependencia,
+                          cod_linea,
+                          nom_linea,
+                          cod_componente,
+                          nom_componente,
+                          cod_programa,
+                          nom_programa,
+                          cod_proyecto,
+                          nom_proyecto,
+                          
+                          eficacia_proyecto,
+                          ejec_fin_porc,
+                          eficiencia,
+                          ppto_ajustado,
+                          ejec_real,
+                          ppto_inicial, 
+                          cod_val_stat,
+                          nom_val_stat,
+                          u_medida,
+                          
+                          q_plan,
+                          q_real,
+                          eficacia_ve,
+                          obs_val_stat, 
+                          y_dev_poai,
+                          y_dev_pptoajustado,
+                          y_dev_ejecucion,
+                          
+                          compromisos,
+                          facturas,
+                          pagos,
+                          "corte_ejecucion",
+                          obs_proyecto,
+                          num_ve,
+                          pago_factura, compromiso2,
+                          factura2, pago2, nombre_dep_reporte, 
+                           y_dev_es_pp, espagopendiente,escola, esmcv, cod_siufp_catal, obs_cod_siufp)
+        VALUES (
+          ${datos[i].cod_dependencia},
+          '${datos[i].cod_linea}',
+          '${datos[i].nom_linea}',
+          '${datos[i].cod_componente}',
+          '${datos[i].nom_componente}',
+          '${datos[i].cod_programa}',
+          '${datos[i].nom_programa}',
+          '${datos[i].cod_proyecto}',
+          '${datos[i].nom_proyecto}',
+          
+          ${datos[i].eficacia_proyecto},
+          ${datos[i].ejec_fin_porc},
+          ${datos[i].eficiencia},
+          ${datos[i].pto_ajustado},
+          ${datos[i].ejec_real},
+          ${datos[i].pto_inicial},
+          '${datos[i].cod_val_stat}',
+          '${datos[i].nom_val_stat}',
+          '${datos[i].u_medida}',
+
+          ${datos[i].q_plan},
+          ${datos[i].q_real},
+          ${datos[i].eficacia_ve},
+          '${datos[i].obs_val_stat}',
+          ${datos[i].y_dev_poai},
+          ${datos[i].y_dev_pptoajustado},
+          ${datos[i].y_dev_ejecucion},
+
+          ${datos[i].compromisos},
+          ${datos[i].facturas},
+          ${datos[i].pagos},
+          '${datos[i].corte_ejecucion}',
+          '${datos[i].obs_proyecto}',
+
+          ${datos[i].num_ve},
+          ${datos[i].pago_factura},
+          ${datos[i].compromiso2},
+          ${datos[i].factura2},
+          ${datos[i].pago2},
+          '${datos[i].nombre_dep_reporte}',
+          ${datos[i].y_dev_es_pp},
+          ${datos[i].espagopendiente},
+          ${datos[i].escola},
+          ${datos[i].esmcv},
+          '${datos[i].cod_suifp_catal}',
+          '${datos[i].observ_cod_suifp}'
+        );
+        
+        `);
+        console.log(i, " ok")         
+
+ 
+
+      }
+
+
+
+   } catch (error) {
+     console.log(error)
   }
 }
 
@@ -73,8 +180,9 @@ const getTotal = async (req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-   ExcelToJson()
+  // ExcelToJson()
  // updateLogro()
+ Excel_PA()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -114,7 +222,6 @@ const getAvanceLineas= async(req, res)=>{
     });
   } catch (error) { console.log('Error getLineas', error)}
 }
-
 
 const getComponentes = async (req, res)=>{
   try {
@@ -249,9 +356,6 @@ const getTotalResponsable = async (req, res)=>{
 
   } catch (error) { console.log('Error getTotalResponsable', error)}
 }
-
-
-
 
 const getHome = async(req, res)=>{
     try {
@@ -559,6 +663,9 @@ const getHome = async(req, res)=>{
         console.log(e);
     }
 }
+
+
+
 
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
                   getTotal, ExcelToJson, getAvanceLineas

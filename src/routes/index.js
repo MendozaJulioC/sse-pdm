@@ -51,14 +51,17 @@ router.get('/pi/api/programas/:cod_programa', getPrograma)
 .get('/pi/api/programas/responsables/codigo/:cod_programa', getRespCodPrograma)
 
 
-
-
-
 const {_postFichaCreate}= require('../controllers/taskFichasM')
 router.post('/pi/api/ficha', _postFichaCreate)
 
 const { _getRespIndLinea}= require('../controllers/takResponsables')
 router.get('/pi/api/responsables/line/:cod_linea', _getRespIndLinea)
+
+
+const {getDependencias} = require('../controllers/taskDependencias')
+router.get('/see/api/dependencias', getDependencias)
+
+
 
 
 
