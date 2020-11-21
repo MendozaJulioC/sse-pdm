@@ -24,7 +24,6 @@ router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 const {  getComponente, getCompAvanceLinea, getListComponente, getBuscaNombreComponente, getBuscaCodigoComponente,getPrgNomComponente,
          getprgCodComponente, getRespComponente, getRespCodComponente
       }=  require('../controllers/taskComponentes');
-
 router.get('/pi/api/componentes/:cod_componente', getComponente)
 .get('/pi/api/componentes/avance/line/:cod_linea', getCompAvanceLinea)
 .get('/pi/api/list-componente',getListComponente)
@@ -62,7 +61,15 @@ const {getDependencias} = require('../controllers/taskDependencias')
 router.get('/see/api/dependencias', getDependencias)
 
 
+const {getAvanceFisico, getAvanceFinanciero} = require('../controllers/taskPlanAccion')
+router.get('/pa/api/avancefisico', getAvanceFisico)
+.get('/pa/api/avancefinanciero', getAvanceFinanciero)
 
+
+const {getTipoInversion, getInverTerritorio, getInversionDep} = require('../controllers/taskInversion')
+router.get('/geo/api/tipo-inversion', getTipoInversion)
+.get('/geo/api/territorio',getInverTerritorio)
+.get('/geo/api/dependencias',getInversionDep)
 
 
 module.exports = router;    

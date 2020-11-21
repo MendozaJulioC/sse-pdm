@@ -15,6 +15,7 @@ const ExcelToJson = async (req, res)=>{
           /*
             await pool.query(`  INSERT INTO inverpublica.tbl_consolidado(
                               cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
+
                               VALUES ('${datos[i].CodDep}','${datos[i].EsPP}','${datos[i].CodProyecto}','${datos[i].NombreProyecto}', ${datos[i].inversion_real},${datos[i].vigencia},'${datos[i].corte}',${datos[i].Total_Georreferenciado},
                                     ${datos[i].c1},${datos[i].c2}, ${datos[i].c3},${datos[i].c4}, ${datos[i].c5},${datos[i].c6}, ${datos[i].c7},${datos[i].c8}, ${datos[i].c9},${datos[i].c10}, ${datos[i].c11}, ${datos[i].c12}, ${datos[i].c13},
                                     ${datos[i].c14}, ${datos[i].c15}, ${datos[i].c16}, ${datos[i].c50}, ${datos[i].c60},  ${datos[i].c70},  ${datos[i].c80},  ${datos[i].c90}, ${datos[i].c99}, ${datos[i].c97});
@@ -154,6 +155,95 @@ const Excel_PA = async (req, res)=>{
   }
 }
 
+const Excel_EFisica = async (req, res)=>{
+  try {
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PA.xlsx');
+    var nombreHoja = excel.SheetNames;
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+    console.log(datos)
+ /*
+      for (let i=0; i<datos.length; i++){
+        await pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
+          cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, 
+          ejec_fisica, ejec_financiera, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
+	        VALUES (
+        
+          ${datos[i].Codigo_Dependencia},
+          '${datos[i].Nombre_Dependencia}',
+          '${datos[i].cod_proyecto}',
+          '${datos[i].nom_proyecto}',
+          ${datos[i].porc_eficacia_proyecto},
+          ${datos[i].ejecucion_fisica},
+          ${datos[i].ejecucion_financiera},
+          ${datos[i].POAI},
+          ${datos[i].ppto_ajustado},
+          
+          ${datos[i].ejecucion},
+          ${datos[i].Compromisos},
+          ${datos[i].Pagos},
+          ${datos[i].Facturas},
+          ${datos[i].num_valstat},
+          '${datos[i].tipo_proyecto}',
+          '${datos[i].EsPagoPendiente}',
+          '${datos[i].saldo_noexec}',
+          '${datos[i].corte}'
+      );
+        `);
+        console.log(i, " ok")         
+      }
+*/
+
+   } catch (error) {
+     console.log(error)
+  }
+  
+}
+
+const Excel_EFinanciera = async (req, res)=>{
+  try {
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PA.xlsx');
+    var nombreHoja = excel.SheetNames;
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
+   // console.log(datos)
+ 
+      for (let i=0; i<datos.length; i++){
+        await pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
+	      cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, 
+	      porc_ejec_financiera, porc_eficacia_valstat, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
+	        VALUES (
+        
+          ${datos[i].cod_dependencia},
+          '${datos[i].nom_dependencia}',
+          '${datos[i].cod_proyecto}',
+          '${datos[i].nom_proyecto}',
+          ${datos[i].porc_eficacia_proyecto},
+          ${datos[i].ejecucion_financiera},
+          ${datos[i].porc_ejecucion_financiera},
+          ${datos[i].porc_eficacia_valstat},
+          ${datos[i].POAI},
+          
+          ${datos[i].ppto_ajustado},
+          ${datos[i].ejecucion},
+          ${datos[i].Compromisos},
+          ${datos[i].Pagos},
+          ${datos[i].Facturas},
+          ${datos[i].num_valstat},
+          '${datos[i].tipo_proyecto}',
+          '${datos[i].espagopendiente}',
+          '${datos[i].saldo_no_ejec}',
+          '${datos[i].corte}'
+      );
+        `);
+        console.log(i, " ok")         
+      }
+
+
+   } catch (error) {
+     console.log(error)
+  }
+  
+}
+
 const getTotal = async (req, res)=>{
   try {
     const response = await pool.query('select sum(pesoxavnt*100) as total_plan from indicativo.tbl_indicador');
@@ -180,9 +270,11 @@ const getTotal = async (req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-  // ExcelToJson()
- // updateLogro()
- Excel_PA()
+    // ExcelToJson()
+    // updateLogro()
+    // Excel_PA()
+    //Excel_EFisica()
+    //Excel_EFinanciera()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
