@@ -158,4 +158,8 @@ const getBuscaNombreIndicador= async(req, res)=>{
     }
 }
 
+
+
+
+
 module.exports = {getIndicador, getListIndicador, getBuscaNombreIndicador} 
