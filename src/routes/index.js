@@ -57,23 +57,32 @@ const { _getRespIndLinea}= require('../controllers/takResponsables')
 router.get('/pi/api/responsables/line/:cod_linea', _getRespIndLinea)
 
 
-const {getDependencias, getAvanceDepPDM} = require('../controllers/taskDependencias')
+const {getDependencias, getAvanceDepPDM, getAvancePDMxDEpendencias, getAvancePDMxLineasDep, getAvancePDMxComponentesDep, getAvancePDMxProgramasDep} = require('../controllers/taskDependencias')
 router.get('/see/api/dependencias', getDependencias)
 .get('/dep/api/avance/:cod_dependencia',getAvanceDepPDM )
+.get('/dep/api/dependencias/avance', getAvancePDMxDEpendencias)
+.get('/dep/api/avance/lineas/:cod_dependencia',getAvancePDMxLineasDep )
+.get('/dep/api/avance/componentes/:cod_dependencia',getAvancePDMxComponentesDep )
+.get('/dep/api/avance/programas/:cod_dependencia',getAvancePDMxProgramasDep )
 
-const {getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep }= require('../controllers/taskPlanAccion')
+
+const {getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep, getPlanAccionDep, getValStat }= require('../controllers/taskPlanAccion')
 router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/avancefinanciero', getAvanceFinanciero)
 .get('/pa/api/avancefinanciero/dep/:cod_dependencia', getAvanceFinancieroDep)
 .get('/pa/api/avancefisico/dep/:cod_dependencia', getAvanceFisicoDep)
+.get('/pa/api/plan/dependencias/:cod_dependencia', getPlanAccionDep)
+.get('/pa/api/proyecto/:cod_proyecto', getValStat)
 
 
-const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep} = require('../controllers/taskInversion')
+
+const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep}  = require('../controllers/taskInversion')
 router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/territorio',getInverTerritorio)
 .get('/geo/api/dependencias',getInversionDep)
 .get('/geo/api/dependencias/tipo-inversion/:cod_dependencia', tipo_inversion_dep)
 .get('/geo/api/dependencias/territorio/:cod_dependencia', getInverTerritorioDep)
+.get('/pa/api/tipo-iniciativa/dependencias/:cod_dependencia', getTipoIniciativaDep)
 
 
 module.exports = router;    

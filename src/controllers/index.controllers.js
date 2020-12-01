@@ -201,15 +201,15 @@ const Excel_EFisica = async (req, res)=>{
 
 const Excel_EFinanciera = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PA.xlsx');
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
-   // console.log(datos)
+   //console.log(datos)
  
-      for (let i=0; i<datos.length; i++){
+   /*  for (let i=0; i<datos.length; i++){
         await pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
 	      cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, 
-	      porc_ejec_financiera, porc_eficacia_valstat, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
+	      porc_ejec_financiera, porc_eficacia_valstat, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, tipo_iniciativa,"corte")
 	        VALUES (
         
           ${datos[i].cod_dependencia},
@@ -231,13 +231,14 @@ const Excel_EFinanciera = async (req, res)=>{
           '${datos[i].tipo_proyecto}',
           '${datos[i].espagopendiente}',
           '${datos[i].saldo_no_ejec}',
+          ${datos[i].tipo_iniciativa},
           '${datos[i].corte}'
       );
         `);
         console.log(i, " ok")         
       }
 
-
+*/
    } catch (error) {
      console.log(error)
   }
@@ -273,8 +274,8 @@ const getLineas = async (req, res)=>{
     // ExcelToJson()
     // updateLogro()
     // Excel_PA()
-    //Excel_EFisica()
-    //Excel_EFinanciera()
+    // Excel_EFisica()
+    // Excel_EFinanciera()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',

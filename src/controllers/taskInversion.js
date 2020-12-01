@@ -106,7 +106,6 @@ const getInversionDep =  async(req, res)=>{
 const tipo_inversion_dep = async (req, res)=>{
     try {
         const dep =   req.params.cod_dependencia;
-     
         const response = await pool.query(` 
         select * from inverpublica.sp_tipoinversion_dep($1)`,[dep]);
         res.status(200).json({
@@ -185,4 +184,28 @@ const getInverTerritorioDep = async(req, res)=>{
     }
 }
 
-module.exports ={ getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep} ;
+const getTipoIniciativaDep = async (req, res)=>{
+    try {
+        const dep =   req.params.cod_dependencia;
+        const response = await pool.query(`select * from plan_accion.sp_tipoiniciativa_dep($1) `,[dep]);
+        res.status(200).json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+            data: response.rows
+        }); 
+        
+    } catch (error) {
+        console.log('Error getTipoIniciativaDep ', error)
+    }
+}
+
+module.exports ={ getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep} ;
