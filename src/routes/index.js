@@ -76,13 +76,14 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 
 
 
-const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep}  = require('../controllers/taskInversion')
+const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, getInverTerriroerioProject}  = require('../controllers/taskInversion')
 router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/territorio',getInverTerritorio)
 .get('/geo/api/dependencias',getInversionDep)
 .get('/geo/api/dependencias/tipo-inversion/:cod_dependencia', tipo_inversion_dep)
 .get('/geo/api/dependencias/territorio/:cod_dependencia', getInverTerritorioDep)
 .get('/pa/api/tipo-iniciativa/dependencias/:cod_dependencia', getTipoIniciativaDep)
+.get('/geo/api/dependencias/proyectos/:cod_proyecto', getInverTerriroerioProject)
 
 
 module.exports = router;    
