@@ -138,7 +138,7 @@ const getListComponente = async(req, res)=>{
             nombre_dep, count (cod_componente) as indicadores
         from indicativo.tbl_indicador
         LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
-        where  nom_componente=$1
+        where  nom_componente=$1  and peso <> 0
         group by 
         cod_linea, nom_linea,nombre_dep, cod_componente, nom_componente`, [nomComponente])
         res.status(200).json({
