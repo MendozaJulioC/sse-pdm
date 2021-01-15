@@ -168,7 +168,7 @@ const getLineIndResumen= async(req, res)=>{
                 indicativo.tbl_indicador.cod_indicador,
                 indicativo.tbl_indicador.nom_indicador,
                 tipo_ind, lb_ind, meta_plan,unidad, 
-                peso,pesoxavnt,sum((pesoxavnt/peso)*100) as avance,
+                peso,pesoxavnt,avance2020,
                 logro_2020,
                 cod_responsable_reporte,
                 nombre_dep
