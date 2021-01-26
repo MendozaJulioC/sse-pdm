@@ -31,15 +31,20 @@ const updateLogro = async (req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/tabla_Segto_PI.xlsx');
     var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-     //console.log(datos)
-      for (let i=0; i<datos.length; i++){
-        console.log(datos[i].CodigoIndicador)
-        console.log(datos[i].Observacion20)
-        await pool.query(`	UPDATE indicativo.tbl_indicador SET  
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[3]]);
+     console.log(datos)
+     for (let i=0; i<datos.length; i++){
+        //console.log(datos[i].CodigoIndicador)
+        //console.log(datos[i].Observacion20)
+        /*await pool.query(`	UPDATE indicativo.tbl_indicador SET  
                             observaciones_indicador = '${datos[i].Observacion20}'       
-                            WHERE cod_indicador= '${datos[i].CodigoIndicador}';`);
-                            console.log(i, " ok")   
+                            WHERE cod_indicador= '${datos[i].CodigoIndicador}';`);*/
+
+                            
+        await pool.query(`	INSERT INTO indicativo.tal_cortes(
+          vigencia, mesplan, verde, rojo)
+          VALUES (${datos[i].Vigencia},${datos[i].MesPlan},${datos[i].Verde},${datos[i].Rojo});`)                  
+        console.log(i, " ok")   
       }
    } catch (error) {
      console.log('Error uodate logros: ', error)
@@ -275,7 +280,7 @@ const getTotal = async (req, res)=>{
 const getLineas = async (req, res)=>{
   try {
     // ExcelToJson()
-     //updateLogro()
+     updateLogro()
     // Excel_PA()
     // Excel_EFisica()
     // Excel_EFinanciera()
@@ -761,8 +766,145 @@ const getHome = async(req, res)=>{
 }
 
 
+const postCorteSemaforo = async( req, res)=>{
+  try {
+    const { vigencia, mesplan } = req.body;
+    const response = await pool.query(`  
+      select * from  indicativo.tal_cortes where vigencia = $1 and mesplan = $2`, [ vigencia, mesplan]  
+    );
+    res.status(200).json({
+    Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+    Fecha_Emision:"2020-04-15",
+    Fecha_Inicial:"2004-12-31",
+    Fecha_Final:"2019-12-31",
+    Frecuencia_actualizacion:"Anual",
+    Version: "1.0",
+    Cobertura:"Municipio de Medelín",
+    Fecha_ultima__actualizacion:"2020-01-30",
+    Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+    eMail_Contacto: "julio.mendoza@medellin.gov.co",
+    Def:     "semáforos",
+    data: response.rows
 
+  });
+  } catch (error) {
+    console.log('Error corte semaforo',e);
+  }
+  
+}
+
+
+const getContadorSemaforo =async(req, res)=>{
+  try {
+    const response = await pool.query(` select * from indicativo.sp_total_semaforo() ` );
+    res.status(200).json({
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+            data: response.rows
+    })
+
+  } catch (error) {
+    console.log('Error getContadorSemaforo ', error)
+  }
+}
+
+const  getCountSemDep = async(req, res)=>{
+  try {
+    const dependencia = req.params.cod_dependencia;
+    console.log(dependencia)
+    const response = await pool.query(` 
+    select * from indicativo.sp_total_semaforo_dep($1)`,[dependencia])
+    res.status(200). json({
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+      Def: 'Avance en el  Plan de Desarrollo Medellín Futuro PDM 2020-2023 de la dependencia consultada',
+      data: response.rows
+  })
+
+  } catch (error) {
+    console.log('Error getCountSemDep ', error)
+  }
+}
+
+const tipoSemaforoDep = async(req, res)=>{
+  try {
+    const { cod_semaforo, cod_dependencia}= req.body;
+    const response = await pool.query(` 
+      select
+         cod_linea, cod_componente, cod_programa, cod_indicador, nom_indicador, unidad, fc, sentido, avnorm,  observaciones_indicador , semafav 
+         from indicativo.tbl_indicador where tipo_ind='Producto' and semafav = $1 and cod_responsable_reporte = $2
+     `, [cod_semaforo, cod_dependencia])
+     res.status(200).json({
+      Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+      Fecha_Emision:"2020-04-15",
+      Fecha_Inicial:"2004-12-31",
+      Fecha_Final:"2019-12-31",
+      Frecuencia_actualizacion:"Anual",
+      Version: "1.0",
+      Cobertura:"Municipio de Medelín",
+      Fecha_ultima__actualizacion:"2020-01-30",
+      Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+      eMail_Contacto: "julio.mendoza@medellin.gov.co",
+      Def:     "semáforos",
+      data: response.rows
+  
+    });
+
+  } catch (error) {
+    console.log('Error tipoSemaforoDep, ', error)
+  }
+}
+
+const getSemafav = async(req, res)=>{
+  try {
+    const semafav = req.params.semafav;
+    const response = await pool.query(` 
+      select 
+      count(cod_responsable_reporte) as total_indicadores, dependencias.tbl_dependencias.cod_dep,
+        dependencias.tbl_dependencias.nombre_dep
+      from indicativo.tbl_indicador
+      LEFT JOIN dependencias.tbl_dependencias ON tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
+      where tipo_ind='Producto' and semafav = $1
+      group by  cod_responsable_reporte, cod_responsable_reporte,dependencias.tbl_dependencias.cod_dep,
+          dependencias.tbl_dependencias.nombre_dep
+      order by  cod_responsable_reporte`, [semafav])
+      res.status(200). json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Fecha_Emision:'2020-08-30',
+        Fecha_Inicial:'2020-01-31',
+        Fecha_Final:'2023-12-31',
+        Frecuencia_actualizacion:'Semestral',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Fecha_ultima__actualizacion:'2020-08-30',
+        Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+        eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+        Def: 'Avance en el  Plan de Desarrollo Medellín Futuro PDM 2020-2023 de la dependencia consultada',
+        data: response.rows
+      })
+
+  } catch (error) {
+    console.log('Error getSemafav: '. error)
+  }
+}
 
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
-                  getTotal, ExcelToJson, getAvanceLineas
+                  getTotal, ExcelToJson, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep, getSemafav
               }
