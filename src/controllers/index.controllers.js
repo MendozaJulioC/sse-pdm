@@ -905,6 +905,37 @@ const getSemafav = async(req, res)=>{
   }
 }
 
+
+const getSemafavAlerta = async(req, res)=>{
+  try {
+      const response = await pool.query(` 
+      SELECT 
+      cod_dep, nombre_dep,total_gris, total_rojo, total_amarillo, total_verde, 
+      sum((avance/peso)*100) avance
+      FROM indicativo.view_alerta
+	  where cod_dep <>908 and cod_dep<>901 and cod_dep<>904 and cod_dep<>903 and cod_dep<>907 and cod_dep<>906
+      group by cod_dep, nombre_dep,total_gris, total_rojo, total_amarillo, total_verde`)
+      res.status(200). json({
+          Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+          Fecha_Emision:'2020-08-30',
+          Fecha_Inicial:'2020-01-31',
+          Fecha_Final:'2023-12-31',
+          Frecuencia_actualizacion:'Semestral',
+          Version: '1.0',
+          Cobertura:'Municipio de Medelín',
+          Fecha_ultima__actualizacion:'2020-08-30',
+          Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+          eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+          Def: 'Avance en el  Plan de Desarrollo Medellín Futuro PDM 2020-2023 de la dependencia consultada',
+          data: response.rows
+      })
+
+  } catch (error) {
+      console.error('Error getSemafavAlerta ', error)
+  }
+}
+
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
-                  getTotal, ExcelToJson, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep, getSemafav
+                  getTotal, ExcelToJson, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep,
+                  getSemafav, getSemafavAlerta
               }

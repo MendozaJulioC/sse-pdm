@@ -173,4 +173,8 @@ const getAvancePDMxProgramasDep = async(req, res)=>{
         console.log('ERROR  getAvancePDMxComponentesDep', error)
     }
 }
-module.exports={ getDependencias , getAvanceDepPDM, getAvancePDMxDEpendencias, getAvancePDMxLineasDep, getAvancePDMxComponentesDep, getAvancePDMxProgramasDep}    
+
+
+module.exports={ getDependencias , getAvanceDepPDM, getAvancePDMxDEpendencias,
+     getAvancePDMxLineasDep, getAvancePDMxComponentesDep, getAvancePDMxProgramasDep
+    }    
