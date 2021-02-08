@@ -5,10 +5,10 @@ const { pool } = require('../sql/dbConfig');
 
 const ExcelToJson = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Estructuracion.xlsx');
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/BVCC.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-   
+    console.log(datos)
     for (let i=0; i<datos.length; i++){
         //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
         /*
@@ -19,7 +19,11 @@ const ExcelToJson = async (req, res)=>{
                                   ${datos[i].c14}, ${datos[i].c15}, ${datos[i].c16}, ${datos[i].c50}, ${datos[i].c60},  ${datos[i].c70},  ${datos[i].c80},  ${datos[i].c90}, ${datos[i].c99}, ${datos[i].c97});
                              `);
           console.log(i, " ok")   
-        */       
+        */
+       await pool.query(`
+       INSERT INTO territorio.tbl_barrios(cod_barrio, nom_barrio, cod_comuna)  VALUES ('${datos[i].CODIGO_BARRIO_VEREDA}','${datos[i].NOMBRE_BARRIO_VEREDA}', ${datos[i]. CODIGO_COMUNA_CORREGIMIENTO});`)
+       console.log(i, " ok")  
+
       }
  
    } catch (error) {
@@ -253,6 +257,44 @@ const Excel_EFinanciera = async (req, res)=>{
   
 }
 
+const Ejec_financiera_PI = async(req, res)=>{
+  try {
+    /*
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/EjecucionFinanciera_EstructuraPlan.xlsx');
+    var nombreHoja = excel.SheetNames;
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
+       console.log(datos)
+ 
+    for (let i=0; i<datos.length; i++){
+        await pool.query(` INSERT INTO indicativo.tbl_estructura_plan(
+          cod_estructura, nom_estructura) 
+	     
+	        VALUES ('${datos[i].codigo_estructura}', '${datos[i].Nombre_estructura}');
+        `);
+        console.log(i, " ok")         
+      }
+*/
+
+/*
+const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/EjecucionFinanciera_EstructuraPlan.xlsx');
+var nombreHoja = excel.SheetNames;
+var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+   console.log(datos)
+
+for (let i=0; i<datos.length; i++){
+    await pool.query(` INSERT INTO indicativo.tbl_ejec_finan_plan(
+      cod_linea, cod_componente, cod_programa, ppto_ajustado, ejecutado)
+   
+      VALUES ('${datos[i].CodLinea}', '${datos[i].CodComponenteCompuesto}', '${datos[i].CodProgramaCompuesto}', ${datos[i].PresupAjustado}, ${datos[i].Ejecutado} );
+    `);
+    console.log(i, " ok")         
+  }
+*/
+
+  } catch (error) {
+    console.error('Error Ejec_financiera_PI ', error)
+  }
+}
 const getTotal = async (req, res)=>{
   try {
     const response = await pool.query('select sum(pesoxavnt*100) as total_plan from indicativo.tbl_indicador');
@@ -280,10 +322,11 @@ const getTotal = async (req, res)=>{
 const getLineas = async (req, res)=>{
   try {
     // ExcelToJson()
-     updateLogro()
+    // updateLogro()
     // Excel_PA()
     // Excel_EFisica()
     // Excel_EFinanciera()
+    //Ejec_financiera_PI ()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',

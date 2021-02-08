@@ -21,12 +21,14 @@ router.get('/pi/api/semaforo-corte/contador', getContadorSemaforo)
 
 
 
-const {getLineTotalComp, getLineTotalProg, getLineIndicadores,  getAvanceLinea, getLineIndResumen} =require('../controllers/taskLine');
+const {getLineTotalComp, getLineTotalProg, getLineIndicadores,  getAvanceLinea, getLineIndResumen, getSemafavLinea, getEjecFinLinea} =require('../controllers/taskLine');
 router.get('/pi/api/line/componentes', getLineTotalComp);
 router.get('/pi/api/line/programas', getLineTotalProg);
 router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 .get('/pi/api/avance/line/:cod_linea', getAvanceLinea)
 .get('/pi/api/line/indicadores/resumen/:cod_linea', getLineIndResumen)
+.get('/pi/api/line/semafav/:cod_linea',getSemafavLinea)
+.get('/pi/api/line/financiera/:cod_linea', getEjecFinLinea)
 
 
 const {  getComponente, getCompAvanceLinea, getListComponente, getBuscaNombreComponente, getBuscaCodigoComponente,getPrgNomComponente,

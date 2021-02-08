@@ -4,14 +4,15 @@ const _getRespIndLinea = async (req, res)=>{
     try {
         const codlinea = req.params.cod_linea;
         const response = await pool.query(`
+      
         select cod_responsable_reporte, dependencias.tbl_dependencias.nombre_dep,
-        count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores 
+        count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores ,
+		sum(peso) as peso, sum(pesoxavnt) as pesoxavnt
          from dependencias.tbl_dependencias
          LEFT JOIN indicativo.tbl_indicador ON indicativo.tbl_indicador.cod_responsable_reporte =  dependencias.tbl_dependencias.cod_dep
          where cod_responsable_reporte> 700 and cod_linea=$1
          group by cod_responsable_reporte, dependencias.tbl_dependencias.nombre_dep
-         order by cod_responsable_reporte
-        
+         order by total_indicadores desc
         `, [codlinea]);
 
         res.status(200).json({
