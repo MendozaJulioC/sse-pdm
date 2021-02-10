@@ -186,7 +186,7 @@ const getLineIndResumen= async(req, res)=>{
             Fecha_Emision:'2020-08-30',
             Fecha_Inicial:'2020-01-31',
             Fecha_Final:'2023-12-31',
-            Frecuencia_actualizacion:'Semestral',
+            Frecuencia_actualizacion:'Trimestral',
             Version: '1.0',
             Cobertura:'Municipio de Medelín',
             Fecha_ultima__actualizacion:'2020-08-30',

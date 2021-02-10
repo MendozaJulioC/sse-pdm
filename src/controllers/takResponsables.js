@@ -20,13 +20,13 @@ const _getRespIndLinea = async (req, res)=>{
             Fecha_Emision:'2020-08-30',
             Fecha_Inicial:'2020-01-31',
             Fecha_Final:'2023-12-31',
-            Frecuencia_actualizacion:'Semestral',
+            Frecuencia_actualizacion:'Trimestral',
             Version: '1.0',
             Cobertura:'Municipio de Medelín',
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
             eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+            Def: 'Listado de los Responsables del reporte del avance de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
             data: response.rows
           });   
 

@@ -32,8 +32,7 @@ router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 
 
 const {  getComponente, getCompAvanceLinea, getListComponente, getBuscaNombreComponente, getBuscaCodigoComponente,getPrgNomComponente,
-         getprgCodComponente, getRespComponente, getRespCodComponente
-      }=  require('../controllers/taskComponentes');
+         getprgCodComponente, getRespComponente, getRespCodComponente, getSemafavComponente, getSemafavNomComponente  , getpptoComponente    }=  require('../controllers/taskComponentes');
 router.get('/pi/api/componentes/:cod_componente', getComponente)
 .get('/pi/api/componentes/avance/line/:cod_linea', getCompAvanceLinea)
 .get('/pi/api/list-componente',getListComponente)
@@ -43,6 +42,9 @@ router.get('/pi/api/componentes/:cod_componente', getComponente)
 .get ('/pi/api/componentes/consulta-programas/codigo/:cod_componente',getprgCodComponente)
 .get('/pi/api/componentes/responsables/nombre/:nom_componente', getRespComponente)
 .get('/pi/api/componentes/responsables/codigo/:cod_componente', getRespCodComponente)
+.get('/pi/api/componentes/semaforo-corte/alerta/:cod_componente', getSemafavComponente)
+.get('/pi/api/componentes/semaforo-corte/alerta/nombre/:nom_componente', getSemafavNomComponente)
+.get('/pi/api/componente/ppto/:cod_componente', getpptoComponente)
 
 const{getIndicador, getListIndicador, getBuscaNombreIndicador}= require('../controllers/taskIndicador');
 router.get('/pi/api/indicador/:cod_indicador', getIndicador);
