@@ -58,7 +58,7 @@ const getComponente= async(req, res)=>{
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
             eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+          
             data: response.rows
           });   
            
@@ -93,7 +93,7 @@ const getCompAvanceLinea = async(req, res)=>{
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
             eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+         
             data: response.rows
        });   
         
@@ -118,7 +118,7 @@ const getListComponente = async(req, res)=>{
         Fecha_ultima__actualizacion:'2020-08-30',
         Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
         eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-        Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+      
         data: response.rows
     })
 
@@ -152,7 +152,7 @@ const getListComponente = async(req, res)=>{
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
             eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+         
             data: response.rows
         })
             
@@ -185,7 +185,7 @@ const getListComponente = async(req, res)=>{
            Fecha_ultima__actualizacion:'2020-08-30',
            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-           Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+       
            data: response.rows
        })
            
@@ -218,7 +218,7 @@ const getPrgNomComponente = async(req ,res)=>{
            Fecha_ultima__actualizacion:'2020-08-30',
            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-           Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+           
            data: response.rows
        })
            
@@ -251,7 +251,7 @@ const getprgCodComponente = async(req ,res)=>{
            Fecha_ultima__actualizacion:'2020-08-30',
            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-           Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+         
            data: response.rows
        })
            
@@ -283,7 +283,7 @@ const getRespComponente = async(req ,res)=>{
            Fecha_ultima__actualizacion:'2020-08-30',
            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-           Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+       
            data: response.rows
        })
            
@@ -315,7 +315,7 @@ const getRespCodComponente = async(req ,res)=>{
            Fecha_ultima__actualizacion:'2020-08-30',
            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-           Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+       
            data: response.rows
        })
            
@@ -341,7 +341,7 @@ const  getSemafavComponente = async( req, res)=>{
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
             eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-            Def: ' Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+           
             data: response.rows
           });   
 
@@ -368,7 +368,7 @@ const  getSemafavNomComponente = async( req, res)=>{
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
            
-            Def: ' Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+          
             data: response.rows
           });   
 
@@ -396,7 +396,7 @@ res.status(200).json({
     Fecha_ultima__actualizacion:'2020-08-30',
     Datos_Contacto:'Mauricio Ocampo  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5887',
     eMail_Contacto: 'mauricio.ocampo.gov.co',
-    Def: 'Listado de los Responsables del reporte del avance de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+   
     data: response.rows
   });   
 

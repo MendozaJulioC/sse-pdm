@@ -14,7 +14,7 @@ const getAvanceFisico = async (req, res)=>{
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
             eMail_Contacto: 'bibiana.botero@medellin.gov.co',
-            Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+            
             data: response.rows
         });
       
@@ -49,7 +49,7 @@ const getAvanceFinanciero = async(req, res)=>{
         Fecha_ultima__actualizacion:'2020-08-30',
         Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
         eMail_Contacto: 'bibiana.botero@medellin.gov.co',
-        Def: 'Listado de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+       
         data: response.rows
     });
      
