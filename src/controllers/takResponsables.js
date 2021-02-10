@@ -26,7 +26,7 @@ const _getRespIndLinea = async (req, res)=>{
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
             eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-            Def: 'Listado de los Responsables del reporte del avance de los Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
+            Def: ' Indicadoes del Plan de Desarrollo Medellín Futuro PDM 2020-2023',
             data: response.rows
           });   
 
