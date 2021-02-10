@@ -215,7 +215,7 @@ const getLineIndResumen= async(req, res)=>{
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
             eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-            Def: 'Total indicadores por programas pertenecientes a la línea consultada  del PDM 2020-2023',
+          
             data: response.rows
           });   
      } catch (error) {
@@ -239,7 +239,7 @@ const getLineIndResumen= async(req, res)=>{
            Fecha_ultima__actualizacion:'2020-08-30',
            Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
            eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-           Def: 'Total indicadores por programas pertenecientes a la línea consultada  del PDM 2020-2023',
+          
            data: response.rows
          });   
     } catch (error) {
