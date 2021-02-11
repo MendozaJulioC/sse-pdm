@@ -202,6 +202,7 @@ const getLineIndResumen= async(req, res)=>{
 }
  const getSemafavLinea =  async(req, res)=>{
      try {
+         
         const codlinea = req.params.cod_linea;
          const response = await pool.query(`select * from indicativo.sp_total_semaforo_linea($1)`, [codlinea])
          res.status(200).json({
