@@ -185,4 +185,59 @@ const getValStat= async(req, res)=>{
     }
 }
 
-module.exports ={ getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat}  ;
+const getEjecFisicaDep = async (req, res)=> {
+    try {
+        const response = await pool.query(`
+            select cod_dependencia,nom_dependencia,
+                sum(porc_eficacia_proyecto * ppto_ajustado)/ ( sum(ppto_ajustado) ) as porc_ejecfisica
+            from plan_accion.tbl_exec_fisica 
+            group  by cod_dependencia, nom_dependencia
+            order by cod_dependencia`);
+            res.status(200).json({
+                Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+                Fecha_Emision:'2020-08-30',
+                Fecha_Inicial:'2020-01-31',
+                Fecha_Final:'2023-12-31',
+                Frecuencia_actualizacion:'Semestral',
+                Version: '1.0',
+                Cobertura:'Municipio de Medelín',
+                Fecha_ultima__actualizacion:'2020-08-30',
+                Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+                eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+                data: response.rows
+            });
+    } catch (error) {
+        console.log('Error getEjecFisicaDep  :>> ', error);
+    }
+}
+
+
+const getEjecFinancieraDep = async (req, res)=> {
+    try {
+        const response = await pool.query(`
+        select
+            cod_dependencia, nom_dependencia, pptoajustado, pptoejecutado, sum(pptoejecutado/pptoajustado)as porcexec_financiera
+            from plan_accion.view_exec_financ_dep
+            group by cod_dependencia, nom_dependencia, pptoajustado, pptoejecutado
+            order by cod_dependencia
+        `);
+        res.status(200).json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            data: response.rows
+        });
+    } catch (error) {
+        console.log('Error getEjecFisicaDep  :>> ', error);
+    }
+}
+
+
+module.exports ={ getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep};

@@ -11,4 +11,5 @@ app.use(require('./routes/auth'));
 //Star server
 
 
-app.listen((process.env.PORT))
+
+app.listen((process.env.PORT || 4000), function(){ console.log('listening on * : 7000'); }); 

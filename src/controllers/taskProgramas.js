@@ -2,7 +2,6 @@
 const { pool } = require('../sql/dbConfig');
 
 const getPrograma= async(req, res)=>{
-
     try {
            const codPrograma= req.params.cod_programa;
            const response = await pool.query(`
@@ -62,10 +61,7 @@ const getPrograma= async(req, res)=>{
       
             data: response.rows
           });   
-           
-
-
-    } catch (error) {
+     } catch (error) {
         console.log('Error getComponente: ', error)
     }
 }
@@ -272,8 +268,63 @@ const getRespCodPrograma = async(req, res)=>{
     }
 }
 
+const getPptoPrograma = async (req, res)=> {
+    try {
+        const codPrograma = req.params.cod_programa;
+        const response = await pool.query(`
+            select 
+	            cod_linea, cod_componente, cod_programa, sum(ppto_ajustado) as ppto_ajustado, sum(ejecutado) as ejecutado
+            from indicativo.tbl_ejec_finan_plan where cod_programa=$1
+            group by cod_linea, cod_componente, cod_programa`, [codPrograma])
+
+        res.status(200).json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Trimestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Mauricio Ocampo  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5887',
+            eMail_Contacto: 'mauricio.ocampo.gov.co',
+        
+            data: response.rows
+        });   
+        
+    } catch (error) {
+        console.log('object :>> ', object);
+    }
+}
+
+const getSemafavNomPrograma = async(req, res)=> {
+    try {
+        const nomprograma = req.params.nom_programa;
+        const response = await pool.query(` 
+        select * from indicativo.sp_total_semaforo_nom_programa($1)
+        `, [nomprograma]);
+        res.status(200).json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Trimestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+         
+        
+            data: response.rows
+        }); 
+
+    } catch (error) {
+        console.log('Error getSemafavNomPrograma :>> ', error);
+    }
+}
 
 
 
-module.exports={getPrograma, getPrgAvance, getlistProgramas, getBuscaNombrePrograma, getBuscaCodigoPrograma, getRespPrograma , getRespCodPrograma}    
+
+module.exports={getPrograma, getPrgAvance, getlistProgramas, getBuscaNombrePrograma, getBuscaCodigoPrograma, getRespPrograma , getRespCodPrograma,
+    getPptoPrograma, getSemafavNomPrograma }    
 

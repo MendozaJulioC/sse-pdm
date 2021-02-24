@@ -891,7 +891,7 @@ const tipoSemaforoDep = async(req, res)=>{
     const { cod_semaforo, cod_dependencia}= req.body;
     const response = await pool.query(` 
       select
-         cod_linea, cod_componente, cod_programa, cod_indicador, nom_indicador, unidad, fc, sentido, avnorm,  observaciones_indicador , semafav 
+         cod_linea, cod_componente, cod_programa, cod_indicador, nom_indicador,meta_plan, unidad, fc, sentido, avnorm,  observaciones_indicador , semafav 
          from indicativo.tbl_indicador where tipo_ind='Producto' and semafav = $1 and cod_responsable_reporte = $2
      `, [cod_semaforo, cod_dependencia])
      res.status(200).json({
@@ -978,7 +978,32 @@ const getSemafavAlerta = async(req, res)=>{
   }
 }
 
+const getSemafavTotal = async(req, res)=>{
+  try {
+    const response = await pool.query(` 
+    select * from indicativo.sp_total_semaforo()
+    `);
+    res.status(200). json({
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+     
+      data: response.rows
+    })
+
+  } catch (error) {
+    console.log('error getSemafavTotal :>> ', error);
+  }
+}
+
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
                   getTotal, ExcelToJson, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep,
-                  getSemafav, getSemafavAlerta
+                  getSemafav, getSemafavAlerta, getSemafavTotal
               }

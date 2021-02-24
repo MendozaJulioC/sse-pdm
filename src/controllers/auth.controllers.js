@@ -1,3 +1,5 @@
+
+
 const { pool } = require('../sql/dbConfig');
 
 const getEmail =  async (req, res)=> {
