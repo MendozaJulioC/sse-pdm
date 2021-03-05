@@ -86,7 +86,7 @@ router.get('/see/api/dependencias', getDependencias)
 .get('/dep/api/avance/programas/:cod_dependencia',getAvancePDMxProgramasDep )
 
 
-const {getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep, getPlanAccionDep, getValStat, getEjecFisicaDep, getEjecFinancieraDep }= require('../controllers/taskPlanAccion')
+const {getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep, getPlanAccionDep, getValStat, getEjecFisicaDep, getEjecFinancieraDep, getAvanceEjecucionProyect }= require('../controllers/taskPlanAccion')
 router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/avancefinanciero', getAvanceFinanciero)
 .get('/pa/api/avancefinanciero/dep/:cod_dependencia', getAvanceFinancieroDep)
@@ -95,6 +95,7 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/proyecto/:cod_proyecto', getValStat)
 .get('/pa/api/ejecusion-fisica/dependencias', getEjecFisicaDep)
 .get('/pa/api/ejecusion-financiera/dependencias', getEjecFinancieraDep)
+.get('/pa/api/avances/ejecucion/:cod_proyecto', getAvanceEjecucionProyect)
 
 
 
