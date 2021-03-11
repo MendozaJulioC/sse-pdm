@@ -174,13 +174,13 @@ const getValStat= async(req, res)=>{
     try {
         const cod = req.params.cod_proyecto;
         const response = await pool.query(`select 
-        cod_linea,nom_linea,
+        cod_linea,nom_linea,cod_proyecto,nom_proyecto,
 		cod_componente,nom_componente,
 		cod_programa, nom_programa, y_dev_poai,y_dev_pptoajustado,y_dev_ejecucion,
         cod_val_stat,
         nom_val_stat,
         u_medida,q_plan,q_real,eficacia_ve,
-        obs_val_stat,cod_siufp_catal,obs_cod_siufp
+        obs_val_stat,cod_siufp_catal,obs_cod_siufp, corte_ejecucion
         from plan_accion.tbl_accion where cod_proyecto=$1 `, [cod])
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -283,4 +283,44 @@ const getAvanceEjecucionProyect = async(req, res)=>{
         console.error('Error getAvanceEjecucionProyect :>> ', error);
     }
 }
-module.exports ={ getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep, getAvanceEjecucionProyect};
+
+const getBuscaValStat = async(req, res)=>{
+    try {
+        const valstat = req.params.cod_val_stat;
+        const response = await pool.query(` 
+        select
+            cod_dependencia,nombre_dep,
+            cod_linea,nom_linea,cod_componente,nom_componente,cod_programa,nom_programa,
+            cod_proyecto,nom_proyecto,
+            cod_val_stat,nom_val_stat,
+            u_medida,q_plan,q_real,eficacia_ve,
+            obs_val_stat,
+            cod_siufp_catal,obs_cod_siufp, corte_ejecucion 
+            from plan_accion.tbl_accion
+            left join dependencias.tbl_dependencias on plan_accion.tbl_accion.cod_dependencia = dependencias.tbl_dependencias.cod_dep
+            where cod_val_stat = $1
+        `,[valstat]);
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Fecha_Emision:'2020-08-30',
+            Fecha_Inicial:'2020-01-31',
+            Fecha_Final:'2023-12-31',
+            Frecuencia_actualizacion:'Semestral',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Fecha_ultima__actualizacion:'2020-08-30',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+           
+            data: response.rows
+        })
+
+    } catch (error) {
+        console.log("Error getBuscaVal Stat: ",error);
+    }
+}
+
+module.exports ={ getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep,
+        getAvanceEjecucionProyect, getBuscaValStat
+    
+    };
