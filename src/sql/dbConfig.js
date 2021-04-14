@@ -4,11 +4,11 @@ const pool = new Pool({
   host: dbSocketAddr[0], // e.g. '127.0.0.1'
   port: dbSocketAddr[1], // e.g. '5432'
   max: 20,
-  acquireTimeoutMillis: 600000,
-  createTimeoutMillis: 30000,
+  //acquireTimeoutMillis: 0,
+ // createTimeoutMillis: 0,
  
-  idleTimeoutMillis: 600000,
-  connectionTimeoutMillis: 600000,
+  idleTimeoutMillis: 0,
+  connectionTimeoutMillis: 0,
 
   ssl: { rejectUnauthorized: false }
 });
