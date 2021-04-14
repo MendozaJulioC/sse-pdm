@@ -1,12 +1,13 @@
 const { Pool } = require('pg');
+
+
+const isProduccion = process.env.NODE_ENV=== "production";
+
 const pool = new Pool({
   connectionString: process.env.url,
-   max: 20,
-  //acquireTimeoutMillis: 0,
-  //createTimeoutMillis: 0,
- 
-  idleTimeoutMillis: 300000,
-  connectionTimeoutMillis: 20000,
+   max: 1000,
+  idleTimeoutMillis: 300000000,
+  connectionTimeoutMillis: 100000000,
 
   ssl: { rejectUnauthorized: false }
 });
