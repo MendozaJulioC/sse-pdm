@@ -12,4 +12,4 @@ app.use(require('./routes/auth'));
 
 
 
-app.listen((process.env.PORT || 4000), function(){ console.log('listening on * : 7000'); }); 
+app.listen(7000,()=>{ console.log('Servidor activo...');})
