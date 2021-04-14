@@ -248,4 +248,310 @@ const getInverTerriroerioProject = async (req, res)=>{
     }
 }
 
-module.exports ={ getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, getInverTerriroerioProject} ; 
+const getDepInversionComuna = async(req, res)=>{
+    try {
+        const territorio = req.params.comuna;
+        switch (territorio) {
+            case '1':
+                const response = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(popular)as total 
+                    from inverpublica.view_inver_dep
+                    where popular>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response.rows }); 
+            break;
+            case '2':
+                const response2 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(santacruz)as total 
+                    from inverpublica.view_inver_dep
+                    where santacruz>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response2.rows }); 
+            break;
+            case '3':
+                const response3 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(manrique)as total 
+                    from inverpublica.view_inver_dep
+                    where manrique>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response3.rows }); 
+            break;
+            case '4':
+                const response4 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(aranjuez)as total 
+                    from inverpublica.view_inver_dep
+                    where aranjuez > 0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response4.rows }); 
+              break;
+              case '5':
+                const response5 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(castilla)as total 
+                    from inverpublica.view_inver_dep
+                    where castilla>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response5.rows }); 
+              break;
+              case '6':
+                const response6 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(doce_de_octubre)as total 
+                    from inverpublica.view_inver_dep
+                    where doce_de_octubre >0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response6.rows }); 
+              break;
+              case '7':
+                
+                const response7 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(robledo)as total 
+                    from inverpublica.view_inver_dep
+                    where robledo >0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response7.rows }); 
+              break;
+              case '8':
+                
+                const response8 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(villa_hermosa)as total 
+                    from inverpublica.view_inver_dep
+                    where villa_hermosa>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response8.rows }); 
+              break;
+              case '9':
+               
+                const response9 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(buenos_aires)as total 
+                    from inverpublica.view_inver_dep
+                    where buenos_aires >0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response9.rows }); 
+              break;
+              case '10':
+               
+                const response10= await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(la_candelaria)as total 
+                    from inverpublica.view_inver_dep
+                    where la_candelaria>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response10.rows }); 
+              break;
+              case '11':
+               
+                const response11 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(laureles_estdio)as total 
+                    from inverpublica.view_inver_dep
+                    where laureles_estadio>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response11.rows }); 
+              break;
+              case '12':
+               
+                const response12 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(la_américa)as total 
+                    from inverpublica.view_inver_dep
+                    where la_américa>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response12.rows }); 
+              break;
+              case '13':
+               
+                const response13 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(san_javier)as total 
+                    from inverpublica.view_inver_dep
+                    where san_javier>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response13.rows }); 
+              break;
+              case '14':
+               
+                const response14 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(el_poblado)as total 
+                    from inverpublica.view_inver_dep
+                    where el_poblado>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response14.rows }); 
+              break;
+              case '15':
+              
+                const response15 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(guayabal)as total 
+                    from inverpublica.view_inver_dep
+                    where guayabal>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response15.rows }); 
+              break;
+              case '16':
+                
+                const response16 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(belén)as total 
+                    from inverpublica.view_inver_dep
+                    where belén>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response16.rows }); 
+              break;
+              case '50':
+                
+                const response50 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(palmitas)as total 
+                    from inverpublica.view_inver_dep
+                    where palmitas>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response50.rows }); 
+              break;
+              case '60':
+                
+                const response60 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(sn_cristibal)as total 
+                    from inverpublica.view_inver_dep
+                    where sn_cristibal>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response60.rows }); 
+              break;
+              case '70':
+                
+                const response70 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(altavista)as total 
+                    from inverpublica.view_inver_dep
+                    where altavista>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response70.rows }); 
+              break;
+              case '80':
+                
+                const response80 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(sn_antonio)as total 
+                    from inverpublica.view_inver_dep
+                    where sn_antonio>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response80.rows }); 
+              break;
+              case '90':
+                
+                const response90 = await pool.query(`
+                    select
+                        inverpublica.view_inver_dep.cod_dep,
+                        inverpublica.view_inver_dep.nombre_dep,
+                        sum(snt_elena)as total 
+                    from inverpublica.view_inver_dep
+                    where snt_elena>0
+                    group by inverpublica.view_inver_dep.cod_dep, inverpublica.view_inver_dep.nombre_dep 
+                    order by cod_dep;
+                `);
+                res.status(200).json({ data: response90.rows }); 
+              break;
+            default:
+              //Declaraciones ejecutadas cuando ninguno de los valores coincide con el valor de la expresión
+              break;
+          }
+
+      
+
+        
+    } catch (error) {
+        console.error("Error getDepInversionComuna ",error);
+    }
+}
+
+module.exports ={ getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, 
+    getInverTerriroerioProject, getDepInversionComuna} ; 

@@ -55,6 +55,7 @@ const postRegisterUser = async(req, res)=>{
 
     } catch (error) {
         console.log('Error postRegisterUser: ', error);
+        
     }
 }
 

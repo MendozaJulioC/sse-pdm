@@ -21,7 +21,7 @@ router.get('/pi/api/semaforo-corte/contador', getContadorSemaforo)
         .get('/pi/api/semaforo-corte/total', getSemafavTotal)
   
 
-const {getLineTotalComp, getLineTotalProg, getLineIndicadores,  getAvanceLinea, getLineIndResumen, getSemafavLinea, getEjecFinLinea} =require('../controllers/taskLine');
+const {getLineTotalComp, getLineTotalProg, getLineIndicadores, getAvanceLinea, getLineIndResumen, getSemafavLinea, getEjecFinLinea} =require('../controllers/taskLine');
 router.get('/pi/api/line/componentes', getLineTotalComp);
 router.get('/pi/api/line/programas', getLineTotalProg);
 router.get('/pi/api/line/:cod_linea', getLineIndicadores)
@@ -93,7 +93,7 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/avances/ejecucion/:cod_proyecto', getAvanceEjecucionProyect)
 .get('/pa/api/valor-estadistico/:cod_val_stat', getBuscaValStat)
 
-const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, getInverTerriroerioProject}  = require('../controllers/taskInversion')
+const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, getInverTerriroerioProject, getDepInversionComuna}  = require('../controllers/taskInversion')
 router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/territorio',getInverTerritorio)
 .get('/geo/api/dependencias',getInversionDep)
@@ -101,6 +101,8 @@ router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/dependencias/territorio/:cod_dependencia', getInverTerritorioDep)
 .get('/pa/api/tipo-iniciativa/dependencias/:cod_dependencia', getTipoIniciativaDep)
 .get('/geo/api/dependencias/proyectos/:cod_proyecto', getInverTerriroerioProject)
+.get('/geo/api/comuna/dep-inversion/:comuna',getDepInversionComuna)
+
 
 
 module.exports = router;    
