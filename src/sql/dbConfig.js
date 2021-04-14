@@ -5,9 +5,7 @@ const pool = new Pool({
   idleTimeoutMillis: 3000000000,
   connectionTimeoutMillis: 1000000000,
 
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: { rejectUnauthorized: false }
 });
 pool.connect().then(() => console.log('Conex..DB'))
 
