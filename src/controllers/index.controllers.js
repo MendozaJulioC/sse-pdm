@@ -349,7 +349,7 @@ const getLineas = async (req, res)=>{
   // Excel_PA()
   // Excel_EFisica()
   // Excel_EFinanciera()
-  Ejec_financiera_PI ()
+  //Ejec_financiera_PI ()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',

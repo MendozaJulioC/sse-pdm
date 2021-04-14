@@ -5,8 +5,8 @@ const pool = new Pool({
   //acquireTimeoutMillis: 0,
   //createTimeoutMillis: 0,
  
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  idleTimeoutMillis: 300000,
+  connectionTimeoutMillis: 20000,
 
   ssl: { rejectUnauthorized: false }
 });
