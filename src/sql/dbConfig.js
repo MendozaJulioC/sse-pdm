@@ -1,11 +1,14 @@
 const { Pool } = require('pg');
 const pool = new Pool({
   connectionString: process.env.url,
-  max: 200,
+  host: dbSocketAddr[0], // e.g. '127.0.0.1'
+  port: dbSocketAddr[1], // e.g. '5432'
+  max: 20,
   acquireTimeoutMillis: 600000,
   createTimeoutMillis: 30000,
-  connectionTimeoutMillis: 600000,
+ 
   idleTimeoutMillis: 600000,
+  connectionTimeoutMillis: 600000,
 
   ssl: { rejectUnauthorized: false }
 });
