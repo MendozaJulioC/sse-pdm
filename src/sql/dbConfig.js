@@ -5,7 +5,7 @@ const isProduccion = process.env.NODE_ENV=== "production";
 
 const pool = new Pool({
   connectionString: process.env.url,
-   max: 1000,
+   max: 20,
    reconnectOnDatabaseIsStartingError: true,         // Enable/disable reconnecting on "the database system is starting up" errors
    waitForDatabaseStartupMillis: 0,                  // Milliseconds to wait between retry connection attempts while the database is starting up
    databaseStartupTimeoutMillis: 90000,              // If connection attempts continually return "the database system is starting up", this is the total number of milliseconds to wait until an error is thrown.
