@@ -1,15 +1,10 @@
 const { Pool } = require('pg');
-
-
-const isProduccion = process.env.NODE_ENV=== "production";
-
 const pool = new Pool({
   connectionString: process.env.url,
-   max: 20,
- 
-   idleTimeoutMillis: 30005,
-    connectionTimeoutMillis: 90000,
- 
+  max: 20,
+  idleTimeoutMillis: 300000000,
+  connectionTimeoutMillis: 100000000,
+
   ssl: { rejectUnauthorized: false }
 });
 pool.connect().then(() => console.log('Conex..DB'))
