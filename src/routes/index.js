@@ -93,7 +93,8 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/avances/ejecucion/:cod_proyecto', getAvanceEjecucionProyect)
 .get('/pa/api/valor-estadistico/:cod_val_stat', getBuscaValStat)
 
-const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, getInverTerriroerioProject, getDepInversionComuna}  = require('../controllers/taskInversion')
+const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep,
+         getTipoIniciativaDep, getInverTerriroerioProject, getDepInversionComuna}  = require('../controllers/taskInversion')
 router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/territorio',getInverTerritorio)
 .get('/geo/api/dependencias',getInversionDep)
