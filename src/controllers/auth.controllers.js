@@ -18,8 +18,6 @@ const getEmail =  async (req, res)=> {
             Fecha_ultima__actualizacion:'2020-08-30',
             Datos_Contacto:'Julio César Mendoza  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
             eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-           
-            
             data: response.rows
         });   
     

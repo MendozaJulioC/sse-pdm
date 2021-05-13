@@ -92,7 +92,6 @@ const getAvanceFinancieroDep = async (req, res)=>{
     }
 }
 
-
 const getAvanceFisicoDep = async(req, res)=>{
     try {
         const  dependencia = req.params.cod_dependencia;
@@ -229,7 +228,6 @@ const getEjecFisicaDep = async (req, res)=> {
     }
 }
 
-
 const getEjecFinancieraDep = async (req, res)=> {
     try {
         const response = await pool.query(`
@@ -320,7 +318,7 @@ const getBuscaValStat = async(req, res)=>{
     }
 }
 
-module.exports ={ getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep,
-        getAvanceEjecucionProyect, getBuscaValStat
+module.exports ={   getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep,
+                    getAvanceEjecucionProyect, getBuscaValStat
     
     };

@@ -14,7 +14,7 @@ const ExcelToJson = async (req, res)=>{
     for (let i=0; i<datos.length; i++){
         //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
         
-        /*  await pool.query(`  INSERT INTO inverpublica.tbl_consolidado(
+        /* await pool.query(`  INSERT INTO inverpublica.tbl_consolidado(
                               cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
                               VALUES ('${datos[i].CodDep}','${datos[i].EsPP}','${datos[i].CodProyecto}','${datos[i].NombreProyecto}', ${datos[i].inversion_real},${datos[i].vigencia},'${datos[i].corte}',${datos[i].Total_Georreferenciado},
                                   ${datos[i].c1},${datos[i].c2}, ${datos[i].c3},${datos[i].c4}, ${datos[i].c5},${datos[i].c6}, ${datos[i].c7},${datos[i].c8}, ${datos[i].c9},${datos[i].c10}, ${datos[i].c11}, ${datos[i].c12}, ${datos[i].c13},
@@ -38,7 +38,7 @@ const updateLogro = async (req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/tabla_Segto_PI.xlsx');
     var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
      //console.log(datos)
      for (let i=0; i<datos.length; i++){
         //console.log(datos[i].CodigoIndicador)
@@ -46,39 +46,42 @@ const updateLogro = async (req, res)=>{
         /*
         await pool.query(`	UPDATE indicativo.tbl_indicador SET  
                             observaciones_indicador = '${datos[i].Observacion20}'       
-                            WHERE cod_indicador= '${datos[i].CodigoIndicador}';`);*/
-
-                            
+                            WHERE cod_indicador= '${datos[i].CodigoIndicador}';`);
+        */
+       /*                     
         await pool.query(`	INSERT INTO indicativo.tal_cortes(
           vigencia, mesplan, verde, rojo)
-          VALUES (${datos[i].Vigencia},${datos[i].MesPlan},${datos[i].Verde},${datos[i].Rojo});`)           
-       // console.log(i, " ok")   
+          VALUES (${datos[i].Vigencia},${datos[i].MesPlan},${datos[i].Verde},${datos[i].Rojo});`)    
+          
+      */          
+      // console.log(i, " ok")   
 
       //actualiza corte de la tabla indicador principal
         await pool.query(` 
-        UPDATE indicativo.tbl_indicador
-        SET 
-          cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
-          logro_2020=	${datos[i].Log20},
-          logro_2021=	${datos[i].Log21},
-          logro_2022=	${datos[i].Log22},
-          logro_2023=	${datos[i].Log23},
-          cumple_2020=	${datos[i].Cumplimiento20},
-          cumple_2021=	${datos[i].Cumplimiento21},
-          cumple_2022=	${datos[i].Cumplimiento22},
-          cumple_2023=	${datos[i].Cumplimiento23},
-          pesoxavnt=	${datos[i].PesoXAvnt},
-          avance2020=	${datos[i].Avance20},
-          avance2021=	${datos[i].Avance21},
-          avance2022=	${datos[i].Avance22},
-          avance2023=	${datos[i].Avance23},
-          semafav=	${datos[i].semafAv},
-          avnorm=		${datos[i].aVNorm},
-          avnormtemp=	${datos[i].AvNormTmp},
-          observaciones_indicador = '${datos[i].Observacion20}'  
-        WHERE cod_indicador= '${datos[i].CodigoIndicador}';
-          `)
+            UPDATE indicativo.tbl_indicador
+            SET 
+              cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
+              logro_2020=	${datos[i].Log20},
+              logro_2021=	${datos[i].Log21},
+              logro_2022=	${datos[i].Log22},
+              logro_2023=	${datos[i].Log23},
+              cumple_2020=	${datos[i].Cumplimiento20},
+              cumple_2021=	${datos[i].Cumplimiento21},
+              cumple_2022=	${datos[i].Cumplimiento22},
+              cumple_2023=	${datos[i].Cumplimiento23},
+              pesoxavnt=	${datos[i].PesoXAvnt},
+              avance2020=	${datos[i].Avance20},
+              avance2021=	${datos[i].Avance21},
+              avance2022=	${datos[i].Avance22},
+              avance2023=	${datos[i].Avance23},
+              semafav=	${datos[i].semafAv},
+              avnorm=		${datos[i].aVNorm},
+              avnormtemp=	${datos[i].AvNormTmp},
+              observaciones_indicador = '${datos[i].Observacion}'  
+            WHERE cod_indicador= '${datos[i].CodigoIndicador}';
+        `)
           console.log(i, " ok")  
+          
       }
    } catch (error) {
      console.log('Error uodate logros: ', error)
@@ -90,13 +93,10 @@ const Excel_PA = async (req, res)=>{
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/plan_accion_pdm.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-     // console.log(datos)
-
-      for (let i=0; i<datos.length; i++){
- 
+     //console.log(datos)
       
-
-       await pool.query(` INSERT INTO plan_accion.tbl_accion(
+      for (let i=0; i<datos.length; i++){
+         await pool.query(` INSERT INTO plan_accion.tbl_accion(
                           cod_dependencia,
                           cod_linea,
                           nom_linea,
@@ -185,12 +185,7 @@ const Excel_PA = async (req, res)=>{
         
         `);
         console.log(i, " ok")         
-
- 
-
       }
-
-
 
    } catch (error) {
      console.log(error)
@@ -201,8 +196,8 @@ const Excel_EFisica = async (req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    console.log(datos)
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
+   // console.log(datos)
  
       for (let i=0; i<datos.length; i++){
         await pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
@@ -245,13 +240,13 @@ const Excel_EFinanciera = async (req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    console.log(datos)
- /*
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
+   // console.log(datos)
+ 
    for (let i=0; i<datos.length; i++){
         await pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
 	      cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, 
-	      porc_ejec_financiera, porc_eficacia_valstat, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, tipo_iniciativa,"corte")
+	      porc_ejec_financiera,  poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, tipo_iniciativa,"corte")
 	        VALUES (
         
           ${datos[i].cod_dependencia},
@@ -261,7 +256,7 @@ const Excel_EFinanciera = async (req, res)=>{
           ${datos[i].porc_eficacia_proyecto},
           ${datos[i].ejecucion_financiera},
           ${datos[i].porc_ejecucion_financiera},
-          ${datos[i].porc_eficacia_valstat},
+         
           ${datos[i].POAI},
           
           ${datos[i].ppto_ajustado},
@@ -279,7 +274,7 @@ const Excel_EFinanciera = async (req, res)=>{
         `);
         console.log(i, " ok")         
       }
-*/
+
 
    } catch (error) {
      console.log(error)
@@ -292,9 +287,9 @@ const Ejec_financiera_PI = async(req, res)=>{
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-   console.log(datos)
+    console.log(datos)
  
-   /*for (let i=0; i<datos.length; i++){
+   for (let i=0; i<datos.length; i++){
     await pool.query(` 
     INSERT INTO indicativo.tbl_ejec_finan_plan(cod_linea, cod_componente, cod_programa, cod_dependencia, cod_proyecto, ppto_ajustado, ejecutado, corte)
 	  VALUES (
@@ -310,7 +305,7 @@ const Ejec_financiera_PI = async(req, res)=>{
   `);
   console.log(i, " ok")         
   }
-*/
+
 
 
 
@@ -318,6 +313,36 @@ const Ejec_financiera_PI = async(req, res)=>{
     console.error('Error Ejec_financiera_PI ', error)
   }
 }
+
+const getLineas = async (req, res)=>{
+  try {
+  // ExcelToJson()
+  //  updateLogro()
+  //  Excel_PA()
+  //  Excel_EFisica()
+  //    Excel_EFinanciera()
+    Ejec_financiera_PI ()
+    const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
+    res.status(200).json({
+      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+      Fecha_Emision:'2020-08-30',
+      Fecha_Inicial:'2020-01-31',
+      Fecha_Final:'2023-12-31',
+      Frecuencia_actualizacion:'Semestral',
+      Version: '1.0',
+      Cobertura:'Municipio de Medelín',
+      Fecha_ultima__actualizacion:'2020-08-30',
+      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+      
+      data: response.rows
+    });
+  } catch (error) { console.log('Error getLineas', error)}
+}
+
+
+
+
 const getTotal = async (req, res)=>{
   try {
     const response = await pool.query('select sum(pesoxavnt*100) as total_plan from indicativo.tbl_indicador');
@@ -342,31 +367,7 @@ const getTotal = async (req, res)=>{
   }
 }
 
-const getLineas = async (req, res)=>{
-  try {
-  // ExcelToJson()
-  //  updateLogro()
-  // Excel_PA()
-  // Excel_EFisica()
-  // Excel_EFinanciera()
-  //Ejec_financiera_PI ()
-    const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
-    res.status(200).json({
-      Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
-      Fecha_Emision:'2020-08-30',
-      Fecha_Inicial:'2020-01-31',
-      Fecha_Final:'2023-12-31',
-      Frecuencia_actualizacion:'Semestral',
-      Version: '1.0',
-      Cobertura:'Municipio de Medelín',
-      Fecha_ultima__actualizacion:'2020-08-30',
-      Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
-      eMail_Contacto: 'jhon.betancur@medellin.gov.co',
-      
-      data: response.rows
-    });
-  } catch (error) { console.log('Error getLineas', error)}
-}
+
 
 const getAvanceLineas= async(req, res)=>{
   try {
