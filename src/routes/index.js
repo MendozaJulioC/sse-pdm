@@ -2,7 +2,7 @@ const { Router} = require('express');
 const router = Router();
 
 const { getHome,getTotal ,getLineas,getAvanceLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable, 
-        postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep, getSemafav, getSemafavAlerta, getSemafavTotal}= require('../controllers/index.controllers');
+        postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep, getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo}= require('../controllers/index.controllers');
 router.get('/',getHome);
 router.get('/pi/api/total', getTotal)
 router.get('/pi/api/total-lineas', getLineas)
@@ -19,6 +19,7 @@ router.get('/pi/api/semaforo-corte/contador', getContadorSemaforo)
         .get('/pi/api/semaforo-corte/general/:semafav',getSemafav)
         .get('/pi/api/semaforo-corte/alertas', getSemafavAlerta)
         .get('/pi/api/semaforo-corte/total', getSemafavTotal)
+        .get('/pi/api/semaforo-corte/rojos', getAlertaRojo)
   
 
 const {getLineTotalComp, getLineTotalProg, getLineIndicadores, getAvanceLinea, getLineIndResumen, getSemafavLinea, getEjecFinLinea} =require('../controllers/taskLine');
