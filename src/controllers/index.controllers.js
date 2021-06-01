@@ -197,7 +197,7 @@ const Excel_EFisica = async (req, res)=>{
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
-   // console.log(datos)
+    //console.log(datos)
  
       for (let i=0; i<datos.length; i++){
         await pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
@@ -318,10 +318,10 @@ const getLineas = async (req, res)=>{
   try {
   // ExcelToJson()
   //  updateLogro()
-  //  Excel_PA()
-  //  Excel_EFisica()
+    Excel_PA()
+   // Excel_EFisica()
   //    Excel_EFinanciera()
-    Ejec_financiera_PI ()
+  //Ejec_financiera_PI ()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
