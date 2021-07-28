@@ -2,11 +2,10 @@ const XLSX = require('xlsx');
 const { pool } = require('../sql/dbConfig');
 
 
-
 const ExcelToJson = async (req, res)=>{
   try {
    // const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/BVCC.xlsx');
-   const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Estructuracion.xlsx');
+   //const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Estructuracion.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
    //console.log(datos)
@@ -38,29 +37,20 @@ const updateLogro = async (req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/tabla_Segto_PI.xlsx');
     var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
-     console.log(datos)
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+     //console.log(datos)
      for (let i=0; i<datos.length; i++){
         //console.log(datos[i].CodigoIndicador)
         //console.log(datos[i].Observacion20)
-        
-        await pool.query(`	UPDATE indicativo.tbl_indicador SET  
-                            avance_cuatrienio = ${datos[i].avance_cuatrienio}       
-                            WHERE cod_indicador= '${datos[i].CodigoIndicador}';`);
-        
-       /*                     
-        await pool.query(`	INSERT INTO indicativo.tal_cortes(
-          vigencia, mesplan, verde, rojo)
-          VALUES (${datos[i].Vigencia},${datos[i].MesPlan},${datos[i].Verde},${datos[i].Rojo});`)    
-          
-      */          
-      // console.log(i, " ok")   
-
-      //actualiza corte de la tabla indicador principal
-      /*  await pool.query(` 
+        //actualiza corte de la tabla indicador principal
+        await pool.query(` 
             UPDATE indicativo.tbl_indicador
             SET 
               cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
+              meta_2020=${datos[i].Meta2020},
+              meta_2021=${datos[i].Meta2021},
+              meta_2022=${datos[i].Meta2022},
+              meta_2023=${datos[i].Meta2023},
               logro_2020=	${datos[i].Log20},
               logro_2021=	${datos[i].Log21},
               logro_2022=	${datos[i].Log22},
@@ -69,6 +59,7 @@ const updateLogro = async (req, res)=>{
               cumple_2021=	${datos[i].Cumplimiento21},
               cumple_2022=	${datos[i].Cumplimiento22},
               cumple_2023=	${datos[i].Cumplimiento23},
+              avance_cuatrienio = ${datos[i].avance_cuatrienio},
               pesoxavnt=	${datos[i].PesoXAvnt},
               avance2020=	${datos[i].Avance20},
               avance2021=	${datos[i].Avance21},
@@ -80,9 +71,9 @@ const updateLogro = async (req, res)=>{
               observaciones_indicador = '${datos[i].Observacion}'  
             WHERE cod_indicador= '${datos[i].CodigoIndicador}';
         `)
-        */
+        
           console.log(i, " ok")  
-          
+        
       }
    } catch (error) {
      console.log('Error uodate logros: ', error)
@@ -322,7 +313,7 @@ const Ejec_financiera_PI = async(req, res)=>{
 const getLineas = async (req, res)=>{
   try {
   // ExcelToJson()
-  // updateLogro()
+   updateLogro()
   // Excel_PA()
   // Excel_EFisica()
   // Excel_EFinanciera()
@@ -837,7 +828,6 @@ const getHome = async(req, res)=>{
     }
 }
 
-
 const postCorteSemaforo = async( req, res)=>{
   try {
     const { vigencia, mesplan } = req.body;
@@ -864,7 +854,6 @@ const postCorteSemaforo = async( req, res)=>{
   }
   
 }
-
 
 const getContadorSemaforo =async(req, res)=>{
   try {
@@ -976,7 +965,6 @@ const getSemafav = async(req, res)=>{
     console.log('Error getSemafav: '. error)
   }
 }
-
 
 const getSemafavAlerta = async(req, res)=>{
   try {

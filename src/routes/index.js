@@ -105,6 +105,8 @@ router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/dependencias/proyectos/:cod_proyecto', getInverTerriroerioProject)
 .get('/geo/api/comuna/dep-inversion/:comuna',getDepInversionComuna)
 
+const {getComuna}  = require('../controllers/taskTerritorio')
+router.get('/geo/api/comunas', getComuna)
 
 
 module.exports = router;    
