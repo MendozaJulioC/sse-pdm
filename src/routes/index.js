@@ -1,8 +1,7 @@
 const { Router} = require('express');
 const router = Router();
 
-const { getHome,getTotal ,getLineas,getAvanceLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable, 
-        postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep, getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo}= require('../controllers/index.controllers');
+const { getHome,getTotal ,getLineas,getAvanceLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep, getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA}= require('../controllers/index.controllers');
 router.get('/',getHome);
 router.get('/pi/api/total', getTotal)
 router.get('/pi/api/total-lineas', getLineas)
@@ -20,6 +19,7 @@ router.get('/pi/api/semaforo-corte/contador', getContadorSemaforo)
         .get('/pi/api/semaforo-corte/alertas', getSemafavAlerta)
         .get('/pi/api/semaforo-corte/total', getSemafavTotal)
         .get('/pi/api/semaforo-corte/rojos', getAlertaRojo)
+router.get('/pa/semaforo-corte/:mesvigencia',getSemaforoPA)
   
 
 const {getLineTotalComp, getLineTotalProg, getLineIndicadores, getAvanceLinea, getLineIndResumen, getSemafavLinea, getEjecFinLinea} =require('../controllers/taskLine');
@@ -32,8 +32,7 @@ router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 .get('/pi/api/line/financiera/:cod_linea', getEjecFinLinea)
 
 
-const {  getComponente, getCompAvanceLinea, getListComponente, getBuscaNombreComponente, getBuscaCodigoComponente,getPrgNomComponente,
-         getprgCodComponente, getRespComponente, getRespCodComponente, getSemafavComponente, getSemafavNomComponente  , getpptoComponente    }=  require('../controllers/taskComponentes');
+const {  getComponente, getCompAvanceLinea, getListComponente, getBuscaNombreComponente, getBuscaCodigoComponente,getPrgNomComponente, getprgCodComponente, getRespComponente, getRespCodComponente, getSemafavComponente, getSemafavNomComponente ,getpptoComponente }=  require('../controllers/taskComponentes');
 router.get('/pi/api/componentes/:cod_componente', getComponente)
 .get('/pi/api/componentes/avance/line/:cod_linea', getCompAvanceLinea)
 .get('/pi/api/list-componente',getListComponente)
@@ -53,8 +52,7 @@ router.get('/pi/api/list-indicador',getListIndicador)
 router.get('/pi/api/indicador/consulta/nombre/:nom_indicador', getBuscaNombreIndicador)
 
 
-const {getPrograma, getPrgAvance, getlistProgramas, getBuscaNombrePrograma, getBuscaCodigoPrograma, getRespPrograma , 
-        getRespCodPrograma, getPptoPrograma, getSemafavNomPrograma} =  require('../controllers/taskProgramas');
+const {getPrograma, getPrgAvance, getlistProgramas, getBuscaNombrePrograma, getBuscaCodigoPrograma, getRespPrograma , getRespCodPrograma, getPptoPrograma, getSemafavNomPrograma} =  require('../controllers/taskProgramas');
 
 router.get('/pi/api/programas/:cod_programa', getPrograma)
 .get('/pi/api/programas/avance/line/:cod_linea',getPrgAvance)
@@ -80,9 +78,7 @@ router.get('/see/api/dependencias', getDependencias)
 .get('/dep/api/avance/componentes/:cod_dependencia',getAvancePDMxComponentesDep )
 .get('/dep/api/avance/programas/:cod_dependencia',getAvancePDMxProgramasDep )
 
-const { getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep, getPlanAccionDep, getValStat, getEjecFisicaDep, getEjecFinancieraDep,
-        getAvanceEjecucionProyect, getBuscaValStat }= require('../controllers/taskPlanAccion')
-
+const { getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep, getPlanAccionDep, getValStat, getEjecFisicaDep, getEjecFinancieraDep,getAvanceEjecucionProyect, getBuscaValStat }= require('../controllers/taskPlanAccion')
 router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/avancefinanciero', getAvanceFinanciero)
 .get('/pa/api/avancefinanciero/dep/:cod_dependencia', getAvanceFinancieroDep)
@@ -94,8 +90,7 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/avances/ejecucion/:cod_proyecto', getAvanceEjecucionProyect)
 .get('/pa/api/valor-estadistico/:cod_val_stat', getBuscaValStat)
 
-const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep,
-         getTipoIniciativaDep, getInverTerriroerioProject, getDepInversionComuna}  = require('../controllers/taskInversion')
+const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep,getTipoIniciativaDep, getInverTerriroerioProject, getDepInversionComuna}  = require('../controllers/taskInversion')
 router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/territorio',getInverTerritorio)
 .get('/geo/api/dependencias',getInversionDep)
