@@ -87,8 +87,8 @@ const Excel_PA = async (req, res)=>{
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     // console.log(datos)
       
-    /*  for (let i=0; i<datos.length; i++){
-        
+     for (let i=0; i<datos.length; i++){
+     /*
          await pool.query(` INSERT INTO plan_accion.tbl_accion(
                           cod_dependencia,
                           cod_linea,
@@ -177,14 +177,85 @@ const Excel_PA = async (req, res)=>{
         );
         
         `);
-        
+*/        
+
+
+
+
+
+
+
+
+
         console.log(i, " ok")         
       }
-*/
+
    } catch (error) {
      console.log(error)
   }
 }
+
+
+const UpdateExcel_PA = async (req, res)=>{
+  try {
+    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Update_plan_accion.xlsx');
+    var nombreHoja = excel.SheetNames;
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+    //console.log(datos)
+    for (let i=0; i<datos.length; i++){
+      await pool.query(`
+        UPDATE plan_accion.tbl_accion
+          SET 
+            cod_dependencia=${datos[i].cod_dependencia},
+            cod_linea= '${datos[i].cod_linea}', 
+            nom_linea= '${datos[i].nom_linea}',
+            cod_componente=  '${datos[i].cod_componente}',
+            nom_componente='${datos[i].nom_componente}',
+            cod_programa=   '${datos[i].cod_programa}',
+            nom_programa=   '${datos[i].nom_programa}',
+            cod_proyecto='${datos[i].cod_proyecto}',
+            nom_proyecto= '${datos[i].nom_proyecto}',
+            eficacia_proyecto= ${datos[i].eficacia_proyecto},
+            ejec_fin_porc= ${datos[i].ejec_fin_porc},
+            eficiencia= ${datos[i].eficiencia},
+            ppto_ajustado=${datos[i].pto_ajustado},
+            ejec_real= ${datos[i].ejec_real},
+            ppto_inicial=   ${datos[i].pto_inicial},
+            cod_val_stat='${datos[i].cod_val_stat}',
+            nom_val_stat='${datos[i].nom_val_stat}',
+            u_medida='${datos[i].u_medida}',
+            q_plan=   ${datos[i].q_plan},
+            q_real=  ${datos[i].q_real},
+            eficacia_ve= ${datos[i].eficacia_ve},
+            obs_val_stat= '${datos[i].obs_val_stat}',
+            y_dev_poai=   ${datos[i].y_dev_poai},
+            y_dev_pptoajustado=  ${datos[i].y_dev_pptoajustado},
+            y_dev_ejecucion= ${datos[i].y_dev_ejecucion},
+            compromisos= ${datos[i].compromisos},
+            facturas=  ${datos[i].facturas},
+            pagos=    ${datos[i].pagos},
+            corte_ejecucion= '${datos[i].corte_ejecucion}', 
+            obs_proyecto= '${datos[i].obs_proyecto}',
+            num_ve=${datos[i].num_ve},
+            pago_factura= ${datos[i].pago_factura},
+            compromiso2= ${datos[i].compromiso2},
+            factura2= ${datos[i].factura2},
+            pago2=${datos[i].pago2},
+            nombre_dep_reporte='${datos[i].nombre_dep_reporte}',
+            y_dev_es_pp=${datos[i].y_dev_es_pp},
+            espagopendiente=${datos[i].espagopendiente},
+            escola= ${datos[i].escola},
+            esmcv=${datos[i].esmcv},
+            cod_siufp_catal= '${datos[i].cod_suifp_catal}',
+            obs_cod_siufp='${datos[i].observ_cod_suifp}'
+	        WHERE cod_val_stat= '${datos[i].cod_val_stat}';`);
+        console.log(datos[i].cod_val_stat, " ok")       
+      }
+   } catch (error) {
+     console.log(error)
+  }
+}
+
 
 const Excel_EFisica = async (req, res)=>{
   try {
@@ -314,10 +385,11 @@ const getLineas = async (req, res)=>{
   try {
    //ExcelToJson()
    //updateLogro()
-   // Excel_PA()
+  //  Excel_PA()
    // Excel_EFisica()
   //Excel_EFinanciera()
-   Ejec_financiera_PI ()
+  // Ejec_financiera_PI ()
+  //UpdateExcel_PA()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -1073,5 +1145,5 @@ const getSemaforoPA = async(req, res)=>{
 
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
                   getTotal, ExcelToJson, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep,
-                  getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA
+                  getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA, UpdateExcel_PA
               }
