@@ -387,7 +387,7 @@ const getLineas = async (req, res)=>{
    //updateLogro()
   //  Excel_PA()
    // Excel_EFisica()
-  //Excel_EFinanciera()
+    Excel_EFinanciera()
   // Ejec_financiera_PI ()
   //UpdateExcel_PA()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
