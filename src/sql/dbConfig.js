@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+
 const pool = new Pool({
   connectionString: process.env.url,
   max: 20,
@@ -10,4 +11,19 @@ const pool = new Pool({
 pool.connect().then(() => console.log('Conex..DB'))
 
 
-module.exports = { pool };
+
+
+
+
+const pool2 = new Pool ({
+
+  connectionString: process.env.url2,
+  max: 20,
+  idleTimeoutMillis: 300000000,
+  connectionTimeoutMillis: 90000000,
+
+  ssl: { rejectUnauthorized: false }
+})
+pool.connect().then(() => console.log('Conex..DB'))
+
+module.exports = { pool, pool2 };
