@@ -72,13 +72,15 @@ router.post('/pi/api/ficha', _postFichaCreate)
 const { _getRespIndLinea}= require('../controllers/takResponsables')
 router.get('/pi/api/responsables/line/:cod_linea', _getRespIndLinea)
 
-const {getDependencias, getAvanceDepPDM, getAvancePDMxDEpendencias, getAvancePDMxLineasDep, getAvancePDMxComponentesDep, getAvancePDMxProgramasDep} = require('../controllers/taskDependencias')
+const{  getDependencias, getAvanceDepPDM, getAvancePDMxDEpendencias, getAvancePDMxLineasDep, getAvancePDMxComponentesDep
+        ,getAvancePDMxProgramasDep, getValStatDep} = require('../controllers/taskDependencias')
 router.get('/see/api/dependencias', getDependencias)
 .get('/dep/api/avance/:cod_dependencia',getAvanceDepPDM )
 .get('/dep/api/dependencias/avance', getAvancePDMxDEpendencias)
 .get('/dep/api/avance/lineas/:cod_dependencia',getAvancePDMxLineasDep )
 .get('/dep/api/avance/componentes/:cod_dependencia',getAvancePDMxComponentesDep )
 .get('/dep/api/avance/programas/:cod_dependencia',getAvancePDMxProgramasDep )
+.get('/dep/api/valstat-dep/:cod_dependencia',getValStatDep )
 
 const { getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep, getPlanAccionDep, getValStat, getEjecFisicaDep, getEjecFinancieraDep,getAvanceEjecucionProyect, getBuscaValStat }= require('../controllers/taskPlanAccion')
 router.get('/pa/api/avancefisico', getAvanceFisico)

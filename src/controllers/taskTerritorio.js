@@ -3,6 +3,7 @@ const { pool, pool2 } = require('../sql/dbConfig');
 
 const getComuna = async (req, res)=>{
     try {
+       // ExcelToJson()
         const response = await pool.query(`select * from territorio.tbl_comuna`) 
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -30,8 +31,7 @@ const ExcelToJson = async (req, res)=>{
         //console.log(datos)
        
         for (let i=0; i<datos.length; i++){
-            console.log(datos[i].cod_comuna);
-            
+           
           await pool2.query(`INSERT INTO reportes.tbl_reporte_estrtegico_sec(nombre, fecha, cod_dep, dpendencias, comuna, nom_comuna, logro, cifras)
                              VALUES ( ${datos[i].Nombre},'${datos[i].Fecha}',${datos[i].Cod_dep},'${datos[i].Dependencia}','${datos[i].cod_comuna}','${datos[i].Comuna}','${datos[i].Logro}','${datos[i].Cifras}');`);  
           console.log(datos[i].Nombre, " ok")  
@@ -50,7 +50,7 @@ const ExcelToJson = async (req, res)=>{
 
 const getReportSecretarios = async(req, res)=>{
     try {
-       // ExcelToJson()
+     
        const comuna = req.params.comuna;
         const response = await pool2.query(`select * from reportes.tbl_reporte_estrtegico_sec where comuna=$1 order by cod_dep`,[comuna] ) 
         res.status(200).json({
