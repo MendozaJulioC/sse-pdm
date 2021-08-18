@@ -109,4 +109,7 @@ router.get('/geo/api/comunas', getComuna)
 router.get('/geo/api/logros/:comuna', getReportSecretarios)
 
 
+const {getIndicadorBot}= require('../controllers/taksBot')
+router.get('/bot/api/indicador/:cod_indicador', getIndicadorBot)
+
 module.exports = router;    

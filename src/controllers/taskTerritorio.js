@@ -31,8 +31,9 @@ const ExcelToJson = async (req, res)=>{
         //console.log(datos)
        
         for (let i=0; i<datos.length; i++){
-           
-          await pool2.query(`INSERT INTO reportes.tbl_reporte_estrtegico_sec(nombre, fecha, cod_dep, dpendencias, comuna, nom_comuna, logro, cifras)
+           await pool2.query(` delete from reportes.tbl_reporte_estrtegico_sec`);
+          await pool2.query(`
+                    INSERT INTO reportes.tbl_reporte_estrtegico_sec(nombre, fecha, cod_dep, dpendencias, comuna, nom_comuna, logro, cifras)
                              VALUES ( ${datos[i].Nombre},'${datos[i].Fecha}',${datos[i].Cod_dep},'${datos[i].Dependencia}','${datos[i].cod_comuna}','${datos[i].Comuna}','${datos[i].Logro}','${datos[i].Cifras}');`);  
           console.log(datos[i].Nombre, " ok")  
         
