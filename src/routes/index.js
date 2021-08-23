@@ -46,12 +46,13 @@ router.get('/pi/api/componentes/:cod_componente', getComponente)
 .get('/pi/api/componentes/semaforo-corte/alerta/nombre/:nom_componente', getSemafavNomComponente)
 .get('/pi/api/componente/ppto/:cod_componente', getpptoComponente)
 
-const{getIndicador, getListIndicador, getBuscaNombreIndicador, getGeneralPI, getGeneralLineasPI}= require('../controllers/taskIndicador');
+const{getIndicador, getListIndicador, getBuscaNombreIndicador, getGeneralPI, getGeneralLineasPI, getIndicadorBot}= require('../controllers/taskIndicador');
 router.get('/pi/api/indicador/:cod_indicador', getIndicador);
 router.get('/pi/api/list-indicador',getListIndicador)
 router.get('/pi/api/indicador/consulta/nombre/:nom_indicador', getBuscaNombreIndicador)
 router.get ('/pi/api/generalpi', getGeneralPI)
 router.get('/pi/api/genralpilineas', getGeneralLineasPI)
+router.get('/bot/api/indicador/:cod_indicador', getIndicadorBot)
 
 
 const {getPrograma, getPrgAvance, getlistProgramas, getBuscaNombrePrograma, getBuscaCodigoPrograma, getRespPrograma , getRespCodPrograma, getPptoPrograma, getSemafavNomPrograma} =  require('../controllers/taskProgramas');
@@ -109,7 +110,8 @@ router.get('/geo/api/comunas', getComuna)
 router.get('/geo/api/logros/:comuna', getReportSecretarios)
 
 
-const {getIndicadorBot}= require('../controllers/taksBot')
+/*
+const { getIndicadorBot }= require('../controllers/taksBot')
 router.get('/bot/api/indicador/:cod_indicador', getIndicadorBot)
-
+*/
 module.exports = router;    
