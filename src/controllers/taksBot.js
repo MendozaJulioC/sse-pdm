@@ -117,6 +117,34 @@ const getProyectoBot = async (req, res)=>{
 }
 
 
+
+const getTerritorioBot = async (req, res)=>{
+    try {
+        const cod_territorio = req.params.cod_territorio;
+        const response = await pool.query(`
+        select 
+            territorio.tbl_comuna.cod_comuna,territorio.tbl_comuna.nom_comuna,
+            localizada,ciudad,pp,total    
+        from inverpublica.tbl_tipoinver_geo 
+        LEFT JOIN  territorio.tbl_comuna ON territorio.tbl_comuna.cod_comuna = inverpublica.tbl_tipoinver_geo.cod_comuna
+        where inverpublica.tbl_tipoinver_geo.cod_comuna =$1`, [cod_territorio])
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            data: response.rows
+        })
+
+    } catch (error) {
+        console.error("Error getTerritorioBot: ", error);
+        
+    }
+}
+
+
+
 module.exports= { 
-    getValStatBot, getProyectoBot
+    getValStatBot, getProyectoBot, getTerritorioBot
 }
