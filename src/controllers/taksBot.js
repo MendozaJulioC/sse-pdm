@@ -36,7 +36,6 @@ const getValStatBot= async (req, res)=>{
     }
 }
 
-
 const getProyectoBot = async (req, res)=>{
     try {
         const cod_proyecto = req.params.cod_proyecto;
@@ -115,8 +114,6 @@ const getProyectoBot = async (req, res)=>{
         
     }
 }
-
-
 
 const getTerritorioBot = async (req, res)=>{
     try {
