@@ -143,8 +143,25 @@ const getTerritorioBot = async (req, res)=>{
     }
 }
 
+const getDependenciaBot = async(req, res)=>{
+    try {
+        const cod_dependencia= req.params.cod_dependencia;
+        const response = await pool.query(` select * from dependencias.sp_bot_dep($1)`,[cod_dependencia]);
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            data: response.rows
+        })
 
+    } catch (error) {
+        console.error('Error getDependenciaBot: ', error);
+        
+    }
+}
 
 module.exports= { 
-    getValStatBot, getProyectoBot, getTerritorioBot
+    getValStatBot, getProyectoBot, getTerritorioBot, getDependenciaBot
 }

@@ -3,7 +3,7 @@ const { pool, pool2 } = require('../sql/dbConfig');
 
 const getComuna = async (req, res)=>{
     try {
-       // ExcelToJson()
+      // ExcelToJson()
         const response = await pool.query(`select * from territorio.tbl_comuna`) 
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -28,10 +28,11 @@ const ExcelToJson = async (req, res)=>{
      
         var nombreHoja = excel.SheetNames;
         var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
-        //console.log(datos)
-       
+        console.log(datos)
+        await pool2.query(` delete from reportes.tbl_reporte_estrtegico_sec`);
+     
         for (let i=0; i<datos.length; i++){
-           await pool2.query(` delete from reportes.tbl_reporte_estrtegico_sec`);
+      
           await pool2.query(`
                     INSERT INTO reportes.tbl_reporte_estrtegico_sec(nombre, fecha, cod_dep, dpendencias, comuna, nom_comuna, logro, cifras)
                              VALUES ( ${datos[i].Nombre},'${datos[i].Fecha}',${datos[i].Cod_dep},'${datos[i].Dependencia}','${datos[i].cod_comuna}','${datos[i].Comuna}','${datos[i].Logro}','${datos[i].Cifras}');`);  
