@@ -1,14 +1,11 @@
-const { Router} = require('express');
+const { Router } = require('express');
 const routerAuth = Router();
 
 
 
 //validar email en el registro, si existe o no
 //registrar usuario nuevo
-
 //validar la constaseña
-
-
 
 const { getEmail, postRegisterUser, getIdLoguin   }= require('../controllers/auth.controllers');
 

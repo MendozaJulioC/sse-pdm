@@ -116,4 +116,27 @@ router.get('/bot/api/proyecto/:cod_proyecto', getProyectoBot)
 router.get('/bot/api/territorio/:cod_territorio', getTerritorioBot)
 router.get('/bot/api/dependencias/:cod_dependencia', getDependenciaBot)
 
+const { getGoogleSheet }= require('../controllers/spreadsheet')
+router.get('/obrafisica/api/update/', getGoogleSheet)
+
+
+const { getTotalesOF, getAlertasOF, getEtapasOF, getTemasOF, getIntervencionOF, getTotalOFDep , getTotalDepOF, getIntervencionDepOF, getAlertaDepOF, getEtapaDepOF, getHitosSIFOF,
+         getGeoOF, getGeoDepOF, getGeoAlertaOF, getGeoIntervencionOF}= require('../controllers/taskObraFisica')
+
+router.get('/obrafisica/api/totales', getTotalesOF)
+router.get('/obrafisica/api/alertas', getAlertasOF)
+router.get('/obrafisica/api/etapas', getEtapasOF)
+router.get('/obrafisica/api/temas', getTemasOF)
+router.get('/obrafisica/api/intervencion',getIntervencionOF)
+router.get('/obrafisica/api/obrasdep', getTotalOFDep)
+router.get('/obrafisica/api/total/dep/:cod_dep',getTotalDepOF)
+        .get('/obrafisica/api/intervencion/dep/:cod_dep', getIntervencionDepOF)
+        .get('/obrafisica/api/alerta/dep/:cod_dep', getAlertaDepOF)
+        .get('/obrafisica/api/etapa/dep/:cod_dep', getEtapaDepOF)
+        .get('/obrafisica/api/hitos/sif', getHitosSIFOF)
+        .get('/obrafisica/api/geo', getGeoOF)
+        .get('/obrafisica/api/geo/territorio/:cod_comuna', getGeoDepOF)
+        .get('/obrafisica/api/geo/alerta/:cod_comuna', getGeoAlertaOF)
+        .get('/obrafisica/api/geo/intervencion/:cod_comuna', getGeoIntervencionOF)
+
 module.exports = router;    
