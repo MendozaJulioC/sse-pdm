@@ -10,7 +10,7 @@ const  getGoogleSheet= async(req, res)=>{
         await documento.loadInfo();
         const sheet     = documento.sheetsByIndex[0];
         const reports   = await sheet.getRows();
-      // await pool.query(` delete from obra_fisica.tbl_obra_fisica`);
+       await pool.query(` delete from obra_fisica.tbl_obra_fisica`);
         for (let x=0; x < reports.length; x++){
             response= await pool.query(` 
             INSERT INTO obra_fisica.tbl_obra_fisica( cod_dep, nombre_obra, cod_unico_obra, cod_conjunto, conjunto_mayor, cod_intervencion, tipo_intervencion, cod_comuna, valor_total_acumulado, cod_etapa, etapa, cod_alerta, alerta, cod_tematica, tematica, cod_hito, hito, corte)
