@@ -8,8 +8,10 @@ const ExcelToJson = async (req, res)=>{
    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Estructuracion.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[4]]);
-   console.log(datos)
+    // console.log(datos)
       
+   await pool.query(` delete from inverpublica.tbl_tipoinver_geo`);
+
     for (let i=0; i<datos.length; i++){
         //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
         
@@ -21,9 +23,10 @@ const ExcelToJson = async (req, res)=>{
                              `);
                              
         */
-       await pool.query(`INSERT INTO inverpublica.tbl_tipoinver_geo(cod_comuna, localizada, ciudad, pp, total)
+
+
+      await pool.query(`INSERT INTO inverpublica.tbl_tipoinver_geo(cod_comuna, localizada, ciudad, pp, total)
       VALUES (  ${datos[i].Cod_Comuna},
-                
                 ${datos[i].Localizada},
                 ${datos[i].Ciudad},
                 ${datos[i].PP},
@@ -393,7 +396,7 @@ const Ejec_financiera_PI = async(req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-   //ExcelToJson()
+    ExcelToJson()
    //updateLogro()
   //  Excel_PA()
    // Excel_EFisica()
