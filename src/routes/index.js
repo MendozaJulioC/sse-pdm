@@ -139,4 +139,10 @@ router.get('/obrafisica/api/total/dep/:cod_dep',getTotalDepOF)
         .get('/obrafisica/api/geo/alerta/:cod_comuna', getGeoAlertaOF)
         .get('/obrafisica/api/geo/intervencion/:cod_comuna', getGeoIntervencionOF)
 
+
+const { getPoblacion }= require('../controllers/taskPoblacion')
+        router.get('/poblacion/api/total/', getPoblacion)
+        
+
+
 module.exports = router;    
