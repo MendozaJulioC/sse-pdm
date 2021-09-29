@@ -3,7 +3,7 @@ const { pool } = require('../sql/dbConfig');
 
 const getDependencias = async(req, res)=>{
     try {
-        const response = await pool.query(`select * from dependencias.tbl_dependencias where cod_dep>700 and cod_dep<> 908 and cod_dep <>800 and cod_dep <958 and cod_dep <>901 order by cod_dep`);
+        const response = await pool.query(`select * from dependencias.tbl_dependencias where cod_dep>700 and cod_dep<> 908 and cod_dep <>800 and cod_dep <958 and cod_dep <>901 and cod_dep<>957  and cod_dep<>955 and cod_dep <>954  order by cod_dep`);
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
