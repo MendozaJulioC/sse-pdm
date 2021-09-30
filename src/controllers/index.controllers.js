@@ -85,7 +85,7 @@ const updateLogro = async (req, res)=>{
             WHERE cod_indicador= '${datos[i].CodigoIndicador}';
         `)
         
-          console.log(i, " ok")  
+          console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
         
       }
    } catch (error) {
@@ -314,7 +314,7 @@ const Excel_EFinanciera = async (req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
    console.log(datos)
- //await pool.query(' delete from plan_accion.tbl_exec_financiera')
+ await pool.query(' delete from plan_accion.tbl_exec_financiera')
 
    for (let i=0; i<datos.length; i++){
         await pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
@@ -390,12 +390,12 @@ const Ejec_financiera_PI = async(req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-   // ExcelToJson()
+  // ExcelToJson()
   // updateLogro()
-   //Excel_PA()
-    //Excel_EFisica()
-   //Excel_EFinanciera()
-  // Ejec_financiera_PI ()
+  // Excel_PA()
+  Excel_EFisica()
+  // Excel_EFinanciera()
+  //Ejec_financiera_PI ()
   //UpdateExcel_PA()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({

@@ -29,31 +29,14 @@ const getTipoInversion = async (req, res)=>{
 const getInverTerritorio = async(req, res)=>{
     try {
         const response = await pool.query(`
-            select    
- 		        sum(c1) as Popular,
-		        sum(c2) as Santa_Cruz,
-		        sum(c3) as Manrique,
-		        sum(c4) as Aranjuez,
-		        sum(c5) as Castilla,
-		        sum(c6) as Doce_de_Octubre,
-		        sum(c7) as Robledo,
-		        sum(c8) as Villa_Hermosa,
-		        sum(c9) as Buenos_Aires,
-		        sum(c10) as La_Candelaria,
-		        sum(c11) as Laureles_Estadio,
-		        sum(c12) as La_America,
-		        sum(c13) as San_Javier,
-		        sum(c14) as El_Poblado,
-		        sum(c15) as Guayabal,
-		        sum(c16) as Belen,
-		        sum(c50) as Palmitas,
-		        sum(c60) as San_Cristobal,
-		        sum(c70) as Altavista,
-		        sum(c80) as San_Antonio,
-		        sum(c90) as Santa_Elena,
-		        sum(c99) as Ciudad,
-		        sum(c97) as Fort_Inst
-            from inverpublica.tbl_consolidado
+        select
+	inverpublica.tbl_tipoinver_geo.cod_comuna,
+	territorio.tbl_comuna.nom_comuna,
+	localizada,
+	ciudad,
+	pp, total
+from inverpublica.tbl_tipoinver_geo
+ left join territorio.tbl_comuna on territorio.tbl_comuna.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
         
         `)
         res.status(200).json({
