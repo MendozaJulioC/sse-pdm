@@ -30,13 +30,13 @@ const getInverTerritorio = async(req, res)=>{
     try {
         const response = await pool.query(`
         select
-	inverpublica.tbl_tipoinver_geo.cod_comuna,
-	territorio.tbl_comuna.nom_comuna,
-	localizada,
-	ciudad,
-	pp, total
-from inverpublica.tbl_tipoinver_geo
- left join territorio.tbl_comuna on territorio.tbl_comuna.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
+	        inverpublica.tbl_tipoinver_geo.cod_comuna,
+	        territorio.tbl_comuna.nom_comuna,
+	        localizada,
+	        ciudad,
+	        pp, total
+        from inverpublica.tbl_tipoinver_geo
+        left join territorio.tbl_comuna on territorio.tbl_comuna.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
         
         `)
         res.status(200).json({

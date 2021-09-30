@@ -161,7 +161,7 @@ const getBuscaNombreIndicador= async(req, res)=>{
 
 const getGeneralPI = async (req, res)=>{
 	try {
-		const response = await pool.query(`select * from indicativo.tbl_avance_cumple_pdm`);
+		const response = await pool.query(`select * from indicativo.tbl_avance_cumple_pdm order by id`);
 		res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
