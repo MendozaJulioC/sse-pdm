@@ -28,18 +28,20 @@ const getTipoInversion = async (req, res)=>{
 
 const getInverTerritorio = async(req, res)=>{
     try {
+      const vigencia = new Date().toISOString().slice(0,4)
+      
+     
         const response = await pool.query(`
-        select
+        select 
           inverpublica.tbl_tipoinver_geo.cod_comuna,
           territorio.tbl_comuna.nom_comuna,
           localizada,ciudad,pp, 
           inverpublica.tbl_tipoinver_geo.total,
-          poblacion.tbl_poblacion_pdm.TOTAL AS POBLACION
-        from inverpublica.tbl_tipoinver_geo
-        left join territorio.tbl_comuna on territorio.tbl_comuna.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
-        left join poblacion.tbl_poblacion_pdm on poblacion.tbl_poblacion_pdm.codIGO_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
-        
-        `)
+          poblacion.tbl_poblacion_pdm.total AS POBLACION
+       from inverpublica.tbl_tipoinver_geo
+      left join territorio.tbl_comuna on territorio.tbl_comuna.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
+      left join poblacion.tbl_poblacion_pdm on poblacion.tbl_poblacion_pdm.codigo_comuna= territorio.tbl_comuna.cod_comuna
+      where poblacion.tbl_poblacion_pdm.vigencia=$1`,[vigencia])
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
