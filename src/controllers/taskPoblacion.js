@@ -35,7 +35,7 @@ const ExcelToJson = async (req, res)=>{
      
         for (let i=0; i<datos.length; i++){
       
-          await pool2.query(`
+          await pool.query(`
           INSERT INTO poblacion.tbl_proyeccion(
             codigo_comuna, hombres_2021, mujeres_2021, total_2021, hombres_2022, mujeres_2022, total_2022, hombres_2023, mujeres_2023, total_2023, hombres_2024, mujeres_2024, total_2024, hombres_2025, mujeres_2025, total_2025, hombres_2026, mujeres_2026, total_2026, hombres_2027, mujeres_2027, total_2027, hombres_2028, mujeres_2028, total_2028, hombres_2029, mujeres_2029, total_2029, hombres_2030, mujeres_2030, total_2030)
          VALUES (   ${datos[i].Codigo_comuna},
@@ -74,7 +74,7 @@ const ExcelToJson = async (req, res)=>{
      
         for (let i=0; i<datos.length; i++){
       
-          await pool2.query(`
+          await pool.query(`
           INSERT INTO poblacion.tbl_poblacion_pdm(codigo_comuna, vigencia, hombres, mujeres, total)
             VALUES ( ${datos[i].cod_comuna},${datos[i].vigencia},${datos[i].hombres},${datos[i].mujeres},${datos[i].total});`);  
 
