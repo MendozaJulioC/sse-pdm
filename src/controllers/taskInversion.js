@@ -29,9 +29,7 @@ const getTipoInversion = async (req, res)=>{
 const getInverTerritorio = async(req, res)=>{
     try {
       const vigencia = new Date().toISOString().slice(0,4)
-      
-     
-        const response = await pool.query(`
+      const response = await pool.query(`
         select 
           inverpublica.tbl_tipoinver_geo.cod_comuna,
           territorio.tbl_comuna.nom_comuna,

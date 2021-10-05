@@ -393,7 +393,7 @@ const getLineas = async (req, res)=>{
   // ExcelToJson()
   // updateLogro()
   // Excel_PA()
-  Excel_EFisica()
+  // Excel_EFisica()
   // Excel_EFinanciera()
   //Ejec_financiera_PI ()
   //UpdateExcel_PA()

@@ -285,5 +285,24 @@ const getGeoIntervencionOF= async(req, res)=>{
     }
 }
 
+const getDepOFTerritorio = async (req, res)=>{
+    const dep= req.params.cod_dep;
+    const response = await pool.query(`select
+    obra_fisica.tbl_obra_fisica.cod_comuna, 
+    territorio.tbl_comuna.nom_comuna,
+    count (obra_fisica.tbl_obra_fisica.cod_comuna) as comuna
+    from obra_fisica.tbl_obra_fisica
+    left join territorio.tbl_comuna  on obra_fisica.tbl_obra_fisica.cod_comuna= territorio.tbl_comuna.cod_comuna
+    where cod_dep=$1
+    group by obra_fisica.tbl_obra_fisica.cod_comuna,territorio.tbl_comuna.nom_comuna  order by obra_fisica.tbl_obra_fisica.cod_comuna`, [dep])
+    res.status(200).json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Version: '1.0',
+        Datos_Contacto:'Gabriel vasco Ayala - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+        eMail_Contacto: 'gabirel.vasco@medellin.gov.co',
+        data: response.rows
+    })
+}
+
 module.exports ={  getTotalesOF , getAlertasOF, getEtapasOF, getTemasOF, getIntervencionOF, getTotalOFDep , getTotalDepOF , getIntervencionDepOF, getAlertaDepOF, getEtapaDepOF ,
-     getHitosSIFOF, getGeoOF, getGeoDepOF, getGeoAlertaOF, getGeoIntervencionOF};
+     getHitosSIFOF, getGeoOF, getGeoDepOF, getGeoAlertaOF, getGeoIntervencionOF, getDepOFTerritorio};

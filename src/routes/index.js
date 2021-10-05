@@ -121,7 +121,7 @@ router.get('/obrafisica/api/update/', getGoogleSheet)
 
 
 const { getTotalesOF, getAlertasOF, getEtapasOF, getTemasOF, getIntervencionOF, getTotalOFDep , getTotalDepOF, getIntervencionDepOF, getAlertaDepOF, getEtapaDepOF, getHitosSIFOF,
-         getGeoOF, getGeoDepOF, getGeoAlertaOF, getGeoIntervencionOF}= require('../controllers/taskObraFisica')
+         getGeoOF, getGeoDepOF, getGeoAlertaOF, getGeoIntervencionOF,getDepOFTerritorio }= require('../controllers/taskObraFisica')
 
 router.get('/obrafisica/api/totales', getTotalesOF)
 router.get('/obrafisica/api/alertas', getAlertasOF)
@@ -138,6 +138,7 @@ router.get('/obrafisica/api/total/dep/:cod_dep',getTotalDepOF)
         .get('/obrafisica/api/geo/territorio/:cod_comuna', getGeoDepOF)
         .get('/obrafisica/api/geo/alerta/:cod_comuna', getGeoAlertaOF)
         .get('/obrafisica/api/geo/intervencion/:cod_comuna', getGeoIntervencionOF)
+        .get('/obrafisica/api/geo/dependencia/:cod_dep', getDepOFTerritorio)
 
 
 const { getPoblacion }= require('../controllers/taskPoblacion')
