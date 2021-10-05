@@ -290,7 +290,7 @@ const getDepOFTerritorio = async (req, res)=>{
     const response = await pool.query(`select
     obra_fisica.tbl_obra_fisica.cod_comuna, 
     territorio.tbl_comuna.nom_comuna,
-    count (obra_fisica.tbl_obra_fisica.cod_comuna) as comuna
+    count (obra_fisica.tbl_obra_fisica.cod_comuna) as tot_obra
     from obra_fisica.tbl_obra_fisica
     left join territorio.tbl_comuna  on obra_fisica.tbl_obra_fisica.cod_comuna= territorio.tbl_comuna.cod_comuna
     where cod_dep=$1
