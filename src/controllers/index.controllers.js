@@ -81,12 +81,15 @@ const updateLogro = async (req, res)=>{
               semafav=	${datos[i].semafAv},
               avnorm=		${datos[i].aVNorm},
               avnormtemp=	${datos[i].AvNormTmp},
-              observaciones_indicador = '${datos[i].Observacion}'  
+              observaciones_indicador = '${datos[i].Observacion}' ,
+              avancepond= ${datos[i].AvancePond},
+              prog2020= ${datos[i].Prog2020},
+              prog2021= ${datos[i].Prog2021},
+              prog2022= ${datos[i].Prog2022},
+              prog2023= ${datos[i].Prog2023}
             WHERE cod_indicador= '${datos[i].CodigoIndicador}';
         `)
-        
-          console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
-        
+        console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
       }
    } catch (error) {
      console.log('Error uodate logros: ', error)
@@ -417,7 +420,7 @@ const getLineas = async (req, res)=>{
 
 const getTotal = async (req, res)=>{
   try {
-    const response = await pool.query('select sum(pesoxavnt*100) as total_plan from indicativo.tbl_indicador');
+    const response = await pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2021) as programado from indicativo.tbl_indicador');
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
       Fecha_Emision:'2020-08-30',

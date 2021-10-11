@@ -307,18 +307,43 @@ const getBuscaValStat = async(req, res)=>{
             Version: '1.0',
             Cobertura:'Municipio de Medelín',
             Fecha_ultima__actualizacion:'2020-08-30',
-            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
-            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
            
             data: response.rows
         })
 
     } catch (error) {
+        
         console.log("Error getBuscaVal Stat: ",error);
     }
 }
 
+
+const getAlertaFinanciera= async  (req, res)=>{
+    try {
+        const alerta = req.params.alerta
+        const response = await pool.query(`select * from plan_accion.view_ejeuciones_proyecto where ejec_financiera< $1 `, [alerta])
+
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            data: response.rows
+        })
+
+    } catch (error) {
+        console.error('Error getAlertaFinanciera: ', error);
+        
+    }
+}
+
+
+
+
 module.exports ={   getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep,
-                    getAvanceEjecucionProyect, getBuscaValStat
+                    getAvanceEjecucionProyect, getBuscaValStat, getAlertaFinanciera
     
     };
