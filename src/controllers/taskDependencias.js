@@ -201,7 +201,28 @@ const getValStatDep= async(req, res)=>{
     }
 }
 
+
+const getCumplimientoDep= async(req, res)=>{
+try {
+    const dependencia = req.params.cod_dependencia;
+    const response = await pool.query(`select  sum(pesoxavnt)as avancepond, sum(prog2021) as programado from indicativo.tbl_indicador where cod_responsable_reporte=$1`,[dependencia])
+    res.status(200). json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        data: response.rows
+    })
+
+
+} catch (error) {
+    console.error('Error getCumplimientoDep: ' , error);
+    
+}
+}
+
+
+
 module.exports={ getDependencias , getAvanceDepPDM, getAvancePDMxDEpendencias,
      getAvancePDMxLineasDep, getAvancePDMxComponentesDep, getAvancePDMxProgramasDep,
-     getValStatDep
+     getValStatDep, getCumplimientoDep
     }    
