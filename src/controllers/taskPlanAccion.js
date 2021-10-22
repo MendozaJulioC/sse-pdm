@@ -424,7 +424,7 @@ const getAlertaPonderadoPA = async(req, res)=>{
             group by  cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, ejec_financiera, porc_eficacia_proyecto
             order by cod_dependencia`)
             for (let index = 0; index < response.rows.length; index++) {
-                if (response.rows[index].ponderado<0.50) {
+                if (response.rows[index].ponderado<=0.40) {
                     alerta.push({
                         "cod_dependencia": response.rows[index].cod_dependencia,
                         "nom_dependencia": response.rows[index].nom_dependencia,
