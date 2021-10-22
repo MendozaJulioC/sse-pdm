@@ -220,9 +220,34 @@ try {
 }
 }
 
+const getCumplimientoDMxDEpendencias= async(req, res)=>{
+    try {
+        
+        const response = await pool.query(`
+        select 
+        cod_responsable_reporte,
+        nombre_dep,
+        sum(pesoxavnt) as avance,sum(prog2021) as programado2021, sum(prog2022) as programado2022, sum(prog2023) as programado2023
+        from indicativo.tbl_indicador
+        LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
+        group by  cod_responsable_reporte, nombre_dep
+        order by  cod_responsable_reporte
+        `)
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            data: response.rows
+        })
 
+    } catch (error) {
+        console.log('ERROR  getCumplimientoDMxDEpendencias', error)
+    }
+}
 
-module.exports={ getDependencias , getAvanceDepPDM, getAvancePDMxDEpendencias,
+module.exports={ getDependencias , getAvanceDepPDM, getAvancePDMxDEpendencias,getCumplimientoDMxDEpendencias,
      getAvancePDMxLineasDep, getAvancePDMxComponentesDep, getAvancePDMxProgramasDep,
      getValStatDep, getCumplimientoDep
     }    

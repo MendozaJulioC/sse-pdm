@@ -320,6 +320,8 @@ const getBuscaValStat = async(req, res)=>{
 }
 
 
+
+
 const getAlertaFinanciera= async  (req, res)=>{
     try {
         const alerta = req.params.alerta
@@ -342,8 +344,116 @@ const getAlertaFinanciera= async  (req, res)=>{
 
 
 
+const getAlertaFisica = async(req, res)=>{
+    try {
+        const alerta = req.params.alerta
+        const response = await pool.query(`select * from plan_accion.tbl_exec_fisica where porc_eficacia_proyecto<$1 `, [alerta])
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            data: response.rows
+        })
+    } catch (error) {
+        console.error('Error  getAlertaFisica: ', error);
+        
+    }
+}
+
+
+
+
+const getCorteAlertaPA = async(req, res)=>{
+    const response = await pool.query(`select corte from plan_accion.tbl_exec_financiera group by corte`)
+        res.status(200). json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+        eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+        data: response.rows
+    })
+}
+
+const getvaloraAlerta = async (req, res)=>{
+    try {
+        const mesvigencia= req.params.mes
+        const response = await pool.query(`select mesvigencia, mes, verde, rojo, alerta from plan_accion.tbl_cortes_pa where mesvigencia=$1`, [mesvigencia])
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            data: response.rows
+        })
+    } catch (error) {
+        console.error('Error getvalorAlerta ', getvalorAlerta);
+        
+    }
+}
+
+
+const getAlertaFisicaFinanciera = async(req, res)=>{
+    try {
+        const alerta = req.params.alerta
+
+        const response = await pool.query(`select * from plan_accion.view_ejeuciones_proyecto where ejec_financiera > 0.80 and tipo_iniciativa<=2 and porc_eficacia_proyecto <$1`, [alerta])
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            data: response.rows
+        })
+    } catch (error) {
+        console.error('Error getAlertaFisicaFinanciera: ', error);
+        
+    }
+}
+
+const getAlertaPonderadoPA = async(req, res)=>{
+    try {
+        let alerta =[];
+        const response = await pool.query(`
+            select cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, ejec_financiera, porc_eficacia_proyecto , sum(porc_eficacia_proyecto*0.50)+sum(ejec_financiera*0.50) as ponderado
+            from plan_accion.view_ejeuciones_proyecto
+            group by  cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, ejec_financiera, porc_eficacia_proyecto
+            order by cod_dependencia`)
+            for (let index = 0; index < response.rows.length; index++) {
+                if (response.rows[index].ponderado<0.50) {
+                    alerta.push({
+                        "cod_dependencia": response.rows[index].cod_dependencia,
+                        "nom_dependencia": response.rows[index].nom_dependencia,
+                        "cod_proyecto": response.rows[index].cod_proyecto,
+                        "nom_proyecto": response.rows[index].nom_proyecto,
+                        "poai": response.rows[index].poai,
+                        "ppto_ajustado": response.rows[index].ppto_ajustado,
+                        "ejec_financiera":response.rows[index].ejec_financiera,
+                        "porc_eficacia_proyecto": response.rows[index].porc_eficacia_proyecto,
+                        "ponderado": response.rows[index].ponderado
+                    })
+                }
+            }
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            data: alerta
+        })
+        
+    } catch (error) {
+        console.error('Error getAlertaPonderadoPA: ', error);
+    }
+}
+
 
 module.exports ={   getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep,
-                    getAvanceEjecucionProyect, getBuscaValStat, getAlertaFinanciera
+                    getAvanceEjecucionProyect, getBuscaValStat, getAlertaFinanciera, getCorteAlertaPA, getvaloraAlerta, getAlertaFisica, getAlertaFisicaFinanciera, getAlertaPonderadoPA
     
     };
