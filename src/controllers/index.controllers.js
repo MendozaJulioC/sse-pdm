@@ -394,11 +394,11 @@ const Ejec_financiera_PI = async(req, res)=>{
 const getLineas = async (req, res)=>{
   try {
   // ExcelToJson()
-  // updateLogro()
-  // Excel_PA()
-  // Excel_EFisica()
-  // Excel_EFinanciera()
-  //Ejec_financiera_PI ()
+  //updateLogro()
+  //Excel_PA()
+   //Excel_EFisica()
+  //Excel_EFinanciera()
+ //Ejec_financiera_PI ()
   //UpdateExcel_PA()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({

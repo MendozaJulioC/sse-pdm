@@ -549,14 +549,57 @@ const getDepInversionComuna = async(req, res)=>{
               //Declaraciones ejecutadas cuando ninguno de los valores coincide con el valor de la expresión
               break;
           }
-
-      
-
-        
     } catch (error) {
         console.error("Error getDepInversionComuna ",error);
     }
 }
 
+const getInverMap = async (req, res)=>{
+  try {
+
+
+      const response  = await pool.query(` 
+      SELECT jsonb_build_object(
+        'type',     'FeatureCollection',
+        'features', jsonb_agg(features.feature)
+    )
+    FROM (
+      SELECT jsonb_build_object(
+        'type',       'Feature',
+        'id',         gid,
+        'geometry',   ST_AsGeoJSON(geom)::jsonb,
+        'properties', json_build_object(
+            'OBJECTID', objectid,
+            'CODIGO', comuna,
+            'SECTOR', sector,
+            'NOMBRE', nombre,
+
+            'SHAPEAREA', shapearea,
+            'SHAPELEN', shapelen,
+			'COD_COMUNA', cod_comuna,
+            'Vigencia2021',total ,
+            'inver_localizada_2021', localizada,
+            'inver_ciudad_2021',ciudad,
+            'inver_pp_2021',pp,
+            'IDENTIFICACION', nombre,
+            'LIMITEMUNICIPIOID', sector
+         
+          
+         )
+      ) AS feature
+      FROM (SELECT * FROM inverpublica.view_map_inversion_comunas  ) inputs) features;
+    
+    
+
+      `)
+      res.status(200).json({ data: response.rows }); 
+    
+   
+  } catch (error) {
+    console.error('Error getInverMap: ', error);
+    
+  }
+}
+
 module.exports ={ getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, 
-    getInverTerriroerioProject, getDepInversionComuna} ; 
+    getInverTerriroerioProject, getDepInversionComuna, getInverMap} ; 
