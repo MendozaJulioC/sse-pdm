@@ -325,7 +325,7 @@ const getBuscaValStat = async(req, res)=>{
 const getAlertaFinanciera= async  (req, res)=>{
     try {
         const alerta = req.params.alerta
-        const response = await pool.query(`select * from plan_accion.view_ejeuciones_proyecto where ejec_financiera< $1 `, [alerta])
+        const response = await pool.query(`select * from plan_accion.view_ejeuciones_proyecto where ejec_financiera< $1 and tipo_iniciativa >2 `, [alerta])
 
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -347,7 +347,7 @@ const getAlertaFinanciera= async  (req, res)=>{
 const getAlertaFisica = async(req, res)=>{
     try {
         const alerta = req.params.alerta
-        const response = await pool.query(`select * from plan_accion.tbl_exec_fisica where porc_eficacia_proyecto<$1 `, [alerta])
+        const response = await pool.query(`select * from plan_accion.tbl_exec_fisica where porc_eficacia_proyecto<$1 num_valstat > 0`, [alerta])
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
