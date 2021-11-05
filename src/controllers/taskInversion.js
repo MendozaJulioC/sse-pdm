@@ -573,10 +573,10 @@ const getInverMap = async (req, res)=>{
             'CODIGO', comuna,
             'SECTOR', sector,
             'NOMBRE', nombre,
-
+            'HABITANTES', habitantes,
             'SHAPEAREA', shapearea,
             'SHAPELEN', shapelen,
-			'COD_COMUNA', cod_comuna,
+			      'COD_COMUNA', cod_comuna,
             'Vigencia2021',total ,
             'inver_localizada_2021', localizada,
             'inver_ciudad_2021',ciudad,
