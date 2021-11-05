@@ -233,4 +233,19 @@ const getIndicadorBot = async(req, res)=>{
         console.log('Error getIndicador: '),error
     }
 }
-module.exports = {getIndicador, getListIndicador, getBuscaNombreIndicador, getGeneralPI, getGeneralLineasPI, getIndicadorBot} 
+
+
+
+const getCorteAvance= async(req, res)=>{
+	try {
+		const response = await pool.query(`select corte from indicativo.tbl_indicador group by corte`)
+		res.status(200).json({data: response.rows});   
+	} catch (error) {
+		console.error('Error getCorteAvance: ', error);
+		
+	}
+}
+
+
+
+module.exports = {getIndicador, getListIndicador, getBuscaNombreIndicador, getGeneralPI, getGeneralLineasPI, getIndicadorBot, getCorteAvance} 

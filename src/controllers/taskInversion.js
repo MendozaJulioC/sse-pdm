@@ -30,16 +30,16 @@ const getInverTerritorio = async(req, res)=>{
     try {
       const vigencia = new Date().toISOString().slice(0,4)
       const response = await pool.query(`
-        select 
-          inverpublica.tbl_tipoinver_geo.cod_comuna,
-          territorio.tbl_comuna.nom_comuna,
-          localizada,ciudad,pp, 
-          inverpublica.tbl_tipoinver_geo.total,
-          poblacion.tbl_poblacion_pdm.total AS POBLACION
-       from inverpublica.tbl_tipoinver_geo
-      left join territorio.tbl_comuna on territorio.tbl_comuna.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
-      left join poblacion.tbl_poblacion_pdm on poblacion.tbl_poblacion_pdm.codigo_comuna= territorio.tbl_comuna.cod_comuna
-      where poblacion.tbl_poblacion_pdm.vigencia=$1`,[vigencia])
+      select 
+      inverpublica.tbl_tipoinver_geo.cod_comuna,
+      territorio.comunascorregimientos.nombre,
+      localizada,ciudad,pp, 
+      inverpublica.tbl_tipoinver_geo.total,
+      poblacion.tbl_poblacion_pdm.total AS POBLACION
+   from inverpublica.tbl_tipoinver_geo
+  left join territorio.comunascorregimientos on territorio.comunascorregimientos.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
+  left join poblacion.tbl_poblacion_pdm on poblacion.tbl_poblacion_pdm.codigo_comuna= territorio.comunascorregimientos.cod_comuna
+  where poblacion.tbl_poblacion_pdm.vigencia=$1`,[vigencia])
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',

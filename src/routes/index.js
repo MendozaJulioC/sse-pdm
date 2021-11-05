@@ -48,13 +48,14 @@ router.get('/pi/api/componentes/:cod_componente', getComponente)
 .get('/pi/api/componentes/semaforo-corte/alerta/nombre/:nom_componente', getSemafavNomComponente)
 .get('/pi/api/componente/ppto/:cod_componente', getpptoComponente)
 
-const{getIndicador, getListIndicador, getBuscaNombreIndicador, getGeneralPI, getGeneralLineasPI, getIndicadorBot}= require('../controllers/taskIndicador');
+const{getIndicador, getListIndicador, getBuscaNombreIndicador, getGeneralPI, getGeneralLineasPI, getIndicadorBot, getCorteAvance}= require('../controllers/taskIndicador');
 router.get('/pi/api/indicador/:cod_indicador', getIndicador);
 router.get('/pi/api/list-indicador',getListIndicador)
 router.get('/pi/api/indicador/consulta/nombre/:nom_indicador', getBuscaNombreIndicador)
-router.get ('/pi/api/generalpi', getGeneralPI)
+router.get('/pi/api/generalpi', getGeneralPI)
 router.get('/pi/api/genralpilineas', getGeneralLineasPI)
 router.get('/bot/api/indicador/:cod_indicador', getIndicadorBot)
+router.get('/pi/api/avance/corte',getCorteAvance)
 
 
 const {getPrograma, getPrgAvance, getlistProgramas, getBuscaNombrePrograma, getBuscaCodigoPrograma, getRespPrograma , getRespCodPrograma,
