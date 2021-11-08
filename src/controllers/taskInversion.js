@@ -556,8 +556,6 @@ const getDepInversionComuna = async(req, res)=>{
 
 const getInverMap = async (req, res)=>{
   try {
-
-
       const response  = await pool.query(` 
       SELECT jsonb_build_object(
         'type',     'FeatureCollection',
@@ -601,5 +599,17 @@ const getInverMap = async (req, res)=>{
   }
 }
 
+
+const getRangoMap = async(req, res)=>{
+  try {
+    const response = await pool.query(`select cod_comuna, nombre, comuna, habitantes,localizada, ciudad, pp, total from 	inverpublica.view_map_inversion_comunas`)
+    res.status(200).json({ data: response.rows }); 
+  } catch (error) {
+    console.error('Error getRangoMap: ', error);
+    
+  }
+}
+
+
 module.exports ={ getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, 
-    getInverTerriroerioProject, getDepInversionComuna, getInverMap} ; 
+    getInverTerriroerioProject, getDepInversionComuna, getInverMap, getRangoMap} ; 

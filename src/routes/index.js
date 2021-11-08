@@ -109,7 +109,7 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/alerta/ponderado',getAlertaPonderadoPA )
 
 const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep,getTipoIniciativaDep,
-         getInverTerriroerioProject, getDepInversionComuna, getInverMap}  = require('../controllers/taskInversion')
+         getInverTerriroerioProject, getDepInversionComuna, getInverMap, getRangoMap}  = require('../controllers/taskInversion')
 router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/territorio',getInverTerritorio)
 .get('/geo/api/dependencias',getInversionDep)
@@ -119,6 +119,7 @@ router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/dependencias/proyectos/:cod_proyecto', getInverTerriroerioProject)
 .get('/geo/api/comuna/dep-inversion/:comuna',getDepInversionComuna)
 .get('/geo/api/inversion/maps', getInverMap)
+.get('/geo/api/rangos/maps', getRangoMap)
 
 const {getComuna, getReportSecretarios}  = require('../controllers/taskTerritorio')
 router.get('/geo/api/comunas', getComuna)

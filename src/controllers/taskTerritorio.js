@@ -3,7 +3,7 @@ const { pool, pool2 } = require('../sql/dbConfig');
 
 const getComuna = async (req, res)=>{
     try {
-       ExcelToJson()
+     //  ExcelToJson()
         const response = await pool.query(`select * from territorio.tbl_comuna`) 
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -18,7 +18,6 @@ const getComuna = async (req, res)=>{
         console.error('Error getComuna: ', error);
     }
 }
-
 
 const ExcelToJson = async (req, res)=>{
   try {
