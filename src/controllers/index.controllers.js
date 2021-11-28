@@ -51,7 +51,7 @@ const updateLogro = async (req, res)=>{
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/tabla_Segto_PI.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-     console.log(datos)
+    // console.log(datos)
      for (let i=0; i<datos.length; i++){
         //console.log(datos[i].CodigoIndicador)
         //console.log(datos[i].Observacion20)

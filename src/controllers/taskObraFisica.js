@@ -287,7 +287,8 @@ const getGeoIntervencionOF= async(req, res)=>{
 
 const getDepOFTerritorio = async (req, res)=>{
     const dep= req.params.cod_dep;
-    const response = await pool.query(`select
+    const response = await pool.query(`
+    select
     obra_fisica.tbl_obra_fisica.cod_comuna, 
     territorio.tbl_comuna.nom_comuna,
     count (obra_fisica.tbl_obra_fisica.cod_comuna) as tot_obra

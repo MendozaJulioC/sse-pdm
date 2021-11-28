@@ -109,7 +109,7 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/alerta/ponderado',getAlertaPonderadoPA )
 
 const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep,getTipoIniciativaDep,
-         getInverTerriroerioProject, getDepInversionComuna, getInverMap, getRangoMap}  = require('../controllers/taskInversion')
+         getInverTerriroerioProject, getDepInversionComuna, getInverMap, getRangoMap, getInversionComCorr}  = require('../controllers/taskInversion')
 router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/territorio',getInverTerritorio)
 .get('/geo/api/dependencias',getInversionDep)
@@ -120,6 +120,7 @@ router.get('/geo/api/tipo-inversion', getTipoInversion)
 .get('/geo/api/comuna/dep-inversion/:comuna',getDepInversionComuna)
 .get('/geo/api/inversion/maps', getInverMap)
 .get('/geo/api/rangos/maps', getRangoMap)
+.get ('/geo/api/inversion/territorio/:cod_comuna', getInversionComCorr)
 
 const {getComuna, getReportSecretarios}  = require('../controllers/taskTerritorio')
 router.get('/geo/api/comunas', getComuna)
@@ -158,9 +159,14 @@ router.get('/obrafisica/api/total/dep/:cod_dep',getTotalDepOF)
 
 
 
-const { getPoblacion }= require('../controllers/taskPoblacion')
+const { getPoblacion, getPoblacionPDM }= require('../controllers/taskPoblacion')
         router.get('/poblacion/api/total/', getPoblacion)
-        
+        .get('/poblacion/api/pdm',getPoblacionPDM)
 
+
+const { getProyectos }= require('../controllers/taskProyectos')
+        router.get('/proyectos/api/listado', getProyectos)
+       
+        
 
 module.exports = router;    

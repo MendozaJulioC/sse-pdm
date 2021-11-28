@@ -1,12 +1,12 @@
 
 
-const { pool } = require('../sql/dbConfig');
+const { pool, pool3 } = require('../sql/dbConfig');
 
 const getEmail =  async (req, res)=> {
     try {
         
         const email =  req.params.email;
-        const response = await pool.query(`select * from auth.tbl_users where email=$1`, [email]);
+        const response = await poo3.query(`select * from auth.tbl_users where email=$1`, [email]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -30,7 +30,7 @@ const getEmail =  async (req, res)=> {
 const postRegisterUser = async(req, res)=>{
     try {
         const{email, password, fullname,  cargo, tel_contacto, dependencias }= req.body;
-        const results = await pool.query(`
+        const results = await pool3.query(`
             INSERT INTO auth.tbl_users(
                 email, password, nom_usuario, id_cargo, tel_contacto, cod_dependencia)
             VALUES ( $1 , $2, $3,$4, $5, $6) RETURNING nom_usuario;`,
@@ -61,7 +61,7 @@ const getIdLoguin =  async (req, res)=> {
     try {
         
         const id =  req.params.id;
-        const response = await pool.query(`select id, nom_usuario,email, tel_contacto, cod_dependencia, id_cargo from auth.tbl_users where id=$1 `, [id]);
+        const response = await pool3.query(`select id, nom_usuario,email, tel_contacto, cod_dependencia, id_cargo from auth.tbl_users where id=$1 `, [id]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',

@@ -36,31 +36,53 @@ const getInverTerritorio = async(req, res)=>{
       localizada,ciudad,pp, 
       inverpublica.tbl_tipoinver_geo.total,
       poblacion.tbl_poblacion_pdm.total AS POBLACION
-   from inverpublica.tbl_tipoinver_geo
-  left join territorio.comunascorregimientos on territorio.comunascorregimientos.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
-  left join poblacion.tbl_poblacion_pdm on poblacion.tbl_poblacion_pdm.codigo_comuna= territorio.comunascorregimientos.cod_comuna
-  where poblacion.tbl_poblacion_pdm.vigencia=$1`,[vigencia])
-        res.status(200).json({
-            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
-            Fecha_Emision:'2020-08-30',
-            Fecha_Inicial:'2020-01-31',
-            Fecha_Final:'2023-12-31',
-            Frecuencia_actualizacion:'Semestral',
-            Version: '1.0',
-            Cobertura:'Municipio de Medelín',
-            Fecha_ultima__actualizacion:'2020-08-30',
-            Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
-            eMail_Contacto: 'julio.mendoza@medellin.gov.co',
-           
-            data: response.rows
-        });
-
-
-        
+      from inverpublica.tbl_tipoinver_geo
+      left join territorio.comunascorregimientos on territorio.comunascorregimientos.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
+      left join poblacion.tbl_poblacion_pdm on poblacion.tbl_poblacion_pdm.codigo_comuna= territorio.comunascorregimientos.cod_comuna
+      where poblacion.tbl_poblacion_pdm.vigencia=$1`,[vigencia])
+      res.status(200).json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Fecha_Emision:'2020-08-30',
+        Fecha_Inicial:'2020-01-31',
+        Fecha_Final:'2023-12-31',
+        Frecuencia_actualizacion:'Semestral',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Fecha_ultima__actualizacion:'2020-08-30',
+        Datos_Contacto:'Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272',
+        eMail_Contacto: 'julio.mendoza@medellin.gov.co',
+        data: response.rows
+      });
     } catch (error) {
         console.log('Error getInverTerritorio: ', error)
     }
 }
+
+
+const getInversionComCorr = async(req, res)=>{
+  try {
+    const vigencia = new Date().toISOString().slice(0,4)
+    const comuna =   req.params.cod_comuna;
+    const response = await pool.query(` 
+    select 
+    inverpublica.tbl_tipoinver_geo.cod_comuna,
+    territorio.comunascorregimientos.nombre,
+    localizada,ciudad,pp, 
+    inverpublica.tbl_tipoinver_geo.total,
+    poblacion.tbl_poblacion_pdm.total AS POBLACION
+    from inverpublica.tbl_tipoinver_geo
+    left join territorio.comunascorregimientos on territorio.comunascorregimientos.cod_comuna= inverpublica.tbl_tipoinver_geo.cod_comuna
+    left join poblacion.tbl_poblacion_pdm on poblacion.tbl_poblacion_pdm.codigo_comuna= territorio.comunascorregimientos.cod_comuna
+    where poblacion.tbl_poblacion_pdm.vigencia=$1	 and inverpublica.tbl_tipoinver_geo.cod_comuna= $2`, [vigencia, comuna]);
+    res.status(200).json({ data: response.rows }); 
+
+  } catch (error) {
+    console.error('Error getInversionComCorr: ', error);
+    
+  }
+}
+
+
 
 const getInversionDep =  async(req, res)=>{
     try {
@@ -612,4 +634,4 @@ const getRangoMap = async(req, res)=>{
 
 
 module.exports ={ getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep, getTipoIniciativaDep, 
-    getInverTerriroerioProject, getDepInversionComuna, getInverMap, getRangoMap} ; 
+    getInverTerriroerioProject, getDepInversionComuna, getInverMap, getRangoMap, getInversionComCorr} ; 
