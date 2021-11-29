@@ -1,5 +1,5 @@
 const XLSX = require('xlsx');
-const { pool, pool3 } = require('../sql/dbConfig');
+const { pool } = require('../sql/dbConfig');
 
 
 const ExcelToJson = async (req, res)=>{
@@ -909,8 +909,8 @@ const getHome = async(req, res)=>{
 const postCorteSemaforo = async( req, res)=>{
   try {
     const { vigencia, mesplan } = req.body;
-    const response = await pool3.query(`  
-      select * from  indicativo.tbl_cortes where vigencia = $1 and mesplan = $2`, [ vigencia, mesplan]  
+    const response = await pool.query(`  
+      select * from  indicativo.tal_cortes where vigencia = $1 and mesplan = $2`, [ vigencia, mesplan]  
     );
     res.status(200).json({
     Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
