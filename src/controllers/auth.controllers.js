@@ -6,7 +6,7 @@ const getEmail =  async (req, res)=> {
     try {
         
         const email =  req.params.email;
-        const response = await poo3.query(`select * from auth.tbl_users where email=$1`, [email]);
+        const response = await pool3.query(`select * from auth.tbl_users where email=$1`, [email]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
