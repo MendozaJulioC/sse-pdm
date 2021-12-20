@@ -317,7 +317,7 @@ const Excel_EFinanciera = async (req, res)=>{
     const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
-   console.log(datos)
+   //console.log(datos)
  await pool.query(' delete from plan_accion.tbl_exec_financiera')
 
    for (let i=0; i<datos.length; i++){
@@ -394,10 +394,10 @@ const Ejec_financiera_PI = async(req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-  // ExcelToJson()
+  //ExcelToJson()
   //updateLogro()
-  //Excel_PA()
-   //Excel_EFisica()
+   // Excel_PA()
+  //Excel_EFisica()
   //Excel_EFinanciera()
  //Ejec_financiera_PI ()
   //UpdateExcel_PA()

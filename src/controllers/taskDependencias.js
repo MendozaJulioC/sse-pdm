@@ -26,7 +26,7 @@ const getDependencias = async(req, res)=>{
 const getAvanceDepPDM = async (req, res)=>{
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await pool.query(`select   sum(pesoxavnt) as avance, sum(peso) as peso from indicativo.tbl_indicador where cod_responsable_reporte=$1`,[dependencia])
+        const response = await pool.query(`select  sum(avance_cuatrienio)as avance_cuatrienio,  sum(pesoxavnt) as avance, sum(peso) as peso from indicativo.tbl_indicador where cod_responsable_reporte=$1`,[dependencia])
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
