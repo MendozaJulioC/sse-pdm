@@ -1049,10 +1049,11 @@ const getSemafavAlerta = async(req, res)=>{
       const response = await pool.query(` 
       SELECT 
       cod_dep, nombre_dep,nom_cortp,total_gris, total_rojo, total_amarillo, total_verde, 
-      sum((avance/peso)*100) avance
+      sum(avance_cuatrienio) as avance
       FROM indicativo.view_alerta
 	  where cod_dep <>908 and cod_dep<>901 and cod_dep<>904 and cod_dep<>903 and cod_dep<>907 and cod_dep<>906
-    group by cod_dep, nombre_dep,nom_cortp,total_gris, total_rojo, total_amarillo, total_verde`)
+    group by cod_dep, nombre_dep,nom_cortp,total_gris, total_rojo, total_amarillo, total_verde
+	`)
       res.status(200). json({
           Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
           Fecha_Emision:'2020-08-30',
