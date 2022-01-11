@@ -127,11 +127,12 @@ router.get('/geo/api/comunas', getComuna)
 router.get('/geo/api/logros/:comuna', getReportSecretarios)
 
 
-const { getValStatBot,getProyectoBot, getTerritorioBot, getDependenciaBot }= require('../controllers/taksBot')
+const { getValStatBot,getProyectoBot, getTerritorioBot, getDependenciaBot, getUserBot }= require('../controllers/taksBot')
 router.get('/bot/api/valorestadistico/:cod_valstat', getValStatBot)
 router.get('/bot/api/proyecto/:cod_proyecto', getProyectoBot)
 router.get('/bot/api/territorio/:cod_territorio', getTerritorioBot)
 router.get('/bot/api/dependencias/:cod_dependencia', getDependenciaBot)
+router.get('/bot/api/users/:userame', getUserBot)
 
 const { getGoogleSheet }= require('../controllers/spreadsheet')
 router.get('/obrafisica/api/update/', getGoogleSheet)

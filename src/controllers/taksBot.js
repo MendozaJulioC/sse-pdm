@@ -1,4 +1,4 @@
-const { pool } = require('../sql/dbConfig');
+const { pool, pool3 } = require('../sql/dbConfig');
 
 const getValStatBot= async (req, res)=>{
     try {
@@ -159,6 +159,11 @@ const getDependenciaBot = async(req, res)=>{
     }
 }
 
+const getUserBot = async(req, res)=>{
+    const usuario = req.params.username;
+    //const response  = await
+}
+
 module.exports= { 
-    getValStatBot, getProyectoBot, getTerritorioBot, getDependenciaBot
+    getValStatBot, getProyectoBot, getTerritorioBot, getDependenciaBot, getUserBot
 }
