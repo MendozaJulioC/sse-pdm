@@ -603,8 +603,6 @@ const getInverMap = async (req, res)=>{
             'inver_pp_2021',pp,
             'IDENTIFICACION', nombre,
             'LIMITEMUNICIPIOID', sector
-         
-          
          )
       ) AS feature
       FROM (SELECT * FROM inverpublica.view_map_inversion_comunas  ) inputs) features;

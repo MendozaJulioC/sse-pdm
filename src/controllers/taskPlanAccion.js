@@ -259,7 +259,7 @@ const getAvanceEjecucionProyect = async(req, res)=>{
     try {
         const cod = req.params.cod_proyecto;
         const response = await pool.query(`
-        select cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, tipo_iniciativa
+        select cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, porc_ejec_financiera, tipo_iniciativa
         from plan_accion.view_ejeuciones_proyecto
             where cod_proyecto=$1`, [cod])
         res.status(200).json({

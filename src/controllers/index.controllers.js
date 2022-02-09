@@ -394,9 +394,9 @@ const Ejec_financiera_PI = async(req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-  //ExcelToJson()
-    //updateLogro()
-   // Excel_PA()
+  ExcelToJson()
+  //updateLogro()
+  //Excel_PA()
   //Excel_EFisica()
   //Excel_EFinanciera()
  //Ejec_financiera_PI ()
@@ -1157,4 +1157,4 @@ const getSemaforoPA = async(req, res)=>{
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
                   getTotal, ExcelToJson, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep,
                   getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA, UpdateExcel_PA
-              }
+                }
