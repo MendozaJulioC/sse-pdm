@@ -325,7 +325,7 @@ const getBuscaValStat = async(req, res)=>{
 const getAlertaFinanciera= async  (req, res)=>{
     try {
         const alerta = req.params.alerta
-        const response = await pool.query(`select * from plan_accion.view_ejeuciones_proyecto where ejec_financiera< $1 and tipo_iniciativa <= 2 `, [alerta])
+        const response = await pool.query(`select * from plan_accion.view_ejeuciones_proyecto where ejec_financiera< $1 and tipo_iniciativa <= 2< $1 and tipo_iniciativa <= 2 `, [alerta])
 
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
