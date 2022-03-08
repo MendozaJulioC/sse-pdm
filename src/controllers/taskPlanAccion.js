@@ -432,7 +432,7 @@ const getAlertaPonderadoPA = async(req, res)=>{
                         "nom_proyecto": response.rows[index].nom_proyecto,
                         "poai": response.rows[index].poai,
                         "ppto_ajustado": response.rows[index].ppto_ajustado,
-                        "ejec_financiera":response.rows[index].ejec_financiera,
+                        "ejec_financiera":response.rows[index].porc_ejec_financiera,
                         "porc_eficacia_proyecto": response.rows[index].porc_eficacia_proyecto,
                         "ponderado": response.rows[index].ponderado
                     })
