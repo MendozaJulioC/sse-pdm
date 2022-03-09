@@ -423,6 +423,7 @@ const getAlertaPonderadoPA = async(req, res)=>{
             from plan_accion.view_ejeuciones_proyecto
             group by  cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, porc_ejec_financiera, porc_eficacia_proyecto
             order by cod_dependencia`)
+            
             for (let index = 0; index < response.rows.length; index++) {
                 if (response.rows[index].ponderado<=0.40) {
                     alerta.push({
@@ -437,6 +438,7 @@ const getAlertaPonderadoPA = async(req, res)=>{
                         "ponderado": response.rows[index].ponderado
                     })
                 }
+             
             }
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -453,7 +455,36 @@ const getAlertaPonderadoPA = async(req, res)=>{
 }
 
 
+const getAlertaCuentaDep = async(req, res)=>{
+    try {
+        const alerta = req.params.alerta
+        const response = await pool.query(`
+        select 
+            count (cod_dependencia) as total_dep,
+            cod_dependencia,
+            nom_dependencia
+        from plan_accion.view_ejeuciones_proyecto 
+        where porc_ejec_financiera > 0.80 and tipo_iniciativa<=2 and porc_eficacia_proyecto <$1
+        group by cod_dependencia, nom_dependencia
+        order by  total_dep desc
+    `, [alerta]) 
+    res.status(200). json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+        eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+        data: response.rows
+    })
+    
+    } catch (error) {
+        console.error('Error  getAlertaCuentaDep');
+        
+    }
+}
+
 module.exports ={   getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep,
-                    getAvanceEjecucionProyect, getBuscaValStat, getAlertaFinanciera, getCorteAlertaPA, getvaloraAlerta, getAlertaFisica, getAlertaFisicaFinanciera, getAlertaPonderadoPA
+                    getAvanceEjecucionProyect, getBuscaValStat, getAlertaFinanciera, getCorteAlertaPA, getvaloraAlerta, getAlertaFisica, getAlertaFisicaFinanciera, getAlertaPonderadoPA,
+                    getAlertaCuentaDep
     
     };
