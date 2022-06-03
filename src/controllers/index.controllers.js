@@ -399,7 +399,7 @@ const getLineas = async (req, res)=>{
   //Excel_PA()
   //Excel_EFisica()
   //Excel_EFinanciera()
-  Ejec_financiera_PI ()
+  //Ejec_financiera_PI ()
   //UpdateExcel_PA()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
@@ -421,7 +421,7 @@ const getLineas = async (req, res)=>{
 
 const getTotal = async (req, res)=>{
   try {
-    const response = await pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2021) as programado from indicativo.tbl_indicador');
+    const response = await pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2022) as programado from indicativo.tbl_indicador');
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
       Fecha_Emision:'2020-08-30',
