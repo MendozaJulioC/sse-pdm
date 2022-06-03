@@ -107,7 +107,7 @@ const Excel_PA = async (req, res)=>{
 
      for (let i=0; i<datos.length; i++){
      
-         await pool.query(` INSERT INTO plan_accion.tbl_accion(
+               await pool.query(` INSERT INTO plan_accion.tbl_accion(
                           cod_dependencia,
                           cod_linea,
                           nom_linea,
@@ -394,12 +394,12 @@ const Ejec_financiera_PI = async(req, res)=>{
 
 const getLineas = async (req, res)=>{
   try {
-  ExcelToJson()
+  //ExcelToJson()
   //updateLogro()
   //Excel_PA()
   //Excel_EFisica()
   //Excel_EFinanciera()
- //Ejec_financiera_PI ()
+  Ejec_financiera_PI ()
   //UpdateExcel_PA()
     const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
