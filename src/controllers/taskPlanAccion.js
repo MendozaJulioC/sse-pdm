@@ -483,8 +483,28 @@ const getAlertaCuentaDep = async(req, res)=>{
     }
 }
 
+
+const getDetalleFinanceroDep = async(req, res)=>{
+    try {
+        const dep = req.params.dep;
+        const response = await pool.query(`select * from plan_accion.sp_detalle_pa_dep(${dep})`);
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            data: response.rows
+        })
+
+    } catch (error) {
+        console.error('Error', error);
+        
+    }
+}
+
 module.exports ={   getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep,
                     getAvanceEjecucionProyect, getBuscaValStat, getAlertaFinanciera, getCorteAlertaPA, getvaloraAlerta, getAlertaFisica, getAlertaFisicaFinanciera, getAlertaPonderadoPA,
-                    getAlertaCuentaDep
+                    getAlertaCuentaDep, getDetalleFinanceroDep
     
     };

@@ -89,8 +89,11 @@ router.get('/see/api/dependencias', getDependencias)
 .get('/dep/api/cumplimiento/:cod_dependencia', getCumplimientoDep)
 .get('/dep/api/rank/cumplimiento', getCumplimientoDMxDEpendencias)
 
-const { getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep, getPlanAccionDep, getValStat, getEjecFisicaDep, getEjecFinancieraDep,getAvanceEjecucionProyect, getBuscaValStat,
-        getAlertaFinanciera, getCorteAlertaPA, getvaloraAlerta , getAlertaFisica, getAlertaFisicaFinanciera, getAlertaPonderadoPA, getAlertaCuentaDep}= require('../controllers/taskPlanAccion')
+const { getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep, getPlanAccionDep, getValStat,
+        getEjecFisicaDep, getEjecFinancieraDep,getAvanceEjecucionProyect, getBuscaValStat,
+        getAlertaFinanciera, getCorteAlertaPA, getvaloraAlerta , getAlertaFisica, getAlertaFisicaFinanciera,
+         getAlertaPonderadoPA, getAlertaCuentaDep, getDetalleFinanceroDep}= require('../controllers/taskPlanAccion')
+
 router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/avancefinanciero', getAvanceFinanciero)
 .get('/pa/api/avancefinanciero/dep/:cod_dependencia', getAvanceFinancieroDep)
@@ -108,6 +111,8 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/alerta/finanfisica/:alerta', getAlertaFisicaFinanciera)
 .get('/pa/api/alerta/ponderado',getAlertaPonderadoPA )
 .get('/pa/pi/alerta/cuentadepfisica/:alerta', getAlertaCuentaDep)
+.get('/pa/detalle/financiero/:dep', getDetalleFinanceroDep)
+
 
 const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep,getTipoIniciativaDep,
          getInverTerriroerioProject, getDepInversionComuna, getInverMap, getRangoMap, getInversionComCorr}  = require('../controllers/taskInversion')
