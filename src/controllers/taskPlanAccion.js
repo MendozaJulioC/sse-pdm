@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 const { pool } = require('../sql/dbConfig');
 
 const getAvanceFisico = async (req, res)=>{
@@ -319,9 +320,6 @@ const getBuscaValStat = async(req, res)=>{
     }
 }
 
-
-
-
 const getAlertaFinanciera= async  (req, res)=>{
     try {
         const alerta = req.params.alerta
@@ -342,8 +340,6 @@ const getAlertaFinanciera= async  (req, res)=>{
     }
 }
 
-
-
 const getAlertaFisica = async(req, res)=>{
     try {
         const alerta = req.params.alerta
@@ -361,9 +357,6 @@ const getAlertaFisica = async(req, res)=>{
         
     }
 }
-
-
-
 
 const getCorteAlertaPA = async(req, res)=>{
     const response = await pool.query(`select corte from plan_accion.tbl_exec_financiera group by corte`)
@@ -394,7 +387,6 @@ const getvaloraAlerta = async (req, res)=>{
         
     }
 }
-
 
 const getAlertaFisicaFinanciera = async(req, res)=>{
     try {
@@ -454,7 +446,6 @@ const getAlertaPonderadoPA = async(req, res)=>{
     }
 }
 
-
 const getAlertaCuentaDep = async(req, res)=>{
     try {
         const alerta = req.params.alerta
@@ -483,7 +474,6 @@ const getAlertaCuentaDep = async(req, res)=>{
     }
 }
 
-
 const getDetalleFinanceroDep = async(req, res)=>{
     try {
         const dep = req.params.dep;
@@ -502,8 +492,6 @@ const getDetalleFinanceroDep = async(req, res)=>{
         
     }
 }
-
-
 
 const getPAFisInt = async(req, res)=>{
 try {
@@ -526,7 +514,6 @@ where tipo_proyecto='0'`);
 }
 
 }
-
 
 const getPAFisPP = async (req, res)=>{
     try {
@@ -565,6 +552,7 @@ const getPAFinanInst = async(req, res)=>{
         console.error('Error getPAFinanInst:', error);
     }
 }
+
 const getPAFinanPP = async(req, res)=>{
     try {
           const response = await pool.query(`select sum(ejecucion)/sum(ppto_ajustado) as porc_finan from plan_accion.tbl_exec_financiera where tipo_proyecto='1'`);
@@ -582,8 +570,55 @@ const getPAFinanPP = async(req, res)=>{
     }
 }
 
+
+const getRankPPFisico = async (req, res)=>{
+try {
+    const response = await pool.query(`
+    select cod_dependencia,nom_dependencia,
+        sum(porc_eficacia_proyecto * ppto_ajustado)/ ( sum(ppto_ajustado) ) as porc_ejecfisica
+    from plan_accion.tbl_exec_fisica 
+    where tipo_proyecto='1'
+    group  by cod_dependencia, nom_dependencia
+    order by cod_dependencia`);
+    res.status(200). json({
+        Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+        Version: '1.0',
+        Cobertura:'Municipio de Medelín',
+        Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+        eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+        data: response.rows
+    })   
+
+} catch (error) {
+    console.error('Error getRankPPFisico: ', error);
+}
+}
+const getRankPPFinan= async(req,res)=>{
+    try {
+        const response = await pool.query(` 
+        select
+        cod_dependencia, nom_dependencia, sum(ejecucion)/sum(ppto_ajustado)as porcexec_financiera
+        from plan_accion.tbl_exec_financiera
+        where tipo_proyecto='1'
+        group by cod_dependencia, nom_dependencia
+        order by cod_dependencia
+        
+        `)
+        res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
+            eMail_Contacto: 'bibiana.botero@medellin.gov.co',
+            data: response.rows
+        })   
+    } catch (error) {
+        console.error('Error getRankPPFinan:', error);
+    }
+}
+
 module.exports ={   getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceFisicoDep,getPlanAccionDep, getValStat, getEjecFisicaDep , getEjecFinancieraDep,
                     getAvanceEjecucionProyect, getBuscaValStat, getAlertaFinanciera, getCorteAlertaPA, getvaloraAlerta, getAlertaFisica, getAlertaFisicaFinanciera, getAlertaPonderadoPA,
-                    getAlertaCuentaDep, getDetalleFinanceroDep, getPAFisInt, getPAFisPP, getPAFinanInst, getPAFinanPP
+                    getAlertaCuentaDep, getDetalleFinanceroDep, getPAFisInt, getPAFisPP, getPAFinanInst, getPAFinanPP, getRankPPFisico, getRankPPFinan
     
     };
