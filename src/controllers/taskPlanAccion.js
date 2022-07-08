@@ -454,8 +454,8 @@ const getAlertaCuentaDep = async(req, res)=>{
             count (cod_dependencia) as total_dep,
             cod_dependencia,
             nom_dependencia
-        from plan_accion.view_ejeuciones_proyecto 
-        where porc_ejec_financiera > 0.80 and tipo_iniciativa<=2 and porc_eficacia_proyecto <$1
+        from plan_accion.view_ejeuciones_proyecto
+        where tipo_iniciativa<=2 and porc_eficacia_proyecto <$1
         group by cod_dependencia, nom_dependencia
         order by  total_dep desc
     `, [alerta]) 
