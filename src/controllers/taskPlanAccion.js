@@ -261,8 +261,16 @@ const getAvanceEjecucionProyect = async(req, res)=>{
         const cod = req.params.cod_proyecto;
         const response = await pool.query(`
         select
-  cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto,ejec_financiera 
-  from plan_accion.tbl_exec_fisica  where cod_proyecto=$1`, [cod])
+        plan_accion.tbl_exec_fisica.cod_dependencia, 
+        plan_accion.tbl_exec_fisica.nom_dependencia,
+        plan_accion.tbl_exec_fisica.cod_proyecto,
+        plan_accion.tbl_exec_fisica.nom_proyecto, 
+        plan_accion.tbl_exec_fisica.porc_eficacia_proyecto,
+        plan_accion.tbl_exec_fisica.ejec_financiera,
+        plan_accion.tbl_exec_financiera.tipo_iniciativa 
+        from plan_accion.tbl_exec_fisica 
+         LEFT JOIN plan_accion.tbl_exec_financiera ON plan_accion.tbl_exec_financiera.cod_proyecto = plan_accion.tbl_exec_fisica.cod_proyecto
+        where plan_accion.tbl_exec_financiera.cod_proyecto=$1`, [cod])
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
