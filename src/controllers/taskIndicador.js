@@ -1,5 +1,5 @@
 
-const { pool } = require('../sql/dbConfig');
+const { pool, pool3 } = require('../sql/dbConfig');
 
 const getIndicador = async(req, res)=>{
     try {
@@ -181,7 +181,7 @@ const getGeneralPI = async (req, res)=>{
 
 const getGeneralLineasPI= async (req, res)=>{
 	try {
-		const response = await pool.query(`select * from indicativo.tbl_comportamiento_lineas`)
+		const response = await pool3.query(`select * from indicativo.tbl_comportamiento_lineas order by corte`)
 		res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',

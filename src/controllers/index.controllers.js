@@ -1,11 +1,11 @@
 const XLSX = require('xlsx');
-const { pool } = require('../sql/dbConfig');
+const { pool, pool3 } = require('../sql/dbConfig');
 
 
 const ExcelToJson = async (req, res)=>{
   try {
    // const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/BVCC.xlsx');
-   const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Estructuracion.xlsx');
+   const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Estructuracion.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     // console.log(datos)
@@ -46,9 +46,39 @@ const ExcelToJson = async (req, res)=>{
   }
 }
 
+const UpdateTotalesGeo = async(req, res)=>{
+  try {
+    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Estructuracion.xlsx');
+    var nombreHoja = excel.SheetNames;
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[3]]);
+
+  // console.log(datos)
+
+  for (let i=0; i<datos.length; i++){
+        //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
+        
+         await pool.query(` 
+          UPDATE inverpublica.tbl_tipoinver_geo
+          SET  
+            localizada=${datos[i].Localizada},
+            ciudad=${datos[i].Ciudad},
+            pp=${datos[i].pp},
+            total=${datos[i].total}
+         WHERE cod_comuna=${datos[i].CodigoComuna};
+        `);
+        console.log(datos[i].NombreComuna, " ok")   
+                            
+  }
+
+
+  } catch (error) {
+    console.error('Update UpdateTotalesGeo: ', error);
+  }
+}
+
 const updateLogro = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/tabla_Segto_PI.xlsx');
+    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     // console.log(datos)
@@ -97,9 +127,48 @@ const updateLogro = async (req, res)=>{
   }
 }
 
+const updatelineas= async(req, res)=>{
+try {
+  const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx');
+  var nombreHoja = excel.SheetNames;
+  var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
+  //console.log(datos)
+
+  for (let i=0; i<datos.length; i++){
+    //para el siguiente corte crear una funcion que solo inserte por el corte necesario
+    //ojojojojojojoj
+     
+
+    await pool3.query(` 
+    INSERT INTO indicativo.tbl_comportamiento_lineas(
+      cod_linea, nom_linea, avance, cumplimiento, corte, tipo)
+      VALUES (${datos[i].cod_linea},
+        '${datos[i].linea}',
+        ${datos[i].avance}, 
+        ${datos[i].cumplimiento},
+        '${datos[i].corte}',
+        '${datos[i].tipo}');
+    `);
+    console.log(datos[i].linea, " ok")   
+
+
+
+
+}
+
+
+
+
+} catch (error) {
+  console.error('Error updatelineas', error);
+}
+}
+
+
+
 const Excel_PA = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/plan_accion_pdm.xlsx');
+    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/plan_accion_pdm.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     // console.log(datos)
@@ -203,10 +272,9 @@ const Excel_PA = async (req, res)=>{
   }
 }
 
-
 const UpdateExcel_PA = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Update_plan_accion.xlsx');
+    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Update_plan_accion.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     //console.log(datos)
@@ -264,10 +332,9 @@ const UpdateExcel_PA = async (req, res)=>{
   }
 }
 
-
 const Excel_EFisica = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
+    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
  //   console.log(datos)
@@ -314,7 +381,7 @@ const Excel_EFisica = async (req, res)=>{
 
 const Excel_EFinanciera = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
+    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
    //console.log(datos)
@@ -361,7 +428,7 @@ const Excel_EFinanciera = async (req, res)=>{
 
 const Ejec_financiera_PI = async(req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/Visualizaciones_PAV.xlsx');
+    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     //console.log(datos)
@@ -395,7 +462,9 @@ const Ejec_financiera_PI = async(req, res)=>{
 const getLineas = async (req, res)=>{
   try {
   //ExcelToJson()
+  //UpdateTotalesGeo()
   //updateLogro()
+  updatelineas()
   //Excel_PA()
   //Excel_EFisica()
   //Excel_EFinanciera()
