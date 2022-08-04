@@ -425,14 +425,17 @@ const getAlertaPonderadoPA = async(req, res)=>{
         cod_proyecto,
         nom_proyecto,
         poai,ppto_ajustado,
+        ejec_financiera,
         porc_ejec_financiera,
         porc_eficacia_proyecto ,
         num_valstat,
         sum(porc_eficacia_proyecto*0.50)+sum(ejec_financiera*0.50) as ponderado
         from plan_accion.view_ejeuciones_proyecto
         where num_valstat>=1
-        group by  cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, porc_ejec_financiera, porc_eficacia_proyecto, num_valstat
-          order by cod_dependencia`)
+        group by  cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, ejec_financiera,porc_ejec_financiera, porc_eficacia_proyecto, num_valstat
+          order by cod_dependencia
+          
+          `)
             
             for (let index = 0; index < response.rows.length; index++) {
                 if (response.rows[index].ponderado<=0.40) {
@@ -443,7 +446,7 @@ const getAlertaPonderadoPA = async(req, res)=>{
                         "nom_proyecto": response.rows[index].nom_proyecto,
                         "poai": response.rows[index].poai,
                         "ppto_ajustado": response.rows[index].ppto_ajustado,
-                        "ejec_financiera":response.rows[index].porc_ejec_financiera,
+                        "ejec_financiera":response.rows[index].ejec_financiera,
                         "porc_eficacia_proyecto": response.rows[index].porc_eficacia_proyecto,
                         "ponderado": response.rows[index].ponderado
                     })
