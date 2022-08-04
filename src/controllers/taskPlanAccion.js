@@ -419,10 +419,20 @@ const getAlertaPonderadoPA = async(req, res)=>{
     try {
         let alerta =[];
         const response = await pool.query(`
-            select cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, porc_ejec_financiera, porc_eficacia_proyecto , sum(porc_eficacia_proyecto*0.50)+sum(porc_ejec_financiera*0.50) as ponderado
-            from plan_accion.view_ejeuciones_proyecto
-            group by  cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, porc_ejec_financiera, porc_eficacia_proyecto
-            order by cod_dependencia`)
+        select 
+        cod_dependencia,
+        nom_dependencia, 
+        cod_proyecto,
+        nom_proyecto,
+        poai,ppto_ajustado,
+        porc_ejec_financiera,
+        porc_eficacia_proyecto ,
+        num_valstat,
+        sum(porc_eficacia_proyecto*0.50)+sum(ejec_financiera*0.50) as ponderado
+        from plan_accion.view_ejeuciones_proyecto
+        where num_valstat>=1
+        group by  cod_dependencia,nom_dependencia, cod_proyecto, nom_proyecto,  poai,ppto_ajustado, porc_ejec_financiera, porc_eficacia_proyecto, num_valstat
+          order by cod_dependencia`)
             
             for (let index = 0; index < response.rows.length; index++) {
                 if (response.rows[index].ponderado<=0.40) {
