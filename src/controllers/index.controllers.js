@@ -150,21 +150,11 @@ try {
         '${datos[i].tipo}');
     `);
     console.log(datos[i].linea, " ok")   
-
-
-
-
-}
-
-
-
-
+  }
 } catch (error) {
   console.error('Error updatelineas', error);
 }
 }
-
-
 
 const Excel_PA = async (req, res)=>{
   try {
