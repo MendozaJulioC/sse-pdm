@@ -464,7 +464,7 @@ const getLineas = async (req, res)=>{
   //ExcelToJson()
   //UpdateTotalesGeo()
   //updateLogro()
-  updatelineas()
+ // updatelineas()
   //Excel_PA()
   //Excel_EFisica()
   //Excel_EFinanciera()

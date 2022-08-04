@@ -181,7 +181,9 @@ const getGeneralPI = async (req, res)=>{
 
 const getGeneralLineasPI= async (req, res)=>{
 	try {
-		const response = await pool3.query(`select * from indicativo.tbl_comportamiento_lineas order by corte`)
+		const response = await pool3.query(`select cod_linea, nom_linea, avance, cumplimiento, corte, tipo
+		from indicativo.tbl_comportamiento_lineas 
+		group by cod_linea, nom_linea, avance, cumplimiento, corte , tipo order by cod_linea`)
 		res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -247,5 +249,24 @@ const getCorteAvance= async(req, res)=>{
 }
 
 
+const getCortesLineas= async (req, res)=>{
+	try {
+		const response = await pool3.query(`select corte, tipo from indicativo.tbl_comportamiento_lineas  group by corte, tipo`)
+		res.status(200).json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            data: response.rows
+          });   
 
-module.exports = {getIndicador, getListIndicador, getBuscaNombreIndicador, getGeneralPI, getGeneralLineasPI, getIndicadorBot, getCorteAvance} 
+
+	} catch (error) {
+		console.error('Error  getCortesLineas:  ', error);
+	}
+
+
+}
+
+module.exports = {getIndicador, getListIndicador, getBuscaNombreIndicador, getGeneralPI, getGeneralLineasPI, getIndicadorBot, getCorteAvance, getCortesLineas} 
