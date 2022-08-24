@@ -94,7 +94,7 @@ const { getAvanceFisico, getAvanceFinanciero, getAvanceFinancieroDep, getAvanceF
         getEjecFisicaDep, getEjecFinancieraDep,getAvanceEjecucionProyect, getBuscaValStat,
         getAlertaFinanciera, getCorteAlertaPA, getvaloraAlerta , getAlertaFisica, getAlertaFisicaFinanciera,
          getAlertaPonderadoPA, getAlertaCuentaDep, getDetalleFinanceroDep, getPAFisInt,
-         getPAFisPP, getPAFinanInst, getPAFinanPP, getRankPPFisico, getRankPPFinan, getProjectPP}= require('../controllers/taskPlanAccion')
+         getPAFisPP, getPAFinanInst, getPAFinanPP, getRankPPFisico, getRankPPFinan, getProjectPP, getBubbleDep}= require('../controllers/taskPlanAccion')
 
 router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/api/avancefinanciero', getAvanceFinanciero)
@@ -121,6 +121,7 @@ router.get('/pa/api/avancefisico', getAvanceFisico)
 .get('/pa/alertapp/rankfisico',getRankPPFisico)
 .get('/pa/alertapp/rankfinanciero',getRankPPFinan)
 .get('/pa/alertapp/projects', getProjectPP)
+.get('/pa/bubble', getBubbleDep)
 
 
 const {getTipoInversion, getInverTerritorio, getInversionDep, tipo_inversion_dep, getInverTerritorioDep,getTipoIniciativaDep,

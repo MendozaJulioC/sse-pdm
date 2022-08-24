@@ -326,7 +326,7 @@ const Excel_EFisica = async (req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
  //   console.log(datos)
  await pool.query('delete from plan_accion.tbl_exec_fisica')
 
@@ -353,8 +353,8 @@ const Excel_EFisica = async (req, res)=>{
           ${datos[i].Facturas},
           ${datos[i].num_valstat},
           '${datos[i].tipo_proyecto}',
-          '${datos[i].EsPagoPendiente}',
-          '${datos[i].saldo_noexec}',
+          '${datos[i].espagopendiente}',
+          '${datos[i].saldo_no_ejec}',
           '${datos[i].corte}'
       );
         `);
@@ -456,7 +456,7 @@ const getLineas = async (req, res)=>{
   //updateLogro()
  // updatelineas()
   //Excel_PA()
-  //Excel_EFisica()
+  Excel_EFisica()
   //Excel_EFinanciera()
   //Ejec_financiera_PI ()
   //UpdateExcel_PA()
