@@ -233,7 +233,7 @@ const getCorteAvance= async(req, res)=>{
 
 const getCortesLineas= async (req, res)=>{
 	try {
-		const response = await pool3.query(`select corte, tipo from indicativo.tbl_comportamiento_lineas  group by corte, tipo`)
+		const response = await pool3.query(`select corte, tipo  from indicativo.tbl_comportamiento_lineas  group by corte, tipo order by corte`)
 		res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
