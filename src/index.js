@@ -8,6 +8,7 @@ const morgan = require ('morgan');
 app.use(morgan('dev'));
 app.use(require('./routes/index'));
 app.use(require('./routes/auth'));
+app.use(require('./routes/admin'))
 //Star server
 
 

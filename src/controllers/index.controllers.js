@@ -141,7 +141,7 @@ try {
     //para el siguiente corte crear una funcion que solo inserte por el corte necesario
     //ojojojojojojoj
      
-if (datos[i].corte=='2022-08-31') {
+if (datos[i].corte=='2022-10-31') {
 
   await pool3.query(` 
   INSERT INTO indicativo.tbl_comportamiento_lineas(
@@ -334,7 +334,7 @@ const Excel_EFisica = async (req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
  //   console.log(datos)
  await pool.query('delete from plan_accion.tbl_exec_fisica')
 
@@ -346,7 +346,7 @@ const Excel_EFisica = async (req, res)=>{
 	        VALUES (
         
           ${datos[i].Codigo_Dependencia},
-          '${datos[i].Nombre_Dependencia}',
+          '${datos[i].Nombre_Dependencia}',   
           '${datos[i].cod_proyecto}',
           '${datos[i].nom_proyecto}',
           ${datos[i].porc_eficacia_proyecto},
@@ -461,8 +461,8 @@ const getLineas = async (req, res)=>{
   try {
   //ExcelToJson()
   //UpdateTotalesGeo()
-  //updateLogro()
- //updatelineas()
+   //updateLogro()
+  //updatelineas()
   //Excel_PA()
   //Excel_EFisica()
   //Excel_EFinanciera()
@@ -1199,7 +1199,6 @@ const getAlertaRojo= async(req, res)=>{
     console.error('Error getAlertaRojo: ', error);
   }
 }
-
 
 const getSemaforoPA = async(req, res)=>{
   try {

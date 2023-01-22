@@ -72,8 +72,7 @@ router.get('/pi/api/programas/:cod_programa', getPrograma)
 .get('/pi/api/programa/ppto/:cod_programa', getPptoPrograma)
 .get('/pi/api/programas/semaforo-corte/alerta/:nom_programa', getSemafavNomPrograma)
 
-const {_postFichaCreate}= require('../controllers/taskFichasM')
-router.post('/pi/api/ficha', _postFichaCreate)
+
 
 const { _getRespIndLinea}= require('../controllers/takResponsables')
 router.get('/pi/api/responsables/line/:cod_linea', _getRespIndLinea)
