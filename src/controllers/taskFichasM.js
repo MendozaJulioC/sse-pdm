@@ -53,15 +53,19 @@ const getFichaCarga = async(req, res)=>{
             '${datos[i].Observaciones}');`)
         console.log(datos[i].CodigoIndicador, " ok")   
   }
- } catch (error) {
-  console.error('Error getFichaCarga: ', error);
- }
-    
+  } catch (error) {
+    console.error('Error getFichaCarga: ', error);
+  } 
 }
 
 //ruta para cargar datos indicador para tabla tbl_indicador
 
+const getFichMain = async(req, res)=>{
+  
+}
 
 
 
 module.exports={getFichaCarga}
+
+
