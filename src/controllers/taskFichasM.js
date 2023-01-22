@@ -1,10 +1,8 @@
 // aquí colocaré todas las rutas, tareas, consultas que tengan que ver con las fichas metodológicas delplan de desarrollo municipal
 const XLSX = require('xlsx');
 const { local_pool } = require('../sql/dbConfig');
-
 const getFichaCarga = async(req, res)=>{
   try {
-     
     // const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/BVCC.xlsx');
    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/PI-FichasMetodologicas.xlsx');
    var nombreHoja = excel.SheetNames;
@@ -37,7 +35,6 @@ const getFichaCarga = async(req, res)=>{
       VALUES ('${datos[i].CodigoIndicador}',
             '${datos[i].NombreIndicador}',
             '${datos[i].Definicion}',
-        
             '${datos[i].Objetivo}',
             '${datos[i].Normativa}',
             '${datos[i].FormulaIndicador}',
@@ -62,7 +59,7 @@ const getFichaCarga = async(req, res)=>{
     
 }
 
-
+//ruta para cargar datos indicador para tabla tbl_indicador
 
 
 
