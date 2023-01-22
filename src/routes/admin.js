@@ -9,12 +9,13 @@ const routerAdmin = Router();
 // administracion proyectos
 
 
-const {getFichaCarga} =   require('../controllers/taskFichasM');
+const {getFichaCarga, getFichaMain} =   require('../controllers/taskFichasM');
 
 
 
-//cargar ficha metodologica
+//cargar fichas metodologica y principal
 routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
+    .get('/pi/api/fichamain', getFichaMain)
 
 
 module.exports = routerAdmin;    

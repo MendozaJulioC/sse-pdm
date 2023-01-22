@@ -9,22 +9,17 @@ const ExcelToJson = async (req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[4]]);
     // console.log(datos)
-      
-  // await pool.query(` delete from inverpublica.tbl_tipoinver_geo`);
-   
-   //await pool.query(` delete from inverpublica.tbl_consolidado`);
+    // await pool.query(` delete from inverpublica.tbl_tipoinver_geo`);
+    //await pool.query(` delete from inverpublica.tbl_consolidado`);
     for (let i=0; i<datos.length; i++){
-        //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
-        
-        /* await pool.query(`  INSERT INTO inverpublica.tbl_consolidado(
+      //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
+      /* await pool.query(`  INSERT INTO inverpublica.tbl_consolidado(
                               cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
                               VALUES ('${datos[i].CodDep}','${datos[i].EsPP}','${datos[i].CodProyecto}','${datos[i].NombreProyecto}', ${datos[i].inversion_real},${datos[i].vigencia},'${datos[i].corte}',${datos[i].Total_Georreferenciado},
                                   ${datos[i].c1},${datos[i].c2}, ${datos[i].c3},${datos[i].c4}, ${datos[i].c5},${datos[i].c6}, ${datos[i].c7},${datos[i].c8}, ${datos[i].c9},${datos[i].c10}, ${datos[i].c11}, ${datos[i].c12}, ${datos[i].c13},
                                   ${datos[i].c14}, ${datos[i].c15}, ${datos[i].c16}, ${datos[i].c50}, ${datos[i].c60},  ${datos[i].c70},  ${datos[i].c80},  ${datos[i].c90}, ${datos[i].c99}, ${datos[i].c97});
-                             `);
-                             
-        
-                             console.log(datos[i].CodProyecto, " ok")   
+                          `);
+                       console.log(datos[i].CodProyecto, " ok")   
       */
 /*
       await pool.query(`INSERT INTO inverpublica.tbl_tipoinver_geo(cod_comuna, localizada, ciudad, pp, total)

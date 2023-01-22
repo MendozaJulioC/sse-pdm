@@ -9,6 +9,7 @@ const getFichaCarga = async(req, res)=>{
    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
    console.log('He vuelto!!!');
    //console.log('datos: ',datos)
+   /*
     for (let i=0; i<datos.length; i++){ 
      await local_pool.query(`  
       INSERT INTO indicativo.tbl_ficha_indicador(
@@ -53,19 +54,141 @@ const getFichaCarga = async(req, res)=>{
             '${datos[i].Observaciones}');`)
         console.log(datos[i].CodigoIndicador, " ok")   
   }
+  */
   } catch (error) {
     console.error('Error getFichaCarga: ', error);
   } 
 }
 
-//ruta para cargar datos indicador para tabla tbl_indicador
-
-const getFichMain = async(req, res)=>{
+//ruta para cargar datos iniciales de los indicadores para tabla tbl_indicador
+const getFichaMain = async(req, res)=>{
+  const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx');
+  var nombreHoja = excel.SheetNames;
+  var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+  console.log('Iniciando carga PI!!!');
+  //console.log(datos);
+  /*
+  variables de la tabla...
   
+  cod_linea character varying(50) COLLATE pg_catalog."default" NOT NULL,
+  nom_linea character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  cod_componente character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  nom_componente character varying(500) COLLATE pg_catalog."default" NOT NULL,
+  cod_programa character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  nom_programa character varying(500) COLLATE pg_catalog."default" NOT NULL,
+  tipo_ind character varying(50) COLLATE pg_catalog."default" NOT NULL,
+  cod_indicador character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  nom_indicador character varying(500) COLLATE pg_catalog."default" NOT NULL,
+  unidad character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  lb_ind character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  meta_plan numeric NOT NULL,
+  responsable_plan character varying(500) COLLATE pg_catalog."default" NOT NULL,
+  cod_responsable_reporte integer NOT NULL,
+  fc character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  sentido character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  incluye_lb character varying(255) COLLATE pg_catalog."default" NOT NULL,
+  meta_2020 numeric NOT NULL,
+  logro_2020 numeric NOT NULL,
+  cumple_2020 numeric NOT NULL,
+  meta_2021 numeric NOT NULL,
+  logro_2021 numeric NOT NULL,
+  cumple_2021 numeric NOT NULL,
+  meta_2022 numeric NOT NULL,
+  logro_2022 numeric NOT NULL,
+  cumple_2022 numeric NOT NULL,
+  meta_2023 numeric NOT NULL,
+  logro_2023 numeric NOT NULL,
+  cumple_2023 numeric NOT NULL,
+  meta_ruralidad numeric NOT NULL,
+  logro_acumulado numeric NOT NULL,
+  avance_cuatrienio numeric NOT NULL,
+  peso numeric NOT NULL,
+  pesoxavnt numeric NOT NULL,
+  avance2020 numeric,
+  avance2021 numeric,
+  avance2022 numeric,
+  avance2023 numeric,
+  semafav integer,
+  avnorm numeric,
+  avnormtemp numeric,
+  observaciones_indicador character varying(500000) COLLATE pg_catalog."default",
+  avancepond numeric,
+  prog2020 numeric,
+  prog2021 numeric,
+  prog2022 numeric,
+  prog2023 numeric,
+  corte date,
+*/
+
+/*
+ 
+  for (let i=0; i<datos.length; i++){
+    //console.log(datos[i].CodigoIndicador)
+    //console.log(datos[i].Observacion20)
+    //actualiza corte de la tabla indicador principal
+    
+    await local_pool.query(` 
+    INSERT INTO indicativo.tbl_indicador(
+      cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa, tipo_ind, cod_indicador, nom_indicador, unidad, lb_ind, meta_plan, responsable_plan, cod_responsable_reporte, fc, sentido, incluye_lb, meta_2020, logro_2020, cumple_2020, meta_2021, logro_2021, cumple_2021, meta_2022, logro_2022, cumple_2022, meta_2023, logro_2023, cumple_2023, meta_ruralidad, logro_acumulado, avance_cuatrienio, peso, pesoxavnt, avance2020, avance2021, avance2022, avance2023, semafav, avnorm, avnormtemp, observaciones_indicador, avancepond, prog2020, prog2021, prog2022, prog2023, corte)
+      VALUES (
+          '${datos[i].CodLinea}',
+          '${datos[i].NombreLinea}',
+          '${datos[i].CodComponenteCompuesto}',
+          '${datos[i].NombreComponente}',
+          '${datos[i].CodProgramaCompuesto}',
+          '${datos[i].NombrePrograma}',
+          '${datos[i].Tipo}',
+          '${datos[i].CodigoIndicador}', 
+          '${datos[i].NombreIndicador}', 
+          '${datos[i].Unidad}', 
+          '${datos[i].LB}', 
+          ${datos[i].MetaPlan}, 
+          '${datos[i].Responsable}', 
+          ${datos[i].cod_responsable_reporte}, 
+          '${datos[i].ResponsableReporte}', 
+          '${datos[i].FC}', 
+          '${datos[i].Sentido}', 
+          ${datos[i].Meta2020}, 
+          ${datos[i].Log20}, 
+          ${datos[i].Cumplimiento20}, 
+          ${datos[i].Meta2021}, 
+          ${datos[i].Log21}, 
+          ${datos[i].Cumplimiento21}, 
+          ${datos[i].Meta2022}, 
+          ${datos[i].Log22}, 
+          ${datos[i].Cumplimiento22}, 
+          ${datos[i].Meta2023}, 
+          ${datos[i].Log23}, 
+          ${datos[i].Cumplimiento23}, 
+          ${datos[i].MetaRuralidad}, 
+          ${datos[i].avance_cuatrienio}, 
+          ${datos[i].avance_cuatrienio}, 
+          ${datos[i].Peso}, 
+          ${datos[i].PesoXAvnt}, 
+          ${datos[i].Avance20}, 
+          ${datos[i].Avance21}, 
+          ${datos[i].Avance22}, 
+          ${datos[i].Avance23}, 
+          ${datos[i].semafAv},
+          ${datos[i].aVNorm},
+          ${datos[i].AvNormTmp},
+          '${datos[i].Observacion}',
+          ${datos[i].AvancePond},
+          ${datos[i].Prog2020},
+          ${datos[i].Prog2021},
+          ${datos[i].Prog2022},
+          ${datos[i].Prog2023},
+          '${datos[i].Corte}'
+               
+      );`)
+        console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
+    
+  }
+  */
 }
 
 
 
-module.exports={getFichaCarga}
+module.exports={getFichaCarga, getFichaMain}
 
 
