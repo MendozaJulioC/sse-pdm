@@ -1,5 +1,5 @@
 const XLSX = require('xlsx');
-const { pool, pool3 } = require('../sql/dbConfig');
+const { local_pool ,pool , pool3 } = require('../sql/dbConfig');
 
 
 const ExcelToJson = async (req, res)=>{
@@ -1199,7 +1199,7 @@ const getSemaforoPA = async(req, res)=>{
   try {
     const mespa = req.params.mesvigencia
    
-    const response = await pool.query(`select * from  plan_accion.tbl_cortes_pa  where  mesvigencia = $1`, [ mespa]  );
+    const response = await local_pool.query(`select * from  plan_accion.tbl_cortes_pa  where  mesvigencia = $1`, [ mespa]  );
     res.status(200).json({
     Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
     Version: "1.0",
