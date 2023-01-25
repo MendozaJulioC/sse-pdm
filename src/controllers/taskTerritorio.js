@@ -1,10 +1,10 @@
 const XLSX = require('xlsx');
-const { pool, pool2 } = require('../sql/dbConfig');
+const { local_pool, pool2 } = require('../sql/dbConfig');
 
 const getComuna = async (req, res)=>{
     try {
      //  ExcelToJson()
-        const response = await pool.query(`select * from territorio.tbl_comuna`) 
+        const response = await local_pool.query(`select * from territorio.tbl_comuna`) 
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',

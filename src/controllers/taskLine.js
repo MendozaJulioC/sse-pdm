@@ -1,12 +1,12 @@
 // todas las rutas, tareas y consultas que tengan como eje principal las líneas del plan de desarrollo municipal
 
-const { pool } = require('../sql/dbConfig');
+const { local_pool } = require('../sql/dbConfig');
 
 const getLineTotalComp = async(req, res)=>{
     try {
         
         const {cod_linea } = req.body;
-        const response = await pool.query(`
+        const response = await plocal_pool.query(`
             select  cod_linea, nom_linea, cod_componente, nom_componente, count(cod_componente) as total_ind 
             from indicativo.tbl_indicador where cod_linea= $1
             group by  cod_linea, nom_linea, cod_componente, nom_componente 
@@ -37,7 +37,7 @@ const getLineTotalComp = async(req, res)=>{
 const getLineTotalProg = async(req, res)=>{
     try {
         const {cod_linea}= req.body;
-        const response = await pool.query(`
+        const response = await local_pool.query(`
         select  cod_linea, nom_linea,cod_componente,nom_componente,cod_programa, nom_programa,count(cod_programa) as total_ind 
         from indicativo.tbl_indicador where cod_linea=$1 and cod_programa<>'0'
         group by  cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa
@@ -70,7 +70,7 @@ const getLineIndicadores= async (req, res)=>{
     try {
         const codlinea = req.params.cod_linea;
     
-        const response = await pool.query(`
+        const response = await local_pool.query(`
         select 
 		logro_acumulado,
 		avance_cuatrienio,
@@ -135,7 +135,7 @@ const getLineIndicadores= async (req, res)=>{
 const getAvanceLinea= async(req, res)=>{
     try {
         const codlinea = req.params.cod_linea;
-        const response = await pool.query(`
+        const response = await local_pool.query(`
         select cod_linea, nom_linea, sum((total_plan/peso_linea)*100) from indicativo.view_avance  where cod_linea=$1 group by cod_linea, nom_linea`, [codlinea]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -160,7 +160,7 @@ const getAvanceLinea= async(req, res)=>{
 const getLineIndResumen= async(req, res)=>{
     try {
         const codlinea = req.params.cod_linea;
-        const response = await pool.query(` select
+        const response = await local_pool.query(` select
         cod_linea, 
                 cod_componente,
                 cod_programa,
@@ -204,7 +204,7 @@ const getLineIndResumen= async(req, res)=>{
      try {
          
         const codlinea = req.params.cod_linea;
-         const response = await pool.query(`select * from indicativo.sp_total_semaforo_linea($1)`, [codlinea])
+         const response = await local_pool.query(`select * from indicativo.sp_total_semaforo_linea($1)`, [codlinea])
          res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -227,7 +227,7 @@ const getLineIndResumen= async(req, res)=>{
  const getEjecFinLinea =  async(req, res)=>{
     try {
        const codlinea = req.params.cod_linea;
-        const response = await pool.query(`select  sum(ppto_ajustado) as pptoajustado, sum(ejecutado) as ejecutado 
+        const response = await local_pool.query(`select  sum(ppto_ajustado) as pptoajustado, sum(ejecutado) as ejecutado 
                         from indicativo.tbl_ejec_finan_plan where cod_linea=$1`, [codlinea])
         res.status(200).json({
            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',

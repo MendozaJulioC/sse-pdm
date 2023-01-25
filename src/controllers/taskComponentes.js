@@ -1,10 +1,10 @@
-const { pool } = require('../sql/dbConfig');
+const { local_pool } = require('../sql/dbConfig');
 
 const getComponente= async(req, res)=>{
 
     try {
            const codComponente= req.params.cod_componente;
-           const response = await pool.query(`
+           const response = await local_pool.query(`
            select 
             logro_acumulado,
             avance_cuatrienio,
@@ -73,7 +73,7 @@ const getCompAvanceLinea = async(req, res)=>{
 
     try {
         const codLinea= req.params.cod_linea;
-        const response = await pool.query(`
+        const response = await local_pool.query(`
        	    select 
                 cod_linea,nom_linea,cod_componente, nom_componente, count (cod_componente) , sum(pesoxavnt) as peso_avance, sum(peso) as peso
             from indicativo.tbl_indicador 
@@ -106,7 +106,7 @@ const getCompAvanceLinea = async(req, res)=>{
 
 const getListComponente = async(req, res)=>{
   try {
-    const response = await pool.query(`select cod_componente, nom_componente  from indicativo.tbl_indicador group by  cod_componente, nom_componente order by cod_componente`);
+    const response = await local_pool.query(`select cod_componente, nom_componente  from indicativo.tbl_indicador group by  cod_componente, nom_componente order by cod_componente`);
     res.status(200).json({
         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
         Fecha_Emision:'2020-08-30',
@@ -131,7 +131,7 @@ const getListComponente = async(req, res)=>{
  const getBuscaNombreComponente = async(req ,res)=>{
      try {
         const nomComponente = req.params.nom_componente;
-        const response = await pool.query(`
+        const response = await local_pool.query(`
         select 
          	cod_linea, nom_linea, cod_componente, nom_componente,
             sum(pesoxavnt)as avancexpeso,sum(peso) as peso,  sum((pesoxavnt/peso)*100) as avance, 
@@ -164,7 +164,7 @@ const getListComponente = async(req, res)=>{
  const getBuscaCodigoComponente = async(req ,res)=>{
     try {
        const codComponente = req.params.cod_componente;
-       const response = await pool.query(`
+       const response = await local_pool.query(`
        select 
        cod_linea, nom_linea, cod_componente, nom_componente,
       sum(pesoxavnt)as avancexpeso,sum(peso) as peso,  sum((pesoxavnt/peso)*100) as avance, 
@@ -197,7 +197,7 @@ const getListComponente = async(req, res)=>{
 const getPrgNomComponente = async(req ,res)=>{
     try {
        const nomComponente = req.params.nom_componente;
-       const response = await pool.query(`
+       const response = await local_pool.query(`
         select 	
             cod_programa, nom_programa,
             sum(pesoxavnt)as avancexpeso,sum(peso) as peso,  sum((pesoxavnt/peso)*100) as avance, 
@@ -230,7 +230,7 @@ const getPrgNomComponente = async(req ,res)=>{
 const getprgCodComponente = async(req ,res)=>{
     try {
        const codComponente = req.params.cod_componente;
-       const response = await pool.query(`
+       const response = await local_pool.query(`
         select 	
             cod_programa, nom_programa,
             sum(pesoxavnt)as avancexpeso,sum(peso) as peso,  sum((pesoxavnt/peso)*100) as avance, 
@@ -263,7 +263,7 @@ const getprgCodComponente = async(req ,res)=>{
 const getRespComponente = async(req ,res)=>{
     try {
        const nomComponente = req.params.nom_componente;
-       const response = await pool.query(`
+       const response = await local_pool.query(`
        select 	
             nombre_dep, count (cod_componente) as indicadores,  sum(pesoxavnt)as avancexpeso,sum(peso) as peso
         from indicativo.tbl_indicador
@@ -295,7 +295,7 @@ const getRespComponente = async(req ,res)=>{
 const getRespCodComponente = async(req ,res)=>{
     try {
        const codComponente = req.params.cod_componente;
-       const response = await pool.query(`
+       const response = await local_pool.query(`
         select 	
  	        nombre_dep,	 count (cod_componente) as indicadores,  sum(pesoxavnt)as avancexpeso,sum(peso) as peso
         from indicativo.tbl_indicador
@@ -327,7 +327,7 @@ const getRespCodComponente = async(req ,res)=>{
 const  getSemafavComponente = async( req, res)=>{
     try {
         const codcomponente = req.params.cod_componente;
-        const response = await pool.query(` 
+        const response = await local_pool.query(` 
         select * from  indicativo.sp_total_semaforo_componente($1)
         `, [codcomponente]) ;
         res.status(200).json({
@@ -354,7 +354,7 @@ const  getSemafavComponente = async( req, res)=>{
 const  getSemafavNomComponente = async( req, res)=>{
     try {
         const nomcomponente = req.params.nom_componente;
-        const response = await pool.query(` 
+        const response = await local_pool.query(` 
         select * from  indicativo.sp_total_semaforo_nom_componente($1)
         `, [nomcomponente]) ;
         res.status(200).json({
@@ -381,7 +381,7 @@ const  getSemafavNomComponente = async( req, res)=>{
 const getpptoComponente = async (req, res)=>{
 try {
     const codComponente = req.params.cod_componente;
-    const response = await pool.query(` select 
+    const response = await local_pool.query(` select 
 	cod_linea, cod_componente, sum(ppto_ajustado) as ppto_ajustado, sum(ejecutado) as ejecutado
 from indicativo.tbl_ejec_finan_plan where cod_componente=$1
 group by cod_linea, cod_componente`, [codComponente]);

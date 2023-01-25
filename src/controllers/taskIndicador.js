@@ -1,10 +1,10 @@
-const { pool, pool3 } = require('../sql/dbConfig');
+const { local_pool, aws_pool } = require('../sql/dbConfig');
 
 const getIndicador = async(req, res)=>{
     try {
         const indicador = req.params.cod_indicador;
-        const response = await pool.query(`
-        select 
+        const response = await local_pool.query(`
+		select 
 		logro_acumulado,
 		avance_cuatrienio,
 		cod_linea, 
@@ -15,7 +15,7 @@ const getIndicador = async(req, res)=>{
 		nom_programa,
 		indicativo.tbl_indicador.cod_indicador,
 		indicativo.tbl_indicador.nom_indicador,
-		defincion,
+		definicion,
 		objetivo,
 		normativa,
 		tipo_ind,
@@ -38,8 +38,8 @@ const getIndicador = async(req, res)=>{
 		cod_responsable_reporte,
 		nombre_dep,
 		responsable_reporte,
-		instrumento_recoleccion,
-		observaciones, peso, pesoxavnt, observaciones_indicador, avnorm
+		instrumentos_recoleccion,
+		observaciones, pesoxavnt, observaciones_indicador, avnorm
 		from indicativo.tbl_indicador
 		LEFT JOIN indicativo.tbl_ficha_indicador ON indicativo.tbl_ficha_indicador.cod_indicador = indicativo.tbl_indicador.cod_indicador  
 		LEFT JOIN dependencias.tbl_dependencias  ON dependencias.tbl_dependencias.cod_dep = indicativo.tbl_indicador.cod_responsable_reporte
@@ -69,7 +69,7 @@ const getIndicador = async(req, res)=>{
 
 const getListIndicador = async(req, res)=>{
      try {
-        const response = await pool.query(`select cod_indicador, nom_indicador from indicativo.tbl_indicador order by nom_indicador`);
+        const response = await local_pool.query(`select cod_indicador, nom_indicador from indicativo.tbl_indicador order by nom_indicador`);
         res.status(200).json({
 			Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -91,8 +91,8 @@ const getListIndicador = async(req, res)=>{
 const getBuscaNombreIndicador= async(req, res)=>{
     try {
         const nombreIndicador = req.params.nom_indicador;
-        const response = await pool.query(`
-        select 
+        const response = await local_pool.query(`
+		select 
 		logro_acumulado,
 		avance_cuatrienio,
 		cod_linea, 
@@ -103,7 +103,7 @@ const getBuscaNombreIndicador= async(req, res)=>{
 		nom_programa,
 		indicativo.tbl_indicador.cod_indicador,
 		indicativo.tbl_indicador.nom_indicador,
-		defincion,
+		definicion,
 		objetivo,
 		normativa,
 		tipo_ind,
@@ -126,7 +126,7 @@ const getBuscaNombreIndicador= async(req, res)=>{
 		cod_responsable_reporte,
 		nombre_dep,
 		responsable_reporte,
-		instrumento_recoleccion,
+		instrumentos_recoleccion,
 		observaciones, pesoxavnt, observaciones_indicador, avnorm
 		from indicativo.tbl_indicador
 		LEFT JOIN indicativo.tbl_ficha_indicador ON indicativo.tbl_ficha_indicador.cod_indicador = indicativo.tbl_indicador.cod_indicador  
@@ -153,7 +153,7 @@ const getBuscaNombreIndicador= async(req, res)=>{
 
 const getGeneralPI = async (req, res)=>{
 	try {
-		const response = await pool.query(` select * from indicativo.tbl_avance_cumple_pdm order by tipo_corte, id`);
+		const response = await local_pool.query(` select * from indicativo.tbl_avance_cumple_pdm order by tipo_corte, id`);
 		res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -169,7 +169,7 @@ const getGeneralPI = async (req, res)=>{
 
 const getGeneralLineasPI= async (req, res)=>{
 	try {
-		const response = await pool3.query(`select cod_linea, nom_linea, avance, cumplimiento, corte, tipo
+		const response = await aws_pool.query(`select cod_linea, nom_linea, avance, cumplimiento, corte, tipo
 		from indicativo.tbl_comportamiento_lineas 
 		group by cod_linea, nom_linea, avance, cumplimiento, corte , tipo order by cod_linea`)
 		res.status(200).json({
@@ -190,7 +190,7 @@ const getGeneralLineasPI= async (req, res)=>{
 const getIndicadorBot = async(req, res)=>{
     try {
         const indicador = req.params.cod_indicador;
-        const response = await pool.query(`
+        const response = await local_pool.query(`
         select 
 			avance_cuatrienio,
 	        indicativo.tbl_indicador.cod_indicador,
@@ -224,7 +224,7 @@ const getIndicadorBot = async(req, res)=>{
 
 const getCorteAvance= async(req, res)=>{
 	try {
-		const response = await pool.query(`select corte from indicativo.tbl_indicador group by corte`)
+		const response = await local_pool.query(`select corte from indicativo.tbl_indicador group by corte`)
 		res.status(200).json({data: response.rows});   
 	} catch (error) {
 		console.error('Error getCorteAvance: ', error);
@@ -233,7 +233,7 @@ const getCorteAvance= async(req, res)=>{
 
 const getCortesLineas= async (req, res)=>{
 	try {
-		const response = await pool3.query(`select corte, tipo  from indicativo.tbl_comportamiento_lineas  group by corte, tipo order by corte`)
+		const response = await aws_pool.query(`select corte, tipo  from indicativo.tbl_comportamiento_lineas  group by corte, tipo order by corte`)
 		res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',

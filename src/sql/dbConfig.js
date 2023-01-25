@@ -34,11 +34,9 @@ const local_pool = new Pool ({
   connectionTimeoutMillis: 100000000
 
 });
-
-
 local_pool.connect().then(() => console.log('Conex Local_DB'))
 
-const pool3 = new Pool ({
+const aws_pool = new Pool ({
   user: 'subpiee',
   host: 'dbsubpiee-aws.cxzcrpauh1po.us-east-2.rds.amazonaws.com',
   database: 'dbsubpiee',
@@ -49,6 +47,6 @@ const pool3 = new Pool ({
   connectionTimeoutMillis: 100000000,
   ssl: { rejectUnauthorized: false }
 })
-pool3.connect().then(() => console.log('Conex ws..DB'))
+aws_pool.connect().then(() => console.log('Conex ws..DB'))
 
-module.exports = { local_pool, pool3 };
+module.exports = { local_pool, aws_pool };

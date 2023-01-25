@@ -1,8 +1,8 @@
-const { pool } = require('../sql/dbConfig');
+const { local_pool } = require('../sql/dbConfig');
 
 const getTotalesOF = async (req, res)=>{
     try {
-        const response = await pool.query(`select sum(valor_total_acumulado)as total_inversion, count(cod_unico_obra) as total_obras, corte from obra_fisica.tbl_obra_fisica group by corte`);
+        const response = await local_pool.query(`select sum(valor_total_acumulado)as total_inversion, count(cod_unico_obra) as total_obras, corte from obra_fisica.tbl_obra_fisica group by corte`);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -27,7 +27,7 @@ const getTotalesOF = async (req, res)=>{
 
 const getAlertasOF = async (req, res)=>{
     try {
-        const response = await pool.query(`select cod_alerta, alerta, count(cod_alerta) as total_alerta from obra_fisica.tbl_obra_fisica  group by cod_alerta, alerta  order by cod_alerta`);
+        const response = await local_pool.query(`select cod_alerta, alerta, count(cod_alerta) as total_alerta from obra_fisica.tbl_obra_fisica  group by cod_alerta, alerta  order by cod_alerta`);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -45,7 +45,7 @@ const getAlertasOF = async (req, res)=>{
 
 const getEtapasOF = async(req, res)=>{
     try {
-        const response= await pool.query(`select cod_etapa, etapa, count(cod_etapa) as total_etapa from obra_fisica.tbl_obra_fisica group by cod_etapa, etapa order by cod_etapa`)
+        const response= await local_pool.query(`select cod_etapa, etapa, count(cod_etapa) as total_etapa from obra_fisica.tbl_obra_fisica group by cod_etapa, etapa order by cod_etapa`)
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -61,7 +61,7 @@ const getEtapasOF = async(req, res)=>{
 
 const getTemasOF = async(req, res)=>{
     try {
-        const response= await pool.query(`select cod_tematica, tematica, count (cod_tematica) as total_tematica from obra_fisica.tbl_obra_fisica group by cod_tematica, tematica order by cod_tematica`)
+        const response= await local_pool.query(`select cod_tematica, tematica, count (cod_tematica) as total_tematica from obra_fisica.tbl_obra_fisica group by cod_tematica, tematica order by cod_tematica`)
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -77,7 +77,7 @@ const getTemasOF = async(req, res)=>{
 
 const getIntervencionOF = async(req, res)=>{
     try {
-        const response= await pool.query(`select cod_intervencion, tipo_intervencion, count(cod_intervencion) as Total_intervencion from obra_fisica.tbl_obra_fisica group by cod_intervencion, tipo_intervencion order by cod_intervencion`)
+        const response= await local_pool.query(`select cod_intervencion, tipo_intervencion, count(cod_intervencion) as Total_intervencion from obra_fisica.tbl_obra_fisica group by cod_intervencion, tipo_intervencion order by cod_intervencion`)
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -93,7 +93,7 @@ const getIntervencionOF = async(req, res)=>{
 
 const getTotalOFDep = async(req, res)=>{
     try {
-        const response= await pool.query(`
+        const response= await local_pool.query(`
             select obra_fisica.tbl_obra_fisica.cod_dep,
         	    dependencias.tbl_dependencias.nom_cortp,count (cod_unico_obra) total 
             FROM obra_fisica.tbl_obra_fisica
@@ -115,7 +115,7 @@ const getTotalOFDep = async(req, res)=>{
 const getTotalDepOF = async(req, res)=>{
     try {
         const dependencia = req.params.cod_dep;
-        const response= await pool.query(`select sum(valor_total_acumulado) as total_dep, corte from obra_fisica.tbl_obra_fisica where cod_dep=$1 group by corte`, [dependencia])
+        const response= await local_pool.query(`select sum(valor_total_acumulado) as total_dep, corte from obra_fisica.tbl_obra_fisica where cod_dep=$1 group by corte`, [dependencia])
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -132,7 +132,7 @@ const getTotalDepOF = async(req, res)=>{
 const getIntervencionDepOF = async(req, res)=>{
     try {
         const dependencia = req.params.cod_dep;
-        const response= await pool.query(`select cod_intervencion, tipo_intervencion, count(cod_intervencion) as Total_intervencion from obra_fisica.tbl_obra_fisica  where cod_dep=$1 group by cod_intervencion, tipo_intervencion order by cod_intervencion`, [dependencia])
+        const response= await local_pool.query(`select cod_intervencion, tipo_intervencion, count(cod_intervencion) as Total_intervencion from obra_fisica.tbl_obra_fisica  where cod_dep=$1 group by cod_intervencion, tipo_intervencion order by cod_intervencion`, [dependencia])
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -150,7 +150,7 @@ const getIntervencionDepOF = async(req, res)=>{
 const getAlertaDepOF= async (req, res)=>{
     try {
         const dependencia = req.params.cod_dep;
-        const response= await pool.query(` select cod_alerta, alerta, count(cod_alerta) as total_alerta from obra_fisica.tbl_obra_fisica  where cod_dep=$1  group by cod_alerta, alerta  order by cod_alerta`, [dependencia])
+        const response= await local_pool.query(` select cod_alerta, alerta, count(cod_alerta) as total_alerta from obra_fisica.tbl_obra_fisica  where cod_dep=$1  group by cod_alerta, alerta  order by cod_alerta`, [dependencia])
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -168,7 +168,7 @@ const getAlertaDepOF= async (req, res)=>{
 const getEtapaDepOF= async (req, res)=>{
     try {
         const dependencia = req.params.cod_dep;
-        const response= await pool.query(`select cod_etapa, etapa, count(cod_etapa) as total_etapa from obra_fisica.tbl_obra_fisica where cod_dep=$1 group by cod_etapa, etapa order by cod_etapa`, [dependencia])
+        const response= await local_pool.query(`select cod_etapa, etapa, count(cod_etapa) as total_etapa from obra_fisica.tbl_obra_fisica where cod_dep=$1 group by cod_etapa, etapa order by cod_etapa`, [dependencia])
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -186,7 +186,7 @@ const getEtapaDepOF= async (req, res)=>{
 const getHitosSIFOF= async (req, res)=>{
     try {
         
-        const response= await pool.query(`select cod_hito,hito, count(cod_hito) as total_hito from obra_fisica.tbl_obra_fisica where cod_dep=741 and cod_hito >0 group by cod_hito, hito order by cod_hito`)
+        const response= await local_pool.query(`select cod_hito,hito, count(cod_hito) as total_hito from obra_fisica.tbl_obra_fisica where cod_dep=741 and cod_hito >0 group by cod_hito, hito order by cod_hito`)
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -202,7 +202,7 @@ const getHitosSIFOF= async (req, res)=>{
 
 const getGeoOF = async(req, res)=>{
     try {
-        const response= await pool.query(`
+        const response= await local_pool.query(`
         select 
             territorio.tbl_comuna.cod_comuna, 
             territorio.tbl_comuna.nom_comuna,
@@ -226,7 +226,7 @@ const getGeoOF = async(req, res)=>{
 const getGeoDepOF= async(req, res)=>{
     try {
         const comuna = req.params.cod_comuna;
-        const response= await pool.query(` 
+        const response= await local_pool.query(` 
             select 
                 dependencias.tbl_dependencias.cod_dep,
                 dependencias.tbl_dependencias.nom_cortp,
@@ -251,7 +251,7 @@ const getGeoDepOF= async(req, res)=>{
 const getGeoAlertaOF = async (req, res)=>{
     try {
         const comuna = req.params.cod_comuna;
-        const response = await pool.query(`  
+        const response = await local_pool.query(`  
         select cod_alerta, alerta, count(cod_alerta) as total_alerta, corte from obra_fisica.tbl_obra_fisica where cod_comuna=$1  group by cod_alerta, alerta, corte  order by cod_alerta`,[comuna]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -270,7 +270,7 @@ const getGeoAlertaOF = async (req, res)=>{
 const getGeoIntervencionOF= async(req, res)=>{
     try {
         const comuna= req.params.cod_comuna;
-        const response= await pool.query(` 
+        const response= await local_pool.query(` 
         select cod_intervencion, tipo_intervencion, count(cod_intervencion) as Total_intervencion from obra_fisica.tbl_obra_fisica where cod_comuna=$1 group by cod_intervencion, tipo_intervencion order by cod_intervencion`,[comuna]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -287,7 +287,7 @@ const getGeoIntervencionOF= async(req, res)=>{
 
 const getDepOFTerritorio = async (req, res)=>{
     const dep= req.params.cod_dep;
-    const response = await pool.query(`
+    const response = await local_pool.query(`
     select
     obra_fisica.tbl_obra_fisica.cod_comuna, 
     territorio.tbl_comuna.nom_comuna,

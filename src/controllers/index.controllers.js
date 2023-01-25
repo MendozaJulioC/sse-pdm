@@ -1,469 +1,14 @@
 const XLSX = require('xlsx');
-const { local_pool ,pool , pool3 } = require('../sql/dbConfig');
-
-
-const ExcelToJson = async (req, res)=>{
-  try {
-   // const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/BVCC.xlsx');
-   const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Estructuracion.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[4]]);
-    // console.log(datos)
-    // await pool.query(` delete from inverpublica.tbl_tipoinver_geo`);
-    //await pool.query(` delete from inverpublica.tbl_consolidado`);
-    for (let i=0; i<datos.length; i++){
-      //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
-      /* await pool.query(`  INSERT INTO inverpublica.tbl_consolidado(
-                              cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
-                              VALUES ('${datos[i].CodDep}','${datos[i].EsPP}','${datos[i].CodProyecto}','${datos[i].NombreProyecto}', ${datos[i].inversion_real},${datos[i].vigencia},'${datos[i].corte}',${datos[i].Total_Georreferenciado},
-                                  ${datos[i].c1},${datos[i].c2}, ${datos[i].c3},${datos[i].c4}, ${datos[i].c5},${datos[i].c6}, ${datos[i].c7},${datos[i].c8}, ${datos[i].c9},${datos[i].c10}, ${datos[i].c11}, ${datos[i].c12}, ${datos[i].c13},
-                                  ${datos[i].c14}, ${datos[i].c15}, ${datos[i].c16}, ${datos[i].c50}, ${datos[i].c60},  ${datos[i].c70},  ${datos[i].c80},  ${datos[i].c90}, ${datos[i].c99}, ${datos[i].c97});
-                          `);
-                       console.log(datos[i].CodProyecto, " ok")   
-      */
-/*
-      await pool.query(`INSERT INTO inverpublica.tbl_tipoinver_geo(cod_comuna, localizada, ciudad, pp, total)
-      VALUES (  ${datos[i].Cod_Comuna},
-                ${datos[i].Localizada},
-                ${datos[i].Ciudad},
-                ${datos[i].PP},
-                ${datos[i].Total}
-             );`)
-          console.log(datos[i].Cod_Comuna, " ok")   
-        
-      
-        await pool.query(`
-        INSERT INTO territorio.tbl_barrios(cod_barrio, nom_barrio, cod_comuna)  VALUES ('${datos[i].CODIGO_BARRIO_VEREDA}','${datos[i].NOMBRE_BARRIO_VEREDA}', ${datos[i]. CODIGO_COMUNA_CORREGIMIENTO});`)
-        console.log(i, " ok")  
-      */
-    
- 
-   }
-  } catch (error) {
-     console.log(error)
-  }
-}
-
-const UpdateTotalesGeo = async(req, res)=>{
-  try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Estructuracion.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[4]]);
-
-  // console.log(datos)
-
-  for (let i=0; i<datos.length; i++){
-        //await pool.query(`UPDATE indicativo.tbl_indicador SET   peso= ${datos[i].Peso} , pesoxavnt=${datos[i].PesoXAvnt}  WHERE cod_indicador= '${datos[i].CodigoIndicador}';`)
-        
-         await pool.query(` 
-          UPDATE inverpublica.tbl_tipoinver_geo
-          SET  
-            localizada=${datos[i].Localizada},
-            ciudad=${datos[i].Ciudad},
-            pp=${datos[i].pp},
-            total=${datos[i].total}
-         WHERE cod_comuna=${datos[i].CodigoComuna};
-        `);
-        console.log(datos[i].NombreComuna, " ok")   
-                            
-  }
-
-
-  } catch (error) {
-    console.error('Update UpdateTotalesGeo: ', error);
-  }
-}
-
-const updateLogro = async (req, res)=>{
-  try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    // console.log(datos)
-     for (let i=0; i<datos.length; i++){
-        //console.log(datos[i].CodigoIndicador)
-        //console.log(datos[i].Observacion20)
-        //actualiza corte de la tabla indicador principal
-        await pool.query(` 
-            UPDATE indicativo.tbl_indicador
-            SET 
-              cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
-              meta_2020=${datos[i].Meta2020},
-              meta_2021=${datos[i].Meta2021},
-              meta_2022=${datos[i].Meta2022},
-              meta_2023=${datos[i].Meta2023},
-              logro_2020=	${datos[i].Log20},
-              logro_2021=	${datos[i].Log21},
-              logro_2022=	${datos[i].Log22},
-              logro_2023=	${datos[i].Log23},
-              cumple_2020=	${datos[i].Cumplimiento20},
-              cumple_2021=	${datos[i].Cumplimiento21},
-              cumple_2022=	${datos[i].Cumplimiento22},
-              cumple_2023=	${datos[i].Cumplimiento23},
-              avance_cuatrienio = ${datos[i].avance_cuatrienio},
-              pesoxavnt=	${datos[i].PesoXAvnt},
-              avance2020=	${datos[i].Avance20},
-              avance2021=	${datos[i].Avance21},
-              avance2022=	${datos[i].Avance22},
-              avance2023=	${datos[i].Avance23},
-              semafav=	${datos[i].semafAv},
-              avnorm=		${datos[i].aVNorm},
-              avnormtemp=	${datos[i].AvNormTmp},
-              observaciones_indicador = '${datos[i].Observacion}' ,
-              avancepond= ${datos[i].AvancePond},
-              prog2020= ${datos[i].Prog2020},
-              prog2021= ${datos[i].Prog2021},
-              prog2022= ${datos[i].Prog2022},
-              prog2023= ${datos[i].Prog2023},
-              corte='${datos[i].Corte}'
-            WHERE cod_indicador= '${datos[i].CodigoIndicador}';
-        `)
-        console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
-      }
-   } catch (error) {
-     console.log('Error uodate logros: ', error)
-  }
-}
-
-const updatelineas= async(req, res)=>{
-try {
-  const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx');
-  var nombreHoja = excel.SheetNames;
-  var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
-  //console.log(datos)
-
-  for (let i=0; i<datos.length; i++){
-    //para el siguiente corte crear una funcion que solo inserte por el corte necesario
-    //ojojojojojojoj
-     
-if (datos[i].corte=='2022-10-31') {
-
-  await pool3.query(` 
-  INSERT INTO indicativo.tbl_comportamiento_lineas(
-    cod_linea, nom_linea, avance, cumplimiento, corte, tipo)
-    VALUES (${datos[i].cod_linea},
-      '${datos[i].linea}',
-      ${datos[i].avance}, 
-      ${datos[i].cumplimiento},
-      '${datos[i].corte}',
-      '${datos[i].tipo}');
-  `);
-  console.log(datos[i].linea, " ok")   
-
-
-}
-   
-  }
-} catch (error) {
-  console.error('Error updatelineas', error);
-}
-}
-
-const Excel_PA = async (req, res)=>{
-  try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/plan_accion_pdm.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    // console.log(datos)
-    await pool.query(` delete from plan_accion.tbl_accion`);
-
-     for (let i=0; i<datos.length; i++){
-     
-               await pool.query(` INSERT INTO plan_accion.tbl_accion(
-                          cod_dependencia,
-                          cod_linea,
-                          nom_linea,
-                          cod_componente,
-                          nom_componente,
-                          cod_programa,
-                          nom_programa,
-                          cod_proyecto,
-                          nom_proyecto,
-                          
-                          eficacia_proyecto,
-                          ejec_fin_porc,
-                          eficiencia,
-                          ppto_ajustado,
-                          ejec_real,
-                          ppto_inicial, 
-                          cod_val_stat,
-                          nom_val_stat,
-                          u_medida,
-                          
-                          q_plan,
-                          q_real,
-                          eficacia_ve,
-                          obs_val_stat, 
-                          y_dev_poai,
-                          y_dev_pptoajustado,
-                          y_dev_ejecucion,
-                          
-                          compromisos,
-                          facturas,
-                          pagos,
-                          "corte_ejecucion",
-                          obs_proyecto,
-                          num_ve,
-                          pago_factura, compromiso2,
-                          factura2, pago2, nombre_dep_reporte, 
-                           y_dev_es_pp, espagopendiente,escola, esmcv, cod_siufp_catal, obs_cod_siufp)
-        VALUES (
-          ${datos[i].cod_dependencia},
-          '${datos[i].cod_linea}',
-          '${datos[i].nom_linea}',
-          '${datos[i].cod_componente}',
-          '${datos[i].nom_componente}',
-          '${datos[i].cod_programa}',
-          '${datos[i].nom_programa}',
-          '${datos[i].cod_proyecto}',
-          '${datos[i].nom_proyecto}',
-          
-          ${datos[i].eficacia_proyecto},
-          ${datos[i].ejec_fin_porc},
-          ${datos[i].eficiencia},
-          ${datos[i].pto_ajustado},
-          ${datos[i].ejec_real},
-          ${datos[i].pto_inicial},
-          '${datos[i].cod_val_stat}',
-          '${datos[i].nom_val_stat}',
-          '${datos[i].u_medida}',
-
-          ${datos[i].q_plan},
-          ${datos[i].q_real},
-          ${datos[i].eficacia_ve},
-          '${datos[i].obs_val_stat}',
-          ${datos[i].y_dev_poai},
-          ${datos[i].y_dev_pptoajustado},
-          ${datos[i].y_dev_ejecucion},
-
-          ${datos[i].compromisos},
-          ${datos[i].facturas},
-          ${datos[i].pagos},
-          '${datos[i].corte_ejecucion}',
-          '${datos[i].obs_proyecto}',
-
-          ${datos[i].num_ve},
-          ${datos[i].pago_factura},
-          ${datos[i].compromiso2},
-          ${datos[i].factura2},
-          ${datos[i].pago2},
-          '${datos[i].nombre_dep_reporte}',
-          ${datos[i].y_dev_es_pp},
-          ${datos[i].espagopendiente},
-          ${datos[i].escola},
-          ${datos[i].esmcv},
-          '${datos[i].cod_suifp_catal}',
-          '${datos[i].observ_cod_suifp}'
-        );
-        
-        `);
-          console.log(i,"-",datos[i].cod_val_stat," -Ok")         
-      }
-
-   } catch (error) {
-     console.log(error)
-  }
-}
-
-const UpdateExcel_PA = async (req, res)=>{
-  try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Update_plan_accion.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    //console.log(datos)
-    for (let i=0; i<datos.length; i++){
-      await pool.query(`
-        UPDATE plan_accion.tbl_accion
-          SET 
-            cod_dependencia=${datos[i].cod_dependencia},
-            cod_linea= '${datos[i].cod_linea}', 
-            nom_linea= '${datos[i].nom_linea}',
-            cod_componente=  '${datos[i].cod_componente}',
-            nom_componente='${datos[i].nom_componente}',
-            cod_programa=   '${datos[i].cod_programa}',
-            nom_programa=   '${datos[i].nom_programa}',
-            cod_proyecto='${datos[i].cod_proyecto}',
-            nom_proyecto= '${datos[i].nom_proyecto}',
-            eficacia_proyecto= ${datos[i].eficacia_proyecto},
-            ejec_fin_porc= ${datos[i].ejec_fin_porc},
-            eficiencia= ${datos[i].eficiencia},
-            ppto_ajustado=${datos[i].pto_ajustado},
-            ejec_real= ${datos[i].ejec_real},
-            ppto_inicial=   ${datos[i].pto_inicial},
-            cod_val_stat='${datos[i].cod_val_stat}',
-            nom_val_stat='${datos[i].nom_val_stat}',
-            u_medida='${datos[i].u_medida}',
-            q_plan=   ${datos[i].q_plan},
-            q_real=  ${datos[i].q_real},
-            eficacia_ve= ${datos[i].eficacia_ve},
-            obs_val_stat= '${datos[i].obs_val_stat}',
-            y_dev_poai=   ${datos[i].y_dev_poai},
-            y_dev_pptoajustado=  ${datos[i].y_dev_pptoajustado},
-            y_dev_ejecucion= ${datos[i].y_dev_ejecucion},
-            compromisos= ${datos[i].compromisos},
-            facturas=  ${datos[i].facturas},
-            pagos=    ${datos[i].pagos},
-            corte_ejecucion= '${datos[i].corte_ejecucion}', 
-            obs_proyecto= '${datos[i].obs_proyecto}',
-            num_ve=${datos[i].num_ve},
-            pago_factura= ${datos[i].pago_factura},
-            compromiso2= ${datos[i].compromiso2},
-            factura2= ${datos[i].factura2},
-            pago2=${datos[i].pago2},
-            nombre_dep_reporte='${datos[i].nombre_dep_reporte}',
-            y_dev_es_pp=${datos[i].y_dev_es_pp},
-            espagopendiente=${datos[i].espagopendiente},
-            escola= ${datos[i].escola},
-            esmcv=${datos[i].esmcv},
-            cod_siufp_catal= '${datos[i].cod_suifp_catal}',
-            obs_cod_siufp='${datos[i].observ_cod_suifp}'
-	        WHERE cod_val_stat= '${datos[i].cod_val_stat}';`);
-        console.log(datos[i].cod_val_stat, " ok")       
-      }
-   } catch (error) {
-     console.log(error)
-  }
-}
-
-const Excel_EFisica = async (req, res)=>{
-  try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
- //   console.log(datos)
- await pool.query('delete from plan_accion.tbl_exec_fisica')
-
-      for (let i=0; i<datos.length; i++){
-        
-        await pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
-          cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, 
-          ejec_fisica, ejec_financiera, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
-	        VALUES (
-        
-          ${datos[i].Codigo_Dependencia},
-          '${datos[i].Nombre_Dependencia}',   
-          '${datos[i].cod_proyecto}',
-          '${datos[i].nom_proyecto}',
-          ${datos[i].porc_eficacia_proyecto},
-          ${datos[i].ejecucion_fisica},
-          ${datos[i].ejecucion_financiera},
-          ${datos[i].POAI},
-          ${datos[i].ppto_ajustado},
-          
-          ${datos[i].ejecucion},
-          ${datos[i].Compromisos},
-          ${datos[i].Pagos},
-          ${datos[i].Facturas},
-          ${datos[i].num_valstat},
-          '${datos[i].tipo_proyecto}',
-          '${datos[i].espagopendiente}',
-          '${datos[i].saldo_no_ejec}',
-          '${datos[i].corte}'
-      );
-        `);
-        
-         console.log(i,"-", datos[i].cod_proyecto, " -Ok")        
-      }
-
-
-   } catch (error) {
-     console.log(error)
-  }
-  
-}
-
-const Excel_EFinanciera = async (req, res)=>{
-  try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
-   //console.log(datos)
- await pool.query(' delete from plan_accion.tbl_exec_financiera')
-
-   for (let i=0; i<datos.length; i++){
-        await pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
-	      cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, 
-	      porc_ejec_financiera,  poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, tipo_iniciativa,"corte")
-	        VALUES (
-        
-          ${datos[i].cod_dependencia},
-          '${datos[i].nom_dependencia}',
-          '${datos[i].cod_proyecto}',
-          '${datos[i].nom_proyecto}',
-          ${datos[i].porc_eficacia_proyecto},
-          ${datos[i].ejecucion_financiera},
-          ${datos[i].porc_ejecucion_financiera},
-         
-          ${datos[i].POAI},
-          
-          ${datos[i].ppto_ajustado},
-          ${datos[i].ejecucion},
-          ${datos[i].Compromisos},
-          ${datos[i].Pagos},
-          ${datos[i].Facturas},
-          ${datos[i].num_valstat},
-          '${datos[i].tipo_proyecto}',
-          '${datos[i].espagopendiente}',
-          '${datos[i].saldo_no_ejec}',
-          ${datos[i].tipo_iniciativa},
-          '${datos[i].corte}'
-      );
-        `);
-        console.log(i,"-", datos[i].cod_proyecto, " -Ok")         
-      }
-
-
-   } catch (error) {
-     console.log(error)
-  }
-  
-}
-
-const Ejec_financiera_PI = async(req, res)=>{
-  try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    //console.log(datos)
- await pool.query(` delete from  indicativo.tbl_ejec_finan_plan`)
-
-   for (let i=0; i<datos.length; i++){
-    await pool.query(` 
-    INSERT INTO indicativo.tbl_ejec_finan_plan(cod_linea, cod_componente, cod_programa, cod_dependencia, cod_proyecto, ppto_ajustado, ejecutado, corte)
-	  VALUES (
-      '${datos[i].Cod_Linea}',
-      '${datos[i].Cod_Componente}',
-      '${datos[i].Cod_Programa}',
-       ${datos[i].cod_dependencia},
-      '${datos[i].cod_proyecto}',
-      ${datos[i].ppto_ajustado},
-      ${datos[i].ejecucion},
-      '${datos[i].corte}'
-    );
-  `);
-  console.log(i,"-", datos[i].cod_proyecto, " -Ok")          
-  }
+const { local_pool , aws_pool} = require('../sql/dbConfig');
 
 
 
-
-  } catch (error) {
-    console.error('Error Ejec_financiera_PI ', error)
-  }
-}
 
 const getLineas = async (req, res)=>{
   try {
-  //ExcelToJson()
-  //UpdateTotalesGeo()
-   //updateLogro()
-  //updatelineas()
-  //Excel_PA()
-  //Excel_EFisica()
-  //Excel_EFinanciera()
-  //Ejec_financiera_PI ()
-  //UpdateExcel_PA()
-    const response = await pool.query(`select * from indicativo.sp_total_lineas()`);
+
+
+    const response = await local_pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
       Fecha_Emision:'2020-08-30',
@@ -483,7 +28,7 @@ const getLineas = async (req, res)=>{
 
 const getTotal = async (req, res)=>{
   try {
-    const response = await pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2022) as programado from indicativo.tbl_indicador');
+    const response = await local_pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2022) as programado from indicativo.tbl_indicador');
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
       Fecha_Emision:'2020-08-30',
@@ -508,7 +53,7 @@ const getTotal = async (req, res)=>{
 const getAvanceLineas= async(req, res)=>{
   try {
   
-    const response = await pool.query(`SELECT cod_linea,nom_linea,(sum(total_plan/peso_linea)*100) as avance_linea 
+    const response = await local_pool.query(`SELECT cod_linea,nom_linea,(sum(total_plan/peso_linea)*100) as avance_linea 
     from indicativo.view_avance group by cod_linea, nom_linea order by cod_linea`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -530,7 +75,7 @@ const getAvanceLineas= async(req, res)=>{
 const getComponentes = async (req, res)=>{
   try {
 
-    const response = await pool.query(`
+    const response = await local_pool.query(`
       select 
         cod_linea,nom_linea,cod_componente, nom_componente, count (cod_componente) , sum(pesoxavnt) as peso_avance, sum(peso) as peso
       from indicativo.tbl_indicador 
@@ -559,7 +104,7 @@ const getComponentes = async (req, res)=>{
 const getProgramas= async( req, res)=>{
   try {
     
-    const response = await pool.query(`
+    const response = await local_pool.query(`
     select cod_linea, nom_linea,cod_componente, nom_componente, cod_programa, nom_programa, count (cod_programa)
     from indicativo.tbl_indicador where cod_programa<>'0' 
     group by cod_linea,nom_linea, nom_linea,cod_componente, nom_componente,cod_programa, nom_programa order by cod_linea, cod_programa
@@ -585,7 +130,7 @@ const getProgramas= async( req, res)=>{
 
 const getTipoIndicador= async(req, res)=>{
   try {
-    const response = await pool.query(`
+    const response = await local_pool.query(`
       select tipo_ind,count(tipo_ind) as tipo_indicador from indicativo.tbl_indicador group by  tipo_ind
     `);
     res.status(200).json({
@@ -607,7 +152,7 @@ const getTipoIndicador= async(req, res)=>{
 
 const getTotalReportDep = async(req, res)=>{
   try {
-      const response = await pool.query(`
+      const response = await local_pool.query(`
         select cod_responsable_reporte, dependencias.tbl_dependencias.nombre_dep,
         count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores 
         from dependencias.tbl_dependencias
@@ -637,7 +182,7 @@ const getTotalResponsable = async (req, res)=>{
 
   try {
     
-    const response = await pool.query(`
+    const response = await local_pool.query(`
       select responsable_plan, count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores 
       from indicativo.tbl_indicador
       group by responsable_plan
@@ -971,8 +516,8 @@ const getHome = async(req, res)=>{
 const postCorteSemaforo = async( req, res)=>{
   try {
     const { vigencia, mesplan } = req.body;
-    const response = await pool.query(`  
-      select * from  indicativo.tal_cortes where vigencia = $1 and mesplan = $2`, [ vigencia, mesplan]  
+    const response = await local_pool.query(`  
+      select * from  indicativo.tbl_cortes where vigencia = $1 and mesplan = $2`, [ vigencia, mesplan]  
     );
     res.status(200).json({
     Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
@@ -990,14 +535,14 @@ const postCorteSemaforo = async( req, res)=>{
 
   });
   } catch (error) {
-    console.log('Error corte semaforo',e);
+    console.log('Error corte semaforo',error);
   }
   
 }
 
 const getContadorSemaforo =async(req, res)=>{
   try {
-    const response = await pool.query(` select * from indicativo.sp_total_semaforo() ` );
+    const response = await local_pool.query(` select * from indicativo.sp_total_semaforo() ` );
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -1022,7 +567,7 @@ const  getCountSemDep = async(req, res)=>{
   try {
     const dependencia = req.params.cod_dependencia;
     //console.log(dependencia)
-    const response = await pool.query(` 
+    const response = await local_pool.query(` 
     select * from indicativo.sp_total_semaforo_dep($1)`,[dependencia])
     res.status(200). json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -1047,7 +592,7 @@ const  getCountSemDep = async(req, res)=>{
 const tipoSemaforoDep = async(req, res)=>{
   try {
     const { cod_semaforo, cod_dependencia}= req.body;
-    const response = await pool.query(` 
+    const response = await local_pool.query(` 
       select
          cod_linea, cod_componente, cod_programa, cod_indicador, nom_indicador,meta_plan, unidad, fc, sentido, avance_cuatrienio,  observaciones_indicador , semafav 
          from indicativo.tbl_indicador where tipo_ind='Producto' and semafav = $1 and cod_responsable_reporte = $2
@@ -1076,7 +621,7 @@ const tipoSemaforoDep = async(req, res)=>{
 const getSemafav = async(req, res)=>{
   try {
     const semafav = req.params.semafav;
-    const response = await pool.query(` 
+    const response = await local_pool.query(` 
       select 
       count(cod_responsable_reporte) as total_indicadores, dependencias.tbl_dependencias.cod_dep,
         dependencias.tbl_dependencias.nombre_dep
@@ -1108,7 +653,7 @@ const getSemafav = async(req, res)=>{
 
 const getSemafavAlerta = async(req, res)=>{
   try {
-      const response = await pool.query(` 
+      const response = await local_pool.query(` 
       SELECT 
       cod_dep, nombre_dep,nom_cortp,total_gris, total_rojo, total_amarillo, total_verde, 
       sum((avance/peso)*100) avance
@@ -1137,7 +682,7 @@ const getSemafavAlerta = async(req, res)=>{
 
 const getSemafavTotal = async(req, res)=>{
   try {
-    const response = await pool.query(` 
+    const response = await local_pool.query(` 
     select * from indicativo.sp_total_semaforo()
     `);
     res.status(200). json({
@@ -1162,7 +707,7 @@ const getSemafavTotal = async(req, res)=>{
 
 const getAlertaRojo= async(req, res)=>{
   try {
-    const response = await pool.query(` 
+    const response = await local_pool.query(` 
     select 
     cod_linea,nom_linea,
     cod_componente,nom_componente,
@@ -1216,6 +761,6 @@ const getSemaforoPA = async(req, res)=>{
 }
 
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
-                  getTotal, ExcelToJson, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep,
-                  getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA, UpdateExcel_PA
+                  getTotal, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep,
+                  getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA
                 }
