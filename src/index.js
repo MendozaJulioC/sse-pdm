@@ -13,4 +13,4 @@ app.use(require('./routes/admin'))
 
 
 
-app.listen(process.env.PORT||7800,()=>{ console.log('Servidor activo...');})
+app.listen(7001||7800,()=>{ console.log('Servidor activo...');})
