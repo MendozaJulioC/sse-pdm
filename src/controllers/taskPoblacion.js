@@ -4,7 +4,7 @@ const { local_pool,  aws_pool } = require('../sql/dbConfig');
 const getPoblacion = async (req, res)=>{
     try {
      
-        const response = await local_pool.query(`select * from poblacion.tbl_poblacion_pdm`) 
+        const response = await aws_pool.query(`select * from poblacion.tbl_poblacion_pdm`) 
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -29,7 +29,7 @@ const dependencias = async (req, res)=>{
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     for (let i=0; i<datos.length; i++){
       
-      await local_pool.query(`
+      await aws_pool.query(`
       INSERT INTO dependencias.tbl_dependencias(
         cod_dependencias,nom_dependencia,nom_corto_dep,cod_dep_actual,cod_sector_admon)
         VALUES	(${datos[i].cod_dep},'${datos[i].nombre_dep}','${datos[i].nom_cortp}',${datos[i].cod_actual},'${datos[i].COD_SDA}');`);  
@@ -75,7 +75,7 @@ const poblapdm= async (req, res)=>{
 
 const getPoblacionPDM = async (req, res)=>{
   try {
-    const response = await local_pool.query('select * from poblacion.tbl_poblacion_pdm')
+    const response = await aws_pool.query('select * from poblacion.tbl_poblacion_pdm')
 
     res.status(200).json({ data: response.rows }); 
 

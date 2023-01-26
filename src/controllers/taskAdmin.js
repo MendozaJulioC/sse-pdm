@@ -1,6 +1,6 @@
 // aquí colocaré todas las rutas, tareas, consultas que tengan que ver con las fichas metodológicas delplan de desarrollo municipal
 const XLSX = require('xlsx');
-const { local_pool } = require('../sql/dbConfig');
+const { local_pool, aws_pool} = require('../sql/dbConfig');
 
 const getFichaCarga = async(req, res)=>{
   try {
@@ -12,7 +12,7 @@ const getFichaCarga = async(req, res)=>{
    //console.log('datos: ',datos)
    /*
     for (let i=0; i<datos.length; i++){ 
-     await local_pool.query(`  
+     await aws_pool.query(`  
       INSERT INTO indicativo.tbl_ficha_indicador(
         cod_indicador,
         nom_indicador,
@@ -126,7 +126,7 @@ const getFichaMain = async(req, res)=>{
     //console.log(datos[i].Observacion20)
     //actualiza corte de la tabla indicador principal
     
-    await local_pool.query(` 
+    await aws_pool.query(` 
     INSERT INTO indicativo.tbl_indicador(
       cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa, tipo_ind, cod_indicador, nom_indicador, unidad, lb_ind, meta_plan, responsable_plan, cod_responsable_reporte, fc, sentido, incluye_lb, meta_2020, logro_2020, cumple_2020, meta_2021, logro_2021, cumple_2021, meta_2022, logro_2022, cumple_2022, meta_2023, logro_2023, cumple_2023, meta_ruralidad, logro_acumulado, avance_cuatrienio, peso, pesoxavnt, avance2020, avance2021, avance2022, avance2023, semafav, avnorm, avnormtemp, observaciones_indicador, avancepond, prog2020, prog2021, prog2022, prog2023, corte)
       VALUES (
@@ -195,7 +195,7 @@ const getUpdateLogros = async (req, res)=>{
      for (let i=0; i<datos.length; i++){
       
         //actualiza corte de la tabla indicador principal
-        await pool.query(` 
+        await aws_pool.query(` 
             UPDATE indicativo.tbl_indicador
             SET 
               cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
@@ -251,7 +251,7 @@ const getUpdateAvanceLineas = async(req, res)=>{
       //ojojojojojojoj
 
       if (datos[i].corte == "2022-10-31") {
-        await local_pool.query(` 
+        await aws_pool.query(` 
           INSERT INTO indicativo.tbl_comportamiento_lineas(
             cod_linea, nom_linea, avance, cumplimiento, corte, tipo)
           VALUES 
@@ -277,10 +277,10 @@ const getConsolidadoGeo = async (req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     //console.log(datos)
-    //await local_pool.query(` delete from inverpublica.tbl_consolidado`);
+    //await aws_pool.query(` delete from inverpublica.tbl_consolidado`);
     for (let i=0; i<datos.length; i++){
       /*
-      await local_pool.query(`  
+      await aws_pool.query(`  
             INSERT INTO inverpublica.tbl_consolidado(
                cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
             VALUES ('${datos[i].CodDep}','${datos[i].EsPP}','${datos[i].CodProyecto}','${datos[i].NombreProyecto}', ${datos[i].inversion_real},${datos[i].vigencia},'${datos[i].corte}',${datos[i].Total_Georreferenciado},
@@ -306,7 +306,7 @@ const getTotalesGeo = async (req, res)=>{
     //console.log(datos)
     console.log("ok");
     for (let i = 0; i < datos.length; i++) {
-      await local_pool.query(`INSERT INTO inverpublica.tbl_tipoinver_geo(cod_comuna, localizada, ciudad, pp, total)
+      await aws_pool.query(`INSERT INTO inverpublica.tbl_tipoinver_geo(cod_comuna, localizada, ciudad, pp, total)
       VALUES ( 
               ${datos[i].Cod_Comuna},
               ${datos[i].Localizada},
@@ -329,7 +329,7 @@ const getUpdateTotalesGeo = async(req, res)=>{
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[4]]);
     // console.log(datos)
     for (let i=0; i<datos.length; i++){
-      await local_pool.query(` 
+      await aws_pool.query(` 
         UPDATE inverpublica.tbl_tipoinver_geo
         SET  
           localizada=${datos[i].Localizada},
@@ -354,10 +354,10 @@ const getPlanAccion = async (req, res) => {
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
      console.log(datos)
-    await local_pool.query(` delete from plan_accion.tbl_accion`);
+    await aws_pool.query(` delete from plan_accion.tbl_accion`);
 
     for (let i = 0; i < datos.length; i++) {
-      await local_pool.query(` INSERT INTO plan_accion.tbl_accion(
+      await aws_pool.query(` INSERT INTO plan_accion.tbl_accion(
                           cod_dependencia,
                           cod_linea,
                           nom_linea,
@@ -460,11 +460,11 @@ const getEjecFisicaPA = async (req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
  //   console.log(datos)
-// await locaL_pool.query('delete from plan_accion.tbl_exec_fisica')
+// await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
 
       for (let i=0; i<datos.length; i++){
         
-        await local_pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
+        await aws_pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
           cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, 
           ejec_fisica, ejec_financiera, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
 	        VALUES (
@@ -507,10 +507,10 @@ const getEjecFinancieraPA= async(req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
    //console.log(datos)
-  await local_pool.query(' delete from plan_accion.tbl_exec_financiera')
+  await aws_pool.query(' delete from plan_accion.tbl_exec_financiera')
 
    for (let i=0; i<datos.length; i++){
-        await local_pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
+        await aws_pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
 	      cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, 
 	      porc_ejec_financiera,  poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, tipo_iniciativa,"corte")
 	        VALUES (
@@ -556,10 +556,10 @@ const getEjecFinanciera_PI_PA = async(req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     //console.log(datos)
- await local_pool.query(` delete from  indicativo.tbl_ejec_finan_plan`)
+ await aws_pool.query(` delete from  indicativo.tbl_ejec_finan_plan`)
 
    for (let i=0; i<datos.length; i++){
-    await local_pool.query(` 
+    await aws_pool.query(` 
     INSERT INTO indicativo.tbl_ejec_finan_plan(cod_linea, cod_componente, cod_programa, cod_dependencia, cod_proyecto, ppto_ajustado, ejecutado, corte)
 	  VALUES (
       '${datos[i].Cod_Linea}',

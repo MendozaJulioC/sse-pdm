@@ -1,9 +1,9 @@
-const { local_pool } = require('../sql/dbConfig');
+const { local_pool, aws_pool } = require('../sql/dbConfig');
 
 const _getRespIndLinea = async (req, res)=>{
     try {
         const codlinea = req.params.cod_linea;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
       
         select cod_responsable_reporte, dependencias.tbl_dependencias.nombre_dep,
         count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores ,

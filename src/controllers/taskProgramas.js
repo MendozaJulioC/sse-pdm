@@ -1,10 +1,10 @@
-// aquí colocaré todas las rutas y consultas que tengas como eje principal programas del pdmconst { local_pool } = require('../sql/dbConfig');
-const { local_pool } = require('../sql/dbConfig');
+// aquí colocaré todas las rutas y consultas que tengas como eje principal programas del pdmconst { aws_pool } = require('../sql/dbConfig');
+const { local_pool, aws_pool } = require('../sql/dbConfig');
 
 const getPrograma= async(req, res)=>{
     try {
            const codPrograma= req.params.cod_programa;
-           const response = await local_pool.query(`
+           const response = await aws_pool.query(`
            select 
             logro_acumulado,
             avance_cuatrienio,
@@ -70,7 +70,7 @@ const getPrgAvance= async(req, res)=>{
 
     try {
            const codLInea= req.params.cod_linea;
-           const response = await local_pool.query(`
+           const response = await aws_pool.query(`
            select 
            cod_programa, nom_programa, count (cod_programa) , sum(pesoxavnt) as peso_avance, sum(peso) as peso
          from indicativo.tbl_indicador 
@@ -105,7 +105,7 @@ const getPrgAvance= async(req, res)=>{
 const getlistProgramas = async(req, res)=>{
     try
     {
-        const response =  await local_pool.query(`select cod_programa, nom_programa from indicativo.tbl_indicador where cod_programa<>'0'
+        const response =  await aws_pool.query(`select cod_programa, nom_programa from indicativo.tbl_indicador where cod_programa<>'0'
         group by cod_programa , nom_programa order by cod_programa
         ` );
         res.status(200).json({
@@ -131,7 +131,7 @@ const getBuscaNombrePrograma = async(req, res)=>{
     try
     {
         const nomPrograma = req.params.nom_programa;
-        const response =  await local_pool.query(`
+        const response =  await aws_pool.query(`
         select 	
         cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa,cod_indicador,nom_indicador,
         count(cod_indicador) as indicador,
@@ -168,7 +168,7 @@ const getBuscaCodigoPrograma = async(req, res)=>{
     try
     {
         const codPrograma = req.params.cod_programa;
-        const response =  await local_pool.query(`
+        const response =  await aws_pool.query(`
         select 	
             cod_linea, nom_linea, cod_componente, nom_componente, cod_programa, nom_programa,cod_indicador,nom_indicador,
             count(cod_indicador) as indicador,
@@ -204,7 +204,7 @@ const getRespPrograma = async(req, res)=>{
     try
     {
         const nomPrograma = req.params.nom_programa;
-        const response =  await local_pool.query(`
+        const response =  await aws_pool.query(`
         select 	
  	        nombre_dep,	 count (cod_componente) as indicadores,  sum(pesoxavnt)as avancexpeso,sum(peso) as peso
         from indicativo.tbl_indicador
@@ -238,7 +238,7 @@ const getRespCodPrograma = async(req, res)=>{
     try
     {
         const codPrograma = req.params.cod_programa;
-        const response =  await local_pool.query(`
+        const response =  await aws_pool.query(`
         select 	
  	        nombre_dep,	 count (cod_componente) as indicadores,  sum(pesoxavnt)as avancexpeso,sum(peso) as peso
         from indicativo.tbl_indicador
@@ -271,7 +271,7 @@ const getRespCodPrograma = async(req, res)=>{
 const getPptoPrograma = async (req, res)=> {
     try {
         const codPrograma = req.params.cod_programa;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
             select 
 	            cod_linea, cod_componente, cod_programa, sum(ppto_ajustado) as ppto_ajustado, sum(ejecutado) as ejecutado
             from indicativo.tbl_ejec_finan_plan where cod_programa=$1
@@ -300,7 +300,7 @@ const getPptoPrograma = async (req, res)=> {
 const getSemafavNomPrograma = async(req, res)=> {
     try {
         const nomprograma = req.params.nom_programa;
-        const response = await local_pool.query(` 
+        const response = await aws_pool.query(` 
         select * from indicativo.sp_total_semaforo_nom_programa($1)
         `, [nomprograma]);
         res.status(200).json({

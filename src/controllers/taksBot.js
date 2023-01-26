@@ -3,7 +3,7 @@ const { local_pool, aws_pool } = require('../sql/dbConfig');
 const getValStatBot= async (req, res)=>{
     try {
         const cod_valstat= req.params.cod_valstat;
-        const response = await local_pool.query(` 
+        const response = await aws_pool.query(` 
         select
             cod_dependencia,nombre_dep,
             cod_linea,nom_linea,cod_componente,nom_componente,cod_programa,nom_programa,
@@ -39,7 +39,7 @@ const getValStatBot= async (req, res)=>{
 const getProyectoBot = async (req, res)=>{
     try {
         const cod_proyecto = req.params.cod_proyecto;
-        const response = await local_pool.query(` 
+        const response = await aws_pool.query(` 
         SELECT 
  	        indicativo.tbl_ejec_finan_plan.cod_linea,
 	        indicativo.tbl_ejec_finan_plan.cod_componente,
@@ -118,7 +118,7 @@ const getProyectoBot = async (req, res)=>{
 const getTerritorioBot = async (req, res)=>{
     try {
         const cod_territorio = req.params.cod_territorio;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
             territorio.tbl_comuna.cod_comuna,territorio.tbl_comuna.nom_comuna,
             localizada,ciudad,pp,total    
@@ -143,7 +143,7 @@ const getTerritorioBot = async (req, res)=>{
 const getDependenciaBot = async(req, res)=>{
     try {
         const cod_dependencia= req.params.cod_dependencia;
-        const response = await local_pool.query(` select * from dependencias.sp_bot_dep($1)`,[cod_dependencia]);
+        const response = await aws_pool.query(` select * from dependencias.sp_bot_dep($1)`,[cod_dependencia]);
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',

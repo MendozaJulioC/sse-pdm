@@ -8,7 +8,7 @@ const getLineas = async (req, res)=>{
   try {
 
 
-    const response = await local_pool.query(`select * from indicativo.sp_total_lineas()`);
+    const response = await aws_pool.query(`select * from indicativo.sp_total_lineas()`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
       Fecha_Emision:'2020-08-30',
@@ -28,7 +28,7 @@ const getLineas = async (req, res)=>{
 
 const getTotal = async (req, res)=>{
   try {
-    const response = await local_pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2022) as programado from indicativo.tbl_indicador');
+    const response = await aws_pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2022) as programado from indicativo.tbl_indicador');
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
       Fecha_Emision:'2020-08-30',
@@ -75,7 +75,7 @@ const getAvanceLineas= async(req, res)=>{
 const getComponentes = async (req, res)=>{
   try {
 
-    const response = await local_pool.query(`
+    const response = await aws_pool.query(`
       select 
         cod_linea,nom_linea,cod_componente, nom_componente, count (cod_componente) , sum(pesoxavnt) as peso_avance, sum(peso) as peso
       from indicativo.tbl_indicador 
@@ -104,7 +104,7 @@ const getComponentes = async (req, res)=>{
 const getProgramas= async( req, res)=>{
   try {
     
-    const response = await local_pool.query(`
+    const response = await aws_pool.query(`
     select cod_linea, nom_linea,cod_componente, nom_componente, cod_programa, nom_programa, count (cod_programa)
     from indicativo.tbl_indicador where cod_programa<>'0' 
     group by cod_linea,nom_linea, nom_linea,cod_componente, nom_componente,cod_programa, nom_programa order by cod_linea, cod_programa
@@ -130,7 +130,7 @@ const getProgramas= async( req, res)=>{
 
 const getTipoIndicador= async(req, res)=>{
   try {
-    const response = await local_pool.query(`
+    const response = await aws_pool.query(`
       select tipo_ind,count(tipo_ind) as tipo_indicador from indicativo.tbl_indicador group by  tipo_ind
     `);
     res.status(200).json({
@@ -152,7 +152,7 @@ const getTipoIndicador= async(req, res)=>{
 
 const getTotalReportDep = async(req, res)=>{
   try {
-      const response = await local_pool.query(`
+      const response = await aws_pool.query(`
         select cod_responsable_reporte, dependencias.tbl_dependencias.nombre_dep,
         count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores 
         from dependencias.tbl_dependencias
@@ -182,7 +182,7 @@ const getTotalResponsable = async (req, res)=>{
 
   try {
     
-    const response = await local_pool.query(`
+    const response = await aws_pool.query(`
       select responsable_plan, count(indicativo.tbl_indicador.cod_responsable_reporte) total_indicadores 
       from indicativo.tbl_indicador
       group by responsable_plan
@@ -516,7 +516,7 @@ const getHome = async(req, res)=>{
 const postCorteSemaforo = async( req, res)=>{
   try {
     const { vigencia, mesplan } = req.body;
-    const response = await local_pool.query(`  
+    const response = await aws_pool.query(`  
       select * from  indicativo.tbl_cortes where vigencia = $1 and mesplan = $2`, [ vigencia, mesplan]  
     );
     res.status(200).json({
@@ -542,7 +542,7 @@ const postCorteSemaforo = async( req, res)=>{
 
 const getContadorSemaforo =async(req, res)=>{
   try {
-    const response = await local_pool.query(` select * from indicativo.sp_total_semaforo() ` );
+    const response = await aws_pool.query(` select * from indicativo.sp_total_semaforo() ` );
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -567,7 +567,7 @@ const  getCountSemDep = async(req, res)=>{
   try {
     const dependencia = req.params.cod_dependencia;
     //console.log(dependencia)
-    const response = await local_pool.query(` 
+    const response = await aws_pool.query(` 
     select * from indicativo.sp_total_semaforo_dep($1)`,[dependencia])
     res.status(200). json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -592,7 +592,7 @@ const  getCountSemDep = async(req, res)=>{
 const tipoSemaforoDep = async(req, res)=>{
   try {
     const { cod_semaforo, cod_dependencia}= req.body;
-    const response = await local_pool.query(` 
+    const response = await aws_pool.query(` 
       select
          cod_linea, cod_componente, cod_programa, cod_indicador, nom_indicador,meta_plan, unidad, fc, sentido, avance_cuatrienio,  observaciones_indicador , semafav 
          from indicativo.tbl_indicador where tipo_ind='Producto' and semafav = $1 and cod_responsable_reporte = $2
@@ -621,7 +621,7 @@ const tipoSemaforoDep = async(req, res)=>{
 const getSemafav = async(req, res)=>{
   try {
     const semafav = req.params.semafav;
-    const response = await local_pool.query(` 
+    const response = await aws_pool.query(` 
       select 
       count(cod_responsable_reporte) as total_indicadores, dependencias.tbl_dependencias.cod_dep,
         dependencias.tbl_dependencias.nombre_dep
@@ -653,7 +653,7 @@ const getSemafav = async(req, res)=>{
 
 const getSemafavAlerta = async(req, res)=>{
   try {
-      const response = await local_pool.query(` 
+      const response = await aws_pool.query(` 
       SELECT 
       cod_dep, nombre_dep,nom_cortp,total_gris, total_rojo, total_amarillo, total_verde, 
       sum((avance/peso)*100) avance
@@ -682,7 +682,7 @@ const getSemafavAlerta = async(req, res)=>{
 
 const getSemafavTotal = async(req, res)=>{
   try {
-    const response = await local_pool.query(` 
+    const response = await aws_pool.query(` 
     select * from indicativo.sp_total_semaforo()
     `);
     res.status(200). json({
@@ -707,7 +707,7 @@ const getSemafavTotal = async(req, res)=>{
 
 const getAlertaRojo= async(req, res)=>{
   try {
-    const response = await local_pool.query(` 
+    const response = await aws_pool.query(` 
     select 
     cod_linea,nom_linea,
     cod_componente,nom_componente,
@@ -744,7 +744,7 @@ const getSemaforoPA = async(req, res)=>{
   try {
     const mespa = req.params.mesvigencia
    
-    const response = await local_pool.query(`select * from  plan_accion.tbl_cortes_pa  where  mesvigencia = $1`, [ mespa]  );
+    const response = await aws_pool.query(`select * from  plan_accion.tbl_cortes_pa  where  mesvigencia = $1`, [ mespa]  );
     res.status(200).json({
     Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
     Version: "1.0",

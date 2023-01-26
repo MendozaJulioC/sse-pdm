@@ -1,10 +1,10 @@
-const { local_pool } = require('../sql/dbConfig');
+const { local_pool , aws_pool} = require('../sql/dbConfig');
 
 
 
 const getTipoInversion = async (req, res)=>{
     try {
-        const response = await local_pool.query(`select * from inverpublica.sp_ciudad_fortinst()`);
+        const response = await aws_pool.query(`select * from inverpublica.sp_ciudad_fortinst()`);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -29,7 +29,7 @@ const getTipoInversion = async (req, res)=>{
 const getInverTerritorio = async(req, res)=>{
     try {
       const vigencia = new Date().toISOString().slice(0,4)
-      const response = await local_pool.query(`
+      const response = await aws_pool.query(`
       select 
       inverpublica.tbl_tipoinver_geo.cod_comuna,
       territorio.comunascorregimientos.nombre,
@@ -63,7 +63,7 @@ const getInversionComCorr = async(req, res)=>{
   try {
     const vigencia = new Date().toISOString().slice(0,4)
     const comuna =   req.params.cod_comuna;
-    const response = await local_pool.query(` 
+    const response = await aws_pool.query(` 
     select 
     inverpublica.tbl_tipoinver_geo.cod_comuna,
     territorio.comunascorregimientos.nombre,
@@ -86,7 +86,7 @@ const getInversionComCorr = async(req, res)=>{
 
 const getInversionDep =  async(req, res)=>{
     try {
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
             select * from inverpublica.view_total_dep
         `)
         res.status(200).json({
@@ -112,7 +112,7 @@ const getInversionDep =  async(req, res)=>{
 const tipo_inversion_dep = async (req, res)=>{
     try {
         const dep =   req.params.cod_dependencia;
-        const response = await local_pool.query(` 
+        const response = await aws_pool.query(` 
         select * from inverpublica.sp_tipoinversion_dep($1)`,[dep]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -140,7 +140,7 @@ const tipo_inversion_dep = async (req, res)=>{
 const getInverTerritorioDep = async(req, res)=>{
     try {
         const dep =   req.params.cod_dependencia;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
             select    
  		        sum(c1) as Popular,
 		        sum(c2) as Santa_Cruz,
@@ -193,7 +193,7 @@ const getInverTerritorioDep = async(req, res)=>{
 const getTipoIniciativaDep = async (req, res)=>{
     try {
         const dep =   req.params.cod_dependencia;
-        const response = await local_pool.query(`select * from plan_accion.sp_tipoiniciativa_dep($1) `,[dep]);
+        const response = await aws_pool.query(`select * from plan_accion.sp_tipoiniciativa_dep($1) `,[dep]);
         res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -217,7 +217,7 @@ const getTipoIniciativaDep = async (req, res)=>{
 const getInverTerriroerioProject = async (req, res)=>{
     try {
         const cod_project = req.params.cod_proyecto;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select    
             sum(c1) as Popular,sum(c2) as Santa_Cruz,
             sum(c3) as Manrique,sum(c4) as Aranjuez,
@@ -259,7 +259,7 @@ const getDepInversionComuna = async(req, res)=>{
         const territorio = req.params.comuna;
         switch (territorio) {
             case '1':
-                const response = await local_pool.query(`
+                const response = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                   tbl_dependencias.nom_cortp,
@@ -273,7 +273,7 @@ const getDepInversionComuna = async(req, res)=>{
                 res.status(200).json({ data: response.rows }); 
             break;
             case '2':
-                const response2 = await local_pool.query(`
+                const response2 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                   tbl_dependencias.nom_cortp,
@@ -287,7 +287,7 @@ const getDepInversionComuna = async(req, res)=>{
                 res.status(200).json({ data: response2.rows }); 
             break;
             case '3':
-                const response3 = await local_pool.query(`
+                const response3 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -301,7 +301,7 @@ const getDepInversionComuna = async(req, res)=>{
                 res.status(200).json({ data: response3.rows }); 
             break;
             case '4':
-                const response4 = await local_pool.query(`
+                const response4 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -315,7 +315,7 @@ const getDepInversionComuna = async(req, res)=>{
                 res.status(200).json({ data: response4.rows }); 
               break;
               case '5':
-                const response5 = await local_pool.query(`
+                const response5 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -329,7 +329,7 @@ const getDepInversionComuna = async(req, res)=>{
                 res.status(200).json({ data: response5.rows }); 
               break;
               case '6':
-                const response6 = await local_pool.query(`
+                const response6 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -344,7 +344,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '7':
                 
-                const response7 = await local_pool.query(`
+                const response7 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -359,7 +359,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '8':
                 
-                const response8 = await local_pool.query(`
+                const response8 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -374,7 +374,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '9':
                
-                const response9 = await local_pool.query(`
+                const response9 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -389,7 +389,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '10':
                
-                const response10= await local_pool.query(`
+                const response10= await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -404,7 +404,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '11':
                
-                const response11 = await local_pool.query(`
+                const response11 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -419,7 +419,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '12':
                
-                const response12 = await local_pool.query(`
+                const response12 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -434,7 +434,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '13':
                
-                const response13 = await local_pool.query(`
+                const response13 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -449,7 +449,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '14':
                
-                const response14 = await local_pool.query(`
+                const response14 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -464,7 +464,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '15':
               
-                const response15 = await local_pool.query(`
+                const response15 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -479,7 +479,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '16':
                 
-                const response16 = await local_pool.query(`
+                const response16 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -494,7 +494,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '50':
                 
-                const response50 = await local_pool.query(`
+                const response50 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -509,7 +509,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '60':
                 
-                const response60 = await local_pool.query(`
+                const response60 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -524,7 +524,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '70':
                 
-                const response70 = await local_pool.query(`
+                const response70 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -539,7 +539,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '80':
                 
-                const response80 = await local_pool.query(`
+                const response80 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -554,7 +554,7 @@ const getDepInversionComuna = async(req, res)=>{
               break;
               case '90':
                 
-                const response90 = await local_pool.query(`
+                const response90 = await aws_pool.query(`
                 select
                 inverpublica.view_inver_dep.cod_dep,
                 tbl_dependencias.nom_cortp,
@@ -578,7 +578,7 @@ const getDepInversionComuna = async(req, res)=>{
 
 const getInverMap = async (req, res)=>{
   try {
-      const response  = await local_pool.query(` 
+      const response  = await aws_pool.query(` 
       SELECT jsonb_build_object(
         'type',     'FeatureCollection',
         'features', jsonb_agg(features.feature)
@@ -622,7 +622,7 @@ const getInverMap = async (req, res)=>{
 
 const getRangoMap = async(req, res)=>{
   try {
-    const response = await local_pool.query(`select cod_comuna, nombre, comuna, habitantes,localizada, ciudad, pp, total from 	inverpublica.view_map_inversion_comunas`)
+    const response = await aws_pool.query(`select cod_comuna, nombre, comuna, habitantes,localizada, ciudad, pp, total from 	inverpublica.view_map_inversion_comunas`)
     res.status(200).json({ data: response.rows }); 
   } catch (error) {
     console.error('Error getRangoMap: ', error);

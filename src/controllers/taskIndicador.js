@@ -3,7 +3,7 @@ const { local_pool, aws_pool } = require('../sql/dbConfig');
 const getIndicador = async(req, res)=>{
     try {
         const indicador = req.params.cod_indicador;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
 		select 
 		logro_acumulado,
 		avance_cuatrienio,
@@ -69,7 +69,7 @@ const getIndicador = async(req, res)=>{
 
 const getListIndicador = async(req, res)=>{
      try {
-        const response = await local_pool.query(`select cod_indicador, nom_indicador from indicativo.tbl_indicador order by nom_indicador`);
+        const response = await aws_pool.query(`select cod_indicador, nom_indicador from indicativo.tbl_indicador order by nom_indicador`);
         res.status(200).json({
 			Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -91,7 +91,7 @@ const getListIndicador = async(req, res)=>{
 const getBuscaNombreIndicador= async(req, res)=>{
     try {
         const nombreIndicador = req.params.nom_indicador;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
 		select 
 		logro_acumulado,
 		avance_cuatrienio,
@@ -153,7 +153,7 @@ const getBuscaNombreIndicador= async(req, res)=>{
 
 const getGeneralPI = async (req, res)=>{
 	try {
-		const response = await local_pool.query(` select * from indicativo.tbl_avance_cumple_pdm order by tipo_corte, id`);
+		const response = await aws_pool.query(` select * from indicativo.tbl_avance_cumple_pdm order by tipo_corte, id`);
 		res.status(200).json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -190,7 +190,7 @@ const getGeneralLineasPI= async (req, res)=>{
 const getIndicadorBot = async(req, res)=>{
     try {
         const indicador = req.params.cod_indicador;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
 			avance_cuatrienio,
 	        indicativo.tbl_indicador.cod_indicador,
@@ -224,7 +224,7 @@ const getIndicadorBot = async(req, res)=>{
 
 const getCorteAvance= async(req, res)=>{
 	try {
-		const response = await local_pool.query(`select corte from indicativo.tbl_indicador group by corte`)
+		const response = await aws_pool.query(`select corte from indicativo.tbl_indicador group by corte`)
 		res.status(200).json({data: response.rows});   
 	} catch (error) {
 		console.error('Error getCorteAvance: ', error);

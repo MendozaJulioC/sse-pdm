@@ -1,9 +1,9 @@
-const { local_pool } = require('../sql/dbConfig');
+const { local_pool, aws_pool } = require('../sql/dbConfig');
 
 
 const getDependencias = async(req, res)=>{
     try {
-        const response = await local_pool.query(`select * from dependencias.tbl_dependencias where cod_dep>700 and cod_dep<> 908 and cod_dep <>800 and cod_dep <958 and cod_dep <>901 and cod_dep<>957  and cod_dep <>954  order by cod_dep`);
+        const response = await aws_pool.query(`select * from dependencias.tbl_dependencias where cod_dep>700 and cod_dep<> 908 and cod_dep <>800 and cod_dep <958 and cod_dep <>901 and cod_dep<>957  and cod_dep <>954  order by cod_dep`);
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -26,7 +26,7 @@ const getDependencias = async(req, res)=>{
 const getAvanceDepPDM = async (req, res)=>{
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await local_pool.query(`select * from indicativo.view_avance_dep where cod_responsable_reporte=$1`,[dependencia])
+        const response = await aws_pool.query(`select * from indicativo.view_avance_dep where cod_responsable_reporte=$1`,[dependencia])
      
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -48,7 +48,7 @@ const getAvanceDepPDM = async (req, res)=>{
 }
 const getAvancePDMxDEpendencias = async(req, res)=>{
     try {
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
 	        cod_responsable_reporte,
 	        nombre_dep,
@@ -81,7 +81,7 @@ const getAvancePDMxDEpendencias = async(req, res)=>{
 const getAvancePDMxLineasDep = async(req, res)=>{
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
 	        cod_responsable_reporte,cod_linea,nom_linea, sum(pesoxavnt) as avance,sum(peso) as peso
         from indicativo.tbl_indicador
@@ -114,7 +114,7 @@ const getAvancePDMxLineasDep = async(req, res)=>{
 const getAvancePDMxComponentesDep = async(req, res)=>{
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
             cod_responsable_reporte,cod_componente,nom_componente,sum(pesoxavnt) as avance,sum(peso) as peso
         from indicativo.tbl_indicador
@@ -146,7 +146,7 @@ const getAvancePDMxComponentesDep = async(req, res)=>{
 const getAvancePDMxProgramasDep = async(req, res)=>{
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
             cod_responsable_reporte,cod_programa,nom_programa,sum(pesoxavnt) as avance,sum(peso) as peso
         from indicativo.tbl_indicador
@@ -177,7 +177,7 @@ const getAvancePDMxProgramasDep = async(req, res)=>{
 const getValStatDep= async(req, res)=>{
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await local_pool.query(`select * from plan_accion.sp_dep_valstat($1)`, [dependencia]);
+        const response = await aws_pool.query(`select * from plan_accion.sp_dep_valstat($1)`, [dependencia]);
         res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -206,7 +206,7 @@ const getValStatDep= async(req, res)=>{
 const getCumplimientoDep= async(req, res)=>{
 try {
     const dependencia = req.params.cod_dependencia;
-    const response = await local_pool.query(`select  sum(pesoxavnt)as avancepond, sum(prog2022) as programado from indicativo.tbl_indicador where cod_responsable_reporte=$1`,[dependencia])
+    const response = await aws_pool.query(`select  sum(pesoxavnt)as avancepond, sum(prog2022) as programado from indicativo.tbl_indicador where cod_responsable_reporte=$1`,[dependencia])
     res.status(200). json({
         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
         Version: '1.0',
@@ -224,7 +224,7 @@ try {
 const getCumplimientoDMxDEpendencias= async(req, res)=>{
     try {
         
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
         cod_responsable_reporte,
         nombre_dep,

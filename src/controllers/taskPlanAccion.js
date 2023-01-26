@@ -1,9 +1,9 @@
 const res = require('express/lib/response');
-const {local_pool} = require('../sql/dbConfig');
+const {local_pool, aws_pool} = require('../sql/dbConfig');
 
 const getAvanceFisico = async (req, res) => {
     try {
-        const response = await local_pool.query(`select  sum(ejec_fisica) as Ejec_Fisica from plan_accion.tbl_exec_fisica`);
+        const response = await aws_pool.query(`select  sum(ejec_fisica) as Ejec_Fisica from plan_accion.tbl_exec_fisica`);
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision: '2020-08-30',
@@ -27,7 +27,7 @@ const getAvanceFisico = async (req, res) => {
 
 const getAvanceFinanciero = async (req, res) => {
     try {
-        const response = await local_pool.query(` 
+        const response = await aws_pool.query(` 
         select 
 	        sum(poai) as poai,
 	        sum(ppto_ajustado) as PptoAjustado,
@@ -63,7 +63,7 @@ const getAvanceFinanciero = async (req, res) => {
 const getAvanceFinancieroDep = async (req, res) => {
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await local_pool.query(` 
+        const response = await aws_pool.query(` 
             select 
                 sum(poai) as poai,
                 sum(ppto_ajustado) as PptoAjustado,
@@ -96,7 +96,7 @@ const getAvanceFinancieroDep = async (req, res) => {
 const getAvanceFisicoDep = async (req, res) => {
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await local_pool.query(`  
+        const response = await aws_pool.query(`  
         select 
 	        sum((porc_eficacia_proyecto * ppto_ajustado)/ (select sum(ppto_ajustado) as ppto from plan_accion.tbl_exec_fisica where cod_dependencia =$1 )) as avance_fisico
             from plan_accion.tbl_exec_fisica 	where cod_dependencia =$1
@@ -123,7 +123,7 @@ const getAvanceFisicoDep = async (req, res) => {
 const getPlanAccionDep = async (req, res) => {
     try {
         const dependencia = req.params.cod_dependencia;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         SELECT
 	        plan_accion.tbl_accion.cod_linea,
 	        plan_accion.tbl_accion.cod_componente,
@@ -173,7 +173,7 @@ const getPlanAccionDep = async (req, res) => {
 const getValStat = async (req, res) => {
     try {
         const cod = req.params.cod_proyecto;
-        const response = await local_pool.query(`select 
+        const response = await aws_pool.query(`select 
         cod_linea,nom_linea,cod_proyecto,nom_proyecto,
 		cod_componente,nom_componente,
 		cod_programa, nom_programa, y_dev_poai,y_dev_pptoajustado,y_dev_ejecucion,
@@ -205,7 +205,7 @@ const getValStat = async (req, res) => {
 
 const getEjecFisicaDep = async (req, res) => {
     try {
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
             select cod_dependencia,nom_dependencia,
                 sum(porc_eficacia_proyecto * ppto_ajustado)/ ( sum(ppto_ajustado) ) as porc_ejecfisica
             from plan_accion.tbl_exec_fisica 
@@ -231,7 +231,7 @@ const getEjecFisicaDep = async (req, res) => {
 
 const getEjecFinancieraDep = async (req, res) => {
     try {
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select
             cod_dependencia, nom_dependencia, pptoajustado, pptoejecutado, sum(pptoejecutado/pptoajustado)as porcexec_financiera
             from plan_accion.view_exec_financ_dep
@@ -259,7 +259,7 @@ const getEjecFinancieraDep = async (req, res) => {
 const getAvanceEjecucionProyect = async (req, res) => {
     try {
         const cod = req.params.cod_proyecto;
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select
         plan_accion.tbl_exec_fisica.cod_dependencia, 
         plan_accion.tbl_exec_fisica.nom_dependencia,
@@ -294,7 +294,7 @@ const getAvanceEjecucionProyect = async (req, res) => {
 const getBuscaValStat = async (req, res) => {
     try {
         const valstat = req.params.cod_val_stat;
-        const response = await local_pool.query(` 
+        const response = await aws_pool.query(` 
         select
             cod_dependencia,nombre_dep,
             cod_linea,nom_linea,cod_componente,nom_componente,cod_programa,nom_programa,
@@ -331,7 +331,7 @@ const getBuscaValStat = async (req, res) => {
 const getAlertaFinanciera = async (req, res) => {
     try {
         const alerta = req.params.alerta
-        const response = await local_pool.query(`select * from plan_accion.tbl_exec_financiera where ejec_financiera <$1 and tipo_iniciativa <= 2 and num_valstat >=1`, [alerta])
+        const response = await aws_pool.query(`select * from plan_accion.tbl_exec_financiera where ejec_financiera <$1 and tipo_iniciativa <= 2 and num_valstat >=1`, [alerta])
 
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -351,7 +351,7 @@ const getAlertaFinanciera = async (req, res) => {
 const getAlertaFisica = async (req, res) => {
     try {
         const alerta = req.params.alerta
-        const response = await local_pool.query(`select * from plan_accion.tbl_exec_fisica where porc_eficacia_proyecto <$1 and num_valstat > 0`, [alerta])
+        const response = await aws_pool.query(`select * from plan_accion.tbl_exec_fisica where porc_eficacia_proyecto <$1 and num_valstat > 0`, [alerta])
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -367,7 +367,7 @@ const getAlertaFisica = async (req, res) => {
 }
 
 const getCorteAlertaPA = async (req, res) => {
-    const response = await local_pool.query(`select corte from plan_accion.tbl_exec_financiera group by corte`)
+    const response = await aws_pool.query(`select corte from plan_accion.tbl_exec_financiera group by corte`)
     res.status(200).json({
         Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
         Version: '1.0',
@@ -381,7 +381,7 @@ const getCorteAlertaPA = async (req, res) => {
 const getvaloraAlerta = async (req, res) => {
     try {
         const mesvigencia = req.params.mes
-        const response = await local_pool.query(`select mesvigencia, mes, verde, rojo, alerta from plan_accion.tbl_cortes_pa where mesvigencia=$1`, [mesvigencia])
+        const response = await aws_pool.query(`select mesvigencia, mes, verde, rojo, alerta from plan_accion.tbl_cortes_pa where mesvigencia=$1`, [mesvigencia])
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -400,7 +400,7 @@ const getAlertaFisicaFinanciera = async (req, res) => {
     try {
         const alerta = req.params.alerta
 
-        const response = await local_pool.query(`select * from plan_accion.tbl_exec_financiera where ejec_financiera > 0.80 and tipo_iniciativa<=2 and porc_eficacia_proyecto <$1 and num_valstat >=1`, [alerta])
+        const response = await aws_pool.query(`select * from plan_accion.tbl_exec_financiera where ejec_financiera > 0.80 and tipo_iniciativa<=2 and porc_eficacia_proyecto <$1 and num_valstat >=1`, [alerta])
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -418,7 +418,7 @@ const getAlertaFisicaFinanciera = async (req, res) => {
 const getAlertaPonderadoPA = async (req, res) => {
     try {
         let alerta = [];
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
         cod_dependencia,
         nom_dependencia, 
@@ -470,7 +470,7 @@ const getAlertaPonderadoPA = async (req, res) => {
 const getAlertaCuentaDep = async (req, res) => {
     try {
         const alerta = req.params.alerta
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
             count (cod_dependencia) as total_dep,
             cod_dependencia,
@@ -498,7 +498,7 @@ const getAlertaCuentaDep = async (req, res) => {
 const getDetalleFinanceroDep = async (req, res) => {
     try {
         const dep = req.params.dep;
-        const response = await local_pool.query(`select * from plan_accion.sp_detalle_pa_dep(${dep})`);
+        const response = await aws_pool.query(`select * from plan_accion.sp_detalle_pa_dep(${dep})`);
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -516,7 +516,7 @@ const getDetalleFinanceroDep = async (req, res) => {
 
 const getPAFisInt = async (req, res) => {
     try {
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
     select 
 	    sum(porc_eficacia_proyecto * ppto_ajustado)/ ( sum(ppto_ajustado) ) as porc_ejecfisica
 from plan_accion.tbl_exec_fisica 
@@ -538,7 +538,7 @@ where tipo_proyecto='0'`);
 
 const getPAFisPP = async (req, res) => {
     try {
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
         select 
             sum(porc_eficacia_proyecto * ppto_ajustado)/ ( sum(ppto_ajustado) ) as porc_ejecfisica
     from plan_accion.tbl_exec_fisica 
@@ -559,7 +559,7 @@ const getPAFisPP = async (req, res) => {
 
 const getPAFinanInst = async (req, res) => {
     try {
-        const response = await local_pool.query(`select sum(ejecucion)/sum(ppto_ajustado) as porc_finan from plan_accion.tbl_exec_financiera where tipo_proyecto='0'`);
+        const response = await aws_pool.query(`select sum(ejecucion)/sum(ppto_ajustado) as porc_finan from plan_accion.tbl_exec_financiera where tipo_proyecto='0'`);
 
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -576,7 +576,7 @@ const getPAFinanInst = async (req, res) => {
 
 const getPAFinanPP = async (req, res) => {
     try {
-        const response = await local_pool.query(`select sum(ejecucion)/sum(ppto_ajustado) as porc_finan from plan_accion.tbl_exec_financiera where tipo_proyecto='1'`);
+        const response = await aws_pool.query(`select sum(ejecucion)/sum(ppto_ajustado) as porc_finan from plan_accion.tbl_exec_financiera where tipo_proyecto='1'`);
 
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
@@ -593,7 +593,7 @@ const getPAFinanPP = async (req, res) => {
 
 const getRankPPFisico = async (req, res) => {
     try {
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
     select cod_dependencia,nom_dependencia,
         sum(porc_eficacia_proyecto * ppto_ajustado)/ ( sum(ppto_ajustado) ) as porc_ejecfisica
     from plan_accion.tbl_exec_fisica 
@@ -616,7 +616,7 @@ const getRankPPFisico = async (req, res) => {
 
 const getRankPPFinan = async (req, res) => {
     try {
-        const response = await local_pool.query(` 
+        const response = await aws_pool.query(` 
         select
         cod_dependencia, nom_dependencia, sum(ejecucion)/sum(ppto_ajustado)as porcexec_financiera
         from plan_accion.tbl_exec_financiera
@@ -640,7 +640,7 @@ const getRankPPFinan = async (req, res) => {
 
 const getProjectPP = async (req, res) => {
     try {
-        const response = await local_pool.query(` select * from plan_accion.tbl_exec_fisica where tipo_proyecto='1'`);
+        const response = await aws_pool.query(` select * from plan_accion.tbl_exec_fisica where tipo_proyecto='1'`);
         res.status(200).json({
             Autor: 'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
@@ -658,7 +658,7 @@ const getProjectPP = async (req, res) => {
 
 const getBubbleDep = async (req, res) => {
     try {
-        const response = await local_pool.query(`
+        const response = await aws_pool.query(`
     
     select 
 	plan_accion.view_exec_financ_dep.cod_dependencia,
