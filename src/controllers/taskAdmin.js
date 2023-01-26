@@ -279,7 +279,7 @@ const getConsolidadoGeo = async (req, res)=>{
     //console.log(datos)
     //await aws_pool.query(` delete from inverpublica.tbl_consolidado`);
     for (let i=0; i<datos.length; i++){
-      /*
+      
       await aws_pool.query(`  
             INSERT INTO inverpublica.tbl_consolidado(
                cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
@@ -288,7 +288,6 @@ const getConsolidadoGeo = async (req, res)=>{
                     ${datos[i].c14}, ${datos[i].c15}, ${datos[i].c16}, ${datos[i].c50}, ${datos[i].c60},  ${datos[i].c70},  ${datos[i].c80},  ${datos[i].c90}, ${datos[i].c99}, ${datos[i].c97});
                  `);
             console.log(datos[i].CodProyecto, " ok")   
-      */
     }
   } catch (error) {
      console.log(error)
@@ -344,7 +343,6 @@ const getUpdateTotalesGeo = async(req, res)=>{
     console.error('Update UpdateTotalesGeo: ', error);
   }
 }
-
 
 const getPlanAccion = async (req, res) => {
   try {
@@ -446,12 +444,10 @@ const getPlanAccion = async (req, res) => {
         `);
       console.log(i, "-", datos[i].cod_val_stat, " -Ok");
     }
-    
   } catch (error) {
     console.log(error);
   }
 };
-
 
 
 const getEjecFisicaPA = async (req, res)=>{

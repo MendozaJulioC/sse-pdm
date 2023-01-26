@@ -16,7 +16,6 @@ const {
   getEjecFinanciera_PI_PA //Actuliza la tabla de ejecución financiera correspondiente a los proyectos pdm desde el pa
 } = require("../controllers/taskAdmin");
 
-
 routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
     .get('/pi/api/fichamain', getFichaMain)
     .get('/pi/api/updatelogros', getUpdateLogros)
@@ -29,5 +28,6 @@ routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
     .get('/pa/api/cargaejecucionfinanciera', getEjecFinancieraPA)
     .get('/pi/api/ejecfinancierapipa', getEjecFinanciera_PI_PA)
 
+    
 
 module.exports = routerAdmin;    
