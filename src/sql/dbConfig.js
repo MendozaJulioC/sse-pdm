@@ -41,7 +41,7 @@ const aws_pool = new Pool ({
   user: 'subpiee',
   host: 'dbsubpiee-aws.cxzcrpauh1po.us-east-2.rds.amazonaws.com',
   database: 'dbsubpiee',
-  password: process.env.PASS,
+  password: 'M3d3ll1n*1',//process.env.PASS,
   port: 5432,
   max: 20,
   idleTimeoutMillis: 300000000,
