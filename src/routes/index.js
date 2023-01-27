@@ -33,6 +33,8 @@ router.get('/pi/api/line/:cod_linea', getLineIndicadores)
 .get('/pi/api/line/financiera/:cod_linea', getEjecFinLinea)
 
 
+
+
 const {  getComponente, getCompAvanceLinea, getListComponente, getBuscaNombreComponente, getBuscaCodigoComponente,getPrgNomComponente, getprgCodComponente, getRespComponente,
          getRespCodComponente, getSemafavComponente, getSemafavNomComponente ,getpptoComponente }=  require('../controllers/taskComponentes');
 router.get('/pi/api/componentes/:cod_componente', getComponente)
