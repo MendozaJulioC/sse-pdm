@@ -13,4 +13,4 @@ app.use(require('./routes/admin'))
 
 
 
-app.listen(80,()=>{ console.log('Servidor activo...7001');})
+app.listen(7001,()=>{ console.log('Servidor activo...7001');})
