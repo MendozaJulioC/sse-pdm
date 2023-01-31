@@ -53,7 +53,7 @@ const getTotal = async (req, res)=>{
 const getAvanceLineas= async(req, res)=>{
   try {
   
-    const response = await local_pool.query(`SELECT cod_linea,nom_linea,(sum(total_plan/peso_linea)*100) as avance_linea 
+    const response = await aws_pool.query(`SELECT cod_linea,nom_linea,(sum(total_plan/peso_linea)*100) as avance_linea 
     from indicativo.view_avance group by cod_linea, nom_linea order by cod_linea`);
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
