@@ -195,7 +195,7 @@ const getIndicadorBot = async(req, res)=>{
 			avance_cuatrienio,
 	        indicativo.tbl_indicador.cod_indicador,
 		    indicativo.tbl_indicador.nom_indicador,
-		    defincion,
+		    definicion,
 		    objetivo,
 		    tipo_ind,
 		    meta_plan,
