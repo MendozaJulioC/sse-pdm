@@ -266,7 +266,7 @@ const getAvanceEjecucionProyect = async (req, res) => {
         plan_accion.tbl_exec_fisica.cod_proyecto,
         plan_accion.tbl_exec_fisica.nom_proyecto, 
         plan_accion.tbl_exec_fisica.porc_eficacia_proyecto,
-        plan_accion.tbl_exec_fisica.ejec_financiera,
+        plan_accion.tbl_exec_financiera.ejec_financiera,
         plan_accion.tbl_exec_financiera.tipo_iniciativa 
         from plan_accion.tbl_exec_fisica 
          LEFT JOIN plan_accion.tbl_exec_financiera ON plan_accion.tbl_exec_financiera.cod_proyecto = plan_accion.tbl_exec_fisica.cod_proyecto

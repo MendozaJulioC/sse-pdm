@@ -245,16 +245,17 @@ const getUpdateAvanceLineas = async(req, res)=>{
     );
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
-    //console.log(datos)
+    console.log(datos)
+
     for (let i = 0; i < datos.length; i++) {
       //para el siguiente corte crear una funcion que solo inserte por el corte necesario
       //ojojojojojojoj
 
-      if (datos[i].corte == "2022-10-31") {
+      if (datos[i].corte == "2022-12-31") {
         await aws_pool.query(` 
           INSERT INTO indicativo.tbl_comportamiento_lineas(
             cod_linea, nom_linea, avance, cumplimiento, corte, tipo)
-          VALUES 
+          VALUES (
             ${datos[i].cod_linea},
             '${datos[i].linea}',
             ${datos[i].avance}, 
@@ -264,7 +265,11 @@ const getUpdateAvanceLineas = async(req, res)=>{
         `);
         console.log(datos[i].linea, " ok");
       }
+
+
     }
+
+
   } catch (error) {
     console.error("Error updatelineas", error);
   }
@@ -277,9 +282,8 @@ const getConsolidadoGeo = async (req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     //console.log(datos)
-    //await aws_pool.query(` delete from inverpublica.tbl_consolidado`);
+    await aws_pool.query(` delete from inverpublica.tbl_consolidado`);
     for (let i=0; i<datos.length; i++){
-      
       await aws_pool.query(`  
             INSERT INTO inverpublica.tbl_consolidado(
                cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
@@ -351,9 +355,8 @@ const getPlanAccion = async (req, res) => {
     );
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-     console.log(datos)
+     //console.log(datos)
     await aws_pool.query(` delete from plan_accion.tbl_accion`);
-
     for (let i = 0; i < datos.length; i++) {
       await aws_pool.query(` INSERT INTO plan_accion.tbl_accion(
                           cod_dependencia,
@@ -456,7 +459,7 @@ const getEjecFisicaPA = async (req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
  //   console.log(datos)
-// await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
+   await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
 
       for (let i=0; i<datos.length; i++){
         
@@ -510,7 +513,6 @@ const getEjecFinancieraPA= async(req, res)=>{
 	      cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, 
 	      porc_ejec_financiera,  poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, tipo_iniciativa,"corte")
 	        VALUES (
-        
           ${datos[i].cod_dependencia},
           '${datos[i].nom_dependencia}',
           '${datos[i].cod_proyecto}',

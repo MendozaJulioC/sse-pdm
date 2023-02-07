@@ -28,6 +28,6 @@ routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
     .get('/pa/api/cargaejecucionfinanciera', getEjecFinancieraPA)
     .get('/pi/api/ejecfinancierapipa', getEjecFinanciera_PI_PA)
 
-    
 
+    
 module.exports = routerAdmin;    
