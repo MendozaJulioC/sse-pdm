@@ -27,11 +27,12 @@ const local_pool = new Pool ({
   user: 'postgres',
   host: 'localhost',
   database: 'subpiee',
-  password: process.env.PASS,
+  password: process.env.AWS_PASS,
   port: 5433,
   max: 20,
   idleTimeoutMillis: 300000000,
   connectionTimeoutMillis: 100000000
+
 
 });
 local_pool.connect().then(() => console.log('Conex Local_DB'))
@@ -50,4 +51,4 @@ const aws_pool = new Pool ({
 })
 aws_pool.connect().then(() => console.log('Conex ws..DB'))
 
-module.exports = {  aws_pool };
+module.exports = {  aws_pool, /*local_pool*/  };

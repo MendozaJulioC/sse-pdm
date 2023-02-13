@@ -2,7 +2,7 @@ const { Router} = require('express');
 const router = Router();
 
 const { getHome,getTotal ,getLineas,getAvanceLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable, postCorteSemaforo,
-         getContadorSemaforo, getCountSemDep, tipoSemaforoDep, getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA}= require('../controllers/index.controllers');
+         getContadorSemaforo, getCountSemDep, tipoSemaforoDep, getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA, getComparePlan}= require('../controllers/index.controllers');
 router.get('/',getHome);
 router.get('/pi/api/total', getTotal)
 router.get('/pi/api/total-lineas', getLineas)
@@ -14,13 +14,15 @@ router.get('/pi/api/total-dep-reporte', getTotalReportDep);
 router.get('/pi/api/total-dep-responsable',getTotalResponsable)
 router.post('/pi/api/semaforo-corte', postCorteSemaforo)
         .post('/pi/api/semaforo-corte/dependencia/tipo', tipoSemaforoDep)
+
 router.get('/pi/api/semaforo-corte/contador', getContadorSemaforo)
         .get('/pi/api/semaforo-corte/contador/dependencias/:cod_dependencia',getCountSemDep)
         .get('/pi/api/semaforo-corte/general/:semafav',getSemafav)
         .get('/pi/api/semaforo-corte/alertas', getSemafavAlerta)
         .get('/pi/api/semaforo-corte/total', getSemafavTotal)
         .get('/pi/api/semaforo-corte/rojos', getAlertaRojo)
-router.get('/pa/semaforo-corte/:mesvigencia',getSemaforoPA)
+        .get('/pa/semaforo-corte/:mesvigencia',getSemaforoPA)
+        .get('/pi/api/compareplan', getComparePlan)
   
 
 const {getLineTotalComp, getLineTotalProg, getLineIndicadores, getAvanceLinea, getLineIndResumen, getSemafavLinea, getEjecFinLinea} =require('../controllers/taskLine');
@@ -78,6 +80,7 @@ router.get('/pi/api/programas/:cod_programa', getPrograma)
 
 const { _getRespIndLinea}= require('../controllers/takResponsables')
 router.get('/pi/api/responsables/line/:cod_linea', _getRespIndLinea)
+
 
 const{  getDependencias, getAvanceDepPDM, getAvancePDMxDEpendencias, getAvancePDMxLineasDep, getAvancePDMxComponentesDep
         ,getAvancePDMxProgramasDep, getValStatDep, getCumplimientoDep, getCumplimientoDMxDEpendencias} = require('../controllers/taskDependencias')

@@ -542,7 +542,7 @@ const postCorteSemaforo = async( req, res)=>{
 
 const getContadorSemaforo =async(req, res)=>{
   try {
-    const response = await aws_pool.query(` select * from indicativo.sp_total_semaforo() ` );
+    const response = await aws_pool.query(`select * from indicativo.sp_total_semaforo() ` );
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Fecha_Emision:'2020-08-30',
@@ -683,8 +683,7 @@ const getSemafavAlerta = async(req, res)=>{
 const getSemafavTotal = async(req, res)=>{
   try {
     const response = await aws_pool.query(` 
-    select * from indicativo.sp_total_semaforo()
-    `);
+    select * from indicativo.sp_total_semaforo()`);
     res.status(200). json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
       Fecha_Emision:'2020-08-30',
@@ -743,7 +742,6 @@ const getAlertaRojo= async(req, res)=>{
 const getSemaforoPA = async(req, res)=>{
   try {
     const mespa = req.params.mesvigencia
-   
     const response = await aws_pool.query(`select * from  plan_accion.tbl_cortes_pa  where  mesvigencia = $1`, [ mespa]  );
     res.status(200).json({
     Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
@@ -757,10 +755,32 @@ const getSemaforoPA = async(req, res)=>{
    console.error(error);
    
   }
+
   
 }
 
+const getComparePlan = async(req, res)=>{
+  try {
+    const response = await aws_pool.query('select * from indicativo.tbl_comparativa_pdm');
+   
+    res.status(200).json({
+      Autor:"Alcaldía de Medellin - Departamento Administrativo de Planeación ",
+      Version: "1.0",
+   
+      Datos_Contacto:"Julio César Mendoza - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6272",
+      data: response.rows
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
+
+
+
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
                   getTotal, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep,
-                  getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA
+                  getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA, getComparePlan
                 }
