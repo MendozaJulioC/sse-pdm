@@ -778,8 +778,6 @@ const getComparePlan = async(req, res)=>{
 
 
 
-
-
 module.exports= { getHome, getLineas, getComponentes, getProgramas, getTipoIndicador, getTotalReportDep, getTotalResponsable ,
                   getTotal, getAvanceLineas, postCorteSemaforo, getContadorSemaforo, getCountSemDep, tipoSemaforoDep,
                   getSemafav, getSemafavAlerta, getSemafavTotal, getAlertaRojo, getSemaforoPA, getComparePlan

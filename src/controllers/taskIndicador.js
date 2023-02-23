@@ -202,7 +202,9 @@ const getIndicadorBot = async(req, res)=>{
 		    unidad, 
 		    sentido,
 		    lb_ind,
-		    responsable_plan,observaciones,
+		    responsable_plan,
+			observaciones_indicador,
+			observaciones,
 		    semafav
 		    from indicativo.tbl_indicador
 		LEFT JOIN indicativo.tbl_ficha_indicador ON indicativo.tbl_ficha_indicador.cod_indicador = indicativo.tbl_indicador.cod_indicador  
