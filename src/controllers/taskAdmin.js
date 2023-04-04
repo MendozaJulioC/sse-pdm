@@ -232,7 +232,7 @@ const getUpdateLogros = async (req, res)=>{
         `)
         console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
       }
-      */
+    */  
    } catch (error) {
      console.log('Error uodate logros: ', error)
   }
