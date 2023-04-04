@@ -13,7 +13,6 @@ routerAuth.get('/auth/api/validatemail/:email', getEmail);
 routerAuth.post('/auth/api/register',postRegisterUser);
 routerAuth.get('/auth/api/id/:id',getIdLoguin)
 
-//routerAuth.post('/auth/users/loguin', postLoguin)
 
 
 

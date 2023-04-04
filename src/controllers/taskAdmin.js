@@ -191,7 +191,8 @@ const getUpdateLogros = async (req, res)=>{
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    // console.log(datos)
+    console.log(datos)
+    /*
      for (let i=0; i<datos.length; i++){
       
         //actualiza corte de la tabla indicador principal
@@ -231,11 +232,11 @@ const getUpdateLogros = async (req, res)=>{
         `)
         console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
       }
+      */
    } catch (error) {
      console.log('Error uodate logros: ', error)
   }
 }
-
 
 //ruta para actualizar los avances y cumplimientos por cada corte de las lineas del pdm
 const getUpdateAvanceLineas = async(req, res)=>{
@@ -246,12 +247,12 @@ const getUpdateAvanceLineas = async(req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
     console.log(datos)
-
+/*
     for (let i = 0; i < datos.length; i++) {
       //para el siguiente corte crear una funcion que solo inserte por el corte necesario
       //ojojojojojojoj
 
-      if (datos[i].corte == "2022-12-31") {
+      if (datos[i].corte == "2023-02-28") {
         await aws_pool.query(` 
           INSERT INTO indicativo.tbl_comportamiento_lineas(
             cod_linea, nom_linea, avance, cumplimiento, corte, tipo)
@@ -269,7 +270,7 @@ const getUpdateAvanceLineas = async(req, res)=>{
 
     }
 
-
+*/
   } catch (error) {
     console.error("Error updatelineas", error);
   }
@@ -348,6 +349,7 @@ const getUpdateTotalesGeo = async(req, res)=>{
   }
 }
 
+
 const getPlanAccion = async (req, res) => {
   try {
     const excel = XLSX.readFile(
@@ -355,7 +357,8 @@ const getPlanAccion = async (req, res) => {
     );
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-     //console.log(datos)
+    console.log(datos)
+    /* 
     await aws_pool.query(` delete from plan_accion.tbl_accion`);
     for (let i = 0; i < datos.length; i++) {
       await aws_pool.query(` INSERT INTO plan_accion.tbl_accion(
@@ -447,19 +450,20 @@ const getPlanAccion = async (req, res) => {
         `);
       console.log(i, "-", datos[i].cod_val_stat, " -Ok");
     }
+    */
   } catch (error) {
     console.log(error);
   }
 };
-
 
 const getEjecFisicaPA = async (req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
- //   console.log(datos)
-   await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
+    console.log(datos)
+/*    
+    await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
 
       for (let i=0; i<datos.length; i++){
         
@@ -492,7 +496,7 @@ const getEjecFisicaPA = async (req, res)=>{
         
          console.log(i,"-", datos[i].cod_proyecto, " -Ok")        
       }
-
+*/
 
    } catch (error) {
      console.log(error)
@@ -505,7 +509,9 @@ const getEjecFinancieraPA= async(req, res)=>{
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
-   //console.log(datos)
+    console.log(datos)
+/*
+   
   await aws_pool.query(' delete from plan_accion.tbl_exec_financiera')
 
    for (let i=0; i<datos.length; i++){
@@ -538,7 +544,7 @@ const getEjecFinancieraPA= async(req, res)=>{
         `);
         console.log(i,"-", datos[i].cod_proyecto, " -Ok")         
       }
-
+*/
 
    } catch (error) {
      console.log('Error getEjecFinancieraPA: ',error)
@@ -546,40 +552,97 @@ const getEjecFinancieraPA= async(req, res)=>{
 }
 
 
-
-
 const getEjecFinanciera_PI_PA = async(req, res)=>{
   try {
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    //console.log(datos)
- await aws_pool.query(` delete from  indicativo.tbl_ejec_finan_plan`)
+    console.log(datos)
 
-   for (let i=0; i<datos.length; i++){
-    await aws_pool.query(` 
-    INSERT INTO indicativo.tbl_ejec_finan_plan(cod_linea, cod_componente, cod_programa, cod_dependencia, cod_proyecto, ppto_ajustado, ejecutado, corte)
-	  VALUES (
-      '${datos[i].Cod_Linea}',
-      '${datos[i].Cod_Componente}',
-      '${datos[i].Cod_Programa}',
-       ${datos[i].cod_dependencia},
-      '${datos[i].cod_proyecto}',
-      ${datos[i].ppto_ajustado},
-      ${datos[i].ejecucion},
-      '${datos[i].corte}'
-    );
-  `);
-  console.log(i,"-", datos[i].cod_proyecto, " -Ok")          
-  }
-
-
-
-
+    /*  
+    await aws_pool.query(` delete from  indicativo.tbl_ejec_finan_plan`)
+    for (let i=0; i<datos.length; i++){
+      await aws_pool.query(` 
+      INSERT INTO indicativo.tbl_ejec_finan_plan(cod_linea, cod_componente, cod_programa, cod_dependencia, cod_proyecto, ppto_ajustado, ejecutado, corte)
+      VALUES (
+        '${datos[i].Cod_Linea}',
+        '${datos[i].Cod_Componente}',
+        '${datos[i].Cod_Programa}',
+        ${datos[i].cod_dependencia},
+        '${datos[i].cod_proyecto}',
+        ${datos[i].ppto_ajustado},
+        ${datos[i].ejecucion},
+        '${datos[i].corte}'
+      );
+    `);
+      console.log(i,"-", datos[i].cod_proyecto, " -Ok")          
+    }
+*/    
   } catch (error) {
     console.error('Error getEjecFinanciera_PI_PA ', error)
   }
 }
+
+const getAdminUsers = async(req, res)=>{
+  try {
+    const admin= req.params.admin
+  
+    const response =await local_pool.query(`
+      select id,email,password,nom_usuario, id_cargo,tel_contacto from auth.tbl_users 
+    `) 
+    res.status(200).json({
+      data: response.rows
+    })
+
+  } catch (error) {
+    console.error('Error getAdminUsers: ', error);
+  }
+}
+
+const deleteUsers = async(req, res)=>{
+  try {
+  
+    const admin= req.params.admin
+    const user =req.params.user
+  
+    const response =await local_pool.query(`
+         delete from auth.tbl_users where id=$1 returning *`,[user]) 
+    res.status(200).json({
+      data: response.rows
+    })
+
+  } catch (error) {
+    console.error('Error deleteUsers:', error);
+  }
+}
+
+
+const putUser = async (req, res)=>{
+  try {
+  
+   const {idadmin, user, fullname, email, password}= req.body;
+    const results = await local_pool.query(`
+      UPDATE auth.tbl_users
+      SET  email=$3, password=$4, nom_usuario=$2
+      WHERE id=$1;
+   `,[user, fullname, email, password]);
+
+   const response = await local_pool.query(`
+   select id,email,password,nom_usuario, id_cargo,tel_contacto from auth.tbl_users 
+   `)
+   res.status(200).json({
+    data: response.rows
+  })
+  
+     
+  
+  } catch (error) {
+    console.error('Error putUser:', error);
+  }
+}
+
+
+
 
 module.exports = {
   getFichaCarga,
@@ -592,7 +655,8 @@ module.exports = {
   getPlanAccion,
   getEjecFisicaPA,
   getEjecFinancieraPA,
-  getEjecFinanciera_PI_PA
+  getEjecFinanciera_PI_PA,
+  getAdminUsers,
+  deleteUsers,
+  putUser
 };
-
-

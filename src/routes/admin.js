@@ -1,5 +1,6 @@
 const { Router} = require('express');
 const routerAdmin = Router();
+const { isAuthorized } = require('../helpers/auth')
 
 
 const {
@@ -13,7 +14,10 @@ const {
   getPlanAccion, // carga el plan de accion
   getEjecFisicaPA,//carga ejecución física plan de acción
   getEjecFinancieraPA, //carga la ejecucion financiera del plan de acción
-  getEjecFinanciera_PI_PA //Actuliza la tabla de ejecución financiera correspondiente a los proyectos pdm desde el pa
+  getEjecFinanciera_PI_PA, //Actuliza la tabla de ejecución financiera correspondiente a los proyectos pdm desde el pa
+  getAdminUsers,
+  deleteUsers,
+  putUser
 } = require("../controllers/taskAdmin");
 
 routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
@@ -27,6 +31,10 @@ routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
     .get('/pa/api/cargaejecucionfisica', getEjecFisicaPA)
     .get('/pa/api/cargaejecucionfinanciera', getEjecFinancieraPA)
     .get('/pi/api/ejecfinancierapipa', getEjecFinanciera_PI_PA)
+    .get (`/auth/api/admin/:keysecret/:admin/gestion`,isAuthorized, getAdminUsers)
+
+    routerAdmin.delete('/api/:keysecret/auth/:admin/:user',  isAuthorized, deleteUsers )
+    routerAdmin.post('/api/:keysecret/auth/:admin/edit/:user',  isAuthorized,  putUser )
 
     
 module.exports = routerAdmin;    

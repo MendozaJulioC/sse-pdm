@@ -188,6 +188,6 @@ const { getPoblacion, getPoblacionPDM }= require('../controllers/taskPoblacion')
 const { getProyectos }= require('../controllers/taskProyectos')
         router.get('/proyectos/api/listado', getProyectos)
        
-        
+     
 
 module.exports = router;    

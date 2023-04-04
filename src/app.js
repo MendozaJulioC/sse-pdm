@@ -2,10 +2,12 @@ const express = require('express');
 const EventEmitter = require('events');
 const cors = require('cors');
 const path = require('path');
+const methodOverr = require('method-override') 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(methodOverr('method'))
 app.use(cors());
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));

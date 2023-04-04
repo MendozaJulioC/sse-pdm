@@ -28,7 +28,7 @@ const getLineas = async (req, res)=>{
 
 const getTotal = async (req, res)=>{
   try {
-    const response = await aws_pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2022) as programado from indicativo.tbl_indicador');
+    const response = await aws_pool.query('select  sum(pesoxavnt*100) as total_plan,sum(pesoxavnt)as avancepond, sum(peso)as peso, sum(prog2023) as programado from indicativo.tbl_indicador');
     res.status(200).json({
       Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
       Fecha_Emision:'2020-08-30',
