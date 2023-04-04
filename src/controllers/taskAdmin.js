@@ -587,7 +587,7 @@ const getAdminUsers = async(req, res)=>{
   try {
     const admin= req.params.admin
   
-    const response =await local_pool.query(`
+    const response =await aws_pool.query(`
       select id,email,password,nom_usuario, id_cargo,tel_contacto from auth.tbl_users 
     `) 
     res.status(200).json({
@@ -605,7 +605,7 @@ const deleteUsers = async(req, res)=>{
     const admin= req.params.admin
     const user =req.params.user
   
-    const response =await local_pool.query(`
+    const response =await aws_pool.query(`
          delete from auth.tbl_users where id=$1 returning *`,[user]) 
     res.status(200).json({
       data: response.rows
@@ -627,7 +627,7 @@ const putUser = async (req, res)=>{
       WHERE id=$1;
    `,[user, fullname, email, password]);
 
-   const response = await local_pool.query(`
+   const response = await aws_pool.query(`
    select id,email,password,nom_usuario, id_cargo,tel_contacto from auth.tbl_users 
    `)
    res.status(200).json({

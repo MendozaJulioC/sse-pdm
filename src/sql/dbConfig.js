@@ -22,7 +22,7 @@ const pool2 = new Pool ({
 pool.connect().then(() => console.log('Conex heroku2..DB'))
 */
 
-
+/*
 const local_pool = new Pool ({
   user: 'postgres',
   host: 'localhost',
@@ -36,7 +36,7 @@ const local_pool = new Pool ({
 
 });
 local_pool.connect().then(() => console.log('Conex Local_DB'))
-
+*/
 
 const aws_pool = new Pool ({
   user: 'subpiee',
@@ -51,4 +51,4 @@ const aws_pool = new Pool ({
 })
 aws_pool.connect().then(() => console.log('Conex ws..DB'))
 
-module.exports = {  aws_pool, local_pool  };
+module.exports = {  aws_pool, /*local_pool*/  };
