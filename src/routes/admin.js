@@ -31,10 +31,10 @@ routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
     .get('/pa/api/cargaejecucionfisica', getEjecFisicaPA)
     .get('/pa/api/cargaejecucionfinanciera', getEjecFinancieraPA)
     .get('/pi/api/ejecfinancierapipa', getEjecFinanciera_PI_PA)
-    .get (`/auth/api/admin/:keysecret/:admin/gestion`,isAuthorized, getAdminUsers)
+    .get (`/auth/api/admin/:admin/gestion`,isAuthorized, getAdminUsers)
 
-    routerAdmin.delete('/api/:keysecret/auth/:admin/:user',  isAuthorized, deleteUsers )
-    routerAdmin.post('/api/:keysecret/auth/:admin/edit/:user',  isAuthorized,  putUser )
+    routerAdmin.delete('/api/auth/:admin/:user',  isAuthorized, deleteUsers )
+    routerAdmin.post('/api/auth/:admin/edit/:user',  isAuthorized,  putUser )
 
     
 module.exports = routerAdmin;    
