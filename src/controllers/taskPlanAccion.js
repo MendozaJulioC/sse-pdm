@@ -82,7 +82,7 @@ const getAvanceFinancieroDep = async (req, res) => {
             Frecuencia_actualizacion: 'Semestral',
             Version: '1.0',
             Cobertura: 'Municipio de Medelín',
-            Fecha_ultima__actualizacion: '2020-08-30',
+            Fecha_ultima__actualizacion: '2023-04-30',
             Datos_Contacto: 'Bibiana Botero de los Ríos - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 6210',
             eMail_Contacto: 'bibiana.botero@medellin.gov.co',
 

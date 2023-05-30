@@ -206,7 +206,7 @@ const getValStatDep= async(req, res)=>{
 const getCumplimientoDep= async(req, res)=>{
 try {
     const dependencia = req.params.cod_dependencia;
-    const response = await aws_pool.query(`select  sum(pesoxavnt)as avancepond, sum(prog2022) as programado from indicativo.tbl_indicador where cod_responsable_reporte=$1`,[dependencia])
+    const response = await aws_pool.query(`select  sum(pesoxavnt)as avancepond, sum(prog2023) as programado from indicativo.tbl_indicador where cod_responsable_reporte=$1`,[dependencia])
     res.status(200). json({
         Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
         Version: '1.0',
