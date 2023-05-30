@@ -192,47 +192,47 @@ const getUpdateLogros = async (req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     console.log(datos)
-    /*
-     for (let i=0; i<datos.length; i++){
+    
+    //  for (let i=0; i<datos.length; i++){
       
-        //actualiza corte de la tabla indicador principal
-        await aws_pool.query(` 
-            UPDATE indicativo.tbl_indicador
-            SET 
-              cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
-              meta_2020=${datos[i].Meta2020},
-              meta_2021=${datos[i].Meta2021},
-              meta_2022=${datos[i].Meta2022},
-              meta_2023=${datos[i].Meta2023},
-              logro_2020=	${datos[i].Log20},
-              logro_2021=	${datos[i].Log21},
-              logro_2022=	${datos[i].Log22},
-              logro_2023=	${datos[i].Log23},
-              cumple_2020=	${datos[i].Cumplimiento20},
-              cumple_2021=	${datos[i].Cumplimiento21},
-              cumple_2022=	${datos[i].Cumplimiento22},
-              cumple_2023=	${datos[i].Cumplimiento23},
-              avance_cuatrienio = ${datos[i].avance_cuatrienio},
-              pesoxavnt=	${datos[i].PesoXAvnt},
-              avance2020=	${datos[i].Avance20},
-              avance2021=	${datos[i].Avance21},
-              avance2022=	${datos[i].Avance22},
-              avance2023=	${datos[i].Avance23},
-              semafav=	${datos[i].semafAv},
-              avnorm=		${datos[i].aVNorm},
-              avnormtemp=	${datos[i].AvNormTmp},
-              observaciones_indicador = '${datos[i].Observacion}' ,
-              avancepond= ${datos[i].AvancePond},
-              prog2020= ${datos[i].Prog2020},
-              prog2021= ${datos[i].Prog2021},
-              prog2022= ${datos[i].Prog2022},
-              prog2023= ${datos[i].Prog2023},
-              corte='${datos[i].Corte}'
-            WHERE cod_indicador= '${datos[i].CodigoIndicador}';
-        `)
-        console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
-      }
-    */  
+    //     //actualiza corte de la tabla indicador principal
+    //     await aws_pool.query(` 
+    //         UPDATE indicativo.tbl_indicador
+    //         SET 
+    //           cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
+    //           meta_2020=${datos[i].Meta2020},
+    //           meta_2021=${datos[i].Meta2021},
+    //           meta_2022=${datos[i].Meta2022},
+    //           meta_2023=${datos[i].Meta2023},
+    //           logro_2020=	${datos[i].Log20},
+    //           logro_2021=	${datos[i].Log21},
+    //           logro_2022=	${datos[i].Log22},
+    //           logro_2023=	${datos[i].Log23},
+    //           cumple_2020=	${datos[i].Cumplimiento20},
+    //           cumple_2021=	${datos[i].Cumplimiento21},
+    //           cumple_2022=	${datos[i].Cumplimiento22},
+    //           cumple_2023=	${datos[i].Cumplimiento23},
+    //           avance_cuatrienio = ${datos[i].avance_cuatrienio},
+    //           pesoxavnt=	${datos[i].PesoXAvnt},
+    //           avance2020=	${datos[i].Avance20},
+    //           avance2021=	${datos[i].Avance21},
+    //           avance2022=	${datos[i].Avance22},
+    //           avance2023=	${datos[i].Avance23},
+    //           semafav=	${datos[i].semafAv},
+    //           avnorm=		${datos[i].aVNorm},
+    //           avnormtemp=	${datos[i].AvNormTmp},
+    //           observaciones_indicador = '${datos[i].Observacion}' ,
+    //           avancepond= ${datos[i].AvancePond},
+    //           prog2020= ${datos[i].Prog2020},
+    //           prog2021= ${datos[i].Prog2021},
+    //           prog2022= ${datos[i].Prog2022},
+    //           prog2023= ${datos[i].Prog2023},
+    //           corte='${datos[i].Corte}'
+    //         WHERE cod_indicador= '${datos[i].CodigoIndicador}';
+    //     `)
+    //     console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
+    //   }
+    
    } catch (error) {
      console.log('Error uodate logros: ', error)
   }
@@ -358,99 +358,99 @@ const getPlanAccion = async (req, res) => {
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     console.log(datos)
-    /* 
-    await aws_pool.query(` delete from plan_accion.tbl_accion`);
-    for (let i = 0; i < datos.length; i++) {
-      await aws_pool.query(` INSERT INTO plan_accion.tbl_accion(
-                          cod_dependencia,
-                          cod_linea,
-                          nom_linea,
-                          cod_componente,
-                          nom_componente,
-                          cod_programa,
-                          nom_programa,
-                          cod_proyecto,
-                          nom_proyecto,
-                          eficacia_proyecto,
-                          ejec_fin_porc,
-                          eficiencia,
-                          ppto_ajustado,
-                          ejec_real,
-                          ppto_inicial, 
-                          cod_val_stat,
-                          nom_val_stat,
-                          u_medida,
+    
+    // await aws_pool.query(` delete from plan_accion.tbl_accion`);
+    // for (let i = 0; i < datos.length; i++) {
+    //   await aws_pool.query(` INSERT INTO plan_accion.tbl_accion(
+    //                       cod_dependencia,
+    //                       cod_linea,
+    //                       nom_linea,
+    //                       cod_componente,
+    //                       nom_componente,
+    //                       cod_programa,
+    //                       nom_programa,
+    //                       cod_proyecto,
+    //                       nom_proyecto,
+    //                       eficacia_proyecto,
+    //                       ejec_fin_porc,
+    //                       eficiencia,
+    //                       ppto_ajustado,
+    //                       ejec_real,
+    //                       ppto_inicial, 
+    //                       cod_val_stat,
+    //                       nom_val_stat,
+    //                       u_medida,
                           
-                          q_plan,
-                          q_real,
-                          eficacia_ve,
-                          obs_val_stat, 
-                          y_dev_poai,
-                          y_dev_pptoajustado,
-                          y_dev_ejecucion,
+    //                       q_plan,
+    //                       q_real,
+    //                       eficacia_ve,
+    //                       obs_val_stat, 
+    //                       y_dev_poai,
+    //                       y_dev_pptoajustado,
+    //                       y_dev_ejecucion,
                           
-                          compromisos,
-                          facturas,
-                          pagos,
-                          "corte_ejecucion",
-                          obs_proyecto,
-                          num_ve,
-                          pago_factura, compromiso2,
-                          factura2, pago2, nombre_dep_reporte, 
-                           y_dev_es_pp, espagopendiente,escola, esmcv, cod_siufp_catal, obs_cod_suifp)
-        VALUES (
-          ${datos[i].cod_dependencia},
-          '${datos[i].cod_linea}',
-          '${datos[i].nom_linea}',
-          '${datos[i].cod_componente}',
-          '${datos[i].nom_componente}',
-          '${datos[i].cod_programa}',
-          '${datos[i].nom_programa}',
-          '${datos[i].cod_proyecto}',
-          '${datos[i].nom_proyecto}',
+    //                       compromisos,
+    //                       facturas,
+    //                       pagos,
+    //                       "corte_ejecucion",
+    //                       obs_proyecto,
+    //                       num_ve,
+    //                       pago_factura, compromiso2,
+    //                       factura2, pago2, nombre_dep_reporte, 
+    //                        y_dev_es_pp, espagopendiente,escola, esmcv, cod_siufp_catal, obs_cod_suifp)
+    //     VALUES (
+    //       ${datos[i].cod_dependencia},
+    //       '${datos[i].cod_linea}',
+    //       '${datos[i].nom_linea}',
+    //       '${datos[i].cod_componente}',
+    //       '${datos[i].nom_componente}',
+    //       '${datos[i].cod_programa}',
+    //       '${datos[i].nom_programa}',
+    //       '${datos[i].cod_proyecto}',
+    //       '${datos[i].nom_proyecto}',
           
-          ${datos[i].eficacia_proyecto},
-          ${datos[i].ejec_fin_porc},
-          ${datos[i].eficiencia},
-          ${datos[i].pto_ajustado},
-          ${datos[i].ejec_real},
-          ${datos[i].pto_inicial},
-          '${datos[i].cod_val_stat}',
-          '${datos[i].nom_val_stat}',
-          '${datos[i].u_medida}',
+    //       ${datos[i].eficacia_proyecto},
+    //       ${datos[i].ejec_fin_porc},
+    //       ${datos[i].eficiencia},
+    //       ${datos[i].pto_ajustado},
+    //       ${datos[i].ejec_real},
+    //       ${datos[i].pto_inicial},
+    //       '${datos[i].cod_val_stat}',
+    //       '${datos[i].nom_val_stat}',
+    //       '${datos[i].u_medida}',
 
-          ${datos[i].q_plan},
-          ${datos[i].q_real},
-          ${datos[i].eficacia_ve},
-          '${datos[i].obs_val_stat}',
-          ${datos[i].y_dev_poai},
-          ${datos[i].y_dev_pptoajustado},
-          ${datos[i].y_dev_ejecucion},
+    //       ${datos[i].q_plan},
+    //       ${datos[i].q_real},
+    //       ${datos[i].eficacia_ve},
+    //       '${datos[i].obs_val_stat}',
+    //       ${datos[i].y_dev_poai},
+    //       ${datos[i].y_dev_pptoajustado},
+    //       ${datos[i].y_dev_ejecucion},
 
-          ${datos[i].compromisos},
-          ${datos[i].facturas},
-          ${datos[i].pagos},
-          '${datos[i].corte_ejecucion}',
-          '${datos[i].obs_proyecto}',
+    //       ${datos[i].compromisos},
+    //       ${datos[i].facturas},
+    //       ${datos[i].pagos},
+    //       '${datos[i].corte_ejecucion}',
+    //       '${datos[i].obs_proyecto}',
 
-          ${datos[i].num_ve},
-          ${datos[i].pago_factura},
-          ${datos[i].compromiso2},
-          ${datos[i].factura2},
-          ${datos[i].pago2},
-          '${datos[i].nombre_dep_reporte}',
-          ${datos[i].y_dev_es_pp},
-          ${datos[i].espagopendiente},
-          ${datos[i].escola},
-          ${datos[i].esmcv},
-          '${datos[i].cod_suifp_catal}',
-          '${datos[i].obs_cod_suifpc}'
-        );
+    //       ${datos[i].num_ve},
+    //       ${datos[i].pago_factura},
+    //       ${datos[i].compromiso2},
+    //       ${datos[i].factura2},
+    //       ${datos[i].pago2},
+    //       '${datos[i].nombre_dep_reporte}',
+    //       ${datos[i].y_dev_es_pp},
+    //       ${datos[i].espagopendiente},
+    //       ${datos[i].escola},
+    //       ${datos[i].esmcv},
+    //       '${datos[i].cod_suifp_catal}',
+    //       '${datos[i].obs_cod_suifp}'
+    //     );
         
-        `);
-      console.log(i, "-", datos[i].cod_val_stat, " -Ok");
-    }
-    */
+    //     `);
+    //   console.log(i, "-", datos[i].cod_val_stat, " -Ok");
+    // }
+    
   } catch (error) {
     console.log(error);
   }
@@ -462,41 +462,41 @@ const getEjecFisicaPA = async (req, res)=>{
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
     console.log(datos)
-/*    
-    await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
+  
+    // await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
 
-      for (let i=0; i<datos.length; i++){
+    //   for (let i=0; i<datos.length; i++){
         
-        await aws_pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
-          cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, 
-          ejec_fisica, ejec_financiera, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
-	        VALUES (
+    //     await aws_pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
+    //       cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, 
+    //       ejec_fisica, ejec_financiera, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
+	  //       VALUES (
         
-          ${datos[i].Codigo_Dependencia},
-          '${datos[i].Nombre_Dependencia}',   
-          '${datos[i].cod_proyecto}',
-          '${datos[i].nom_proyecto}',
-          ${datos[i].porc_eficacia_proyecto},
-          ${datos[i].ejecucion_fisica},
-          ${datos[i].ejecucion_financiera},
-          ${datos[i].POAI},
-          ${datos[i].ppto_ajustado},
+    //       ${datos[i].Codigo_Dependencia},
+    //       '${datos[i].Nombre_Dependencia}',   
+    //       '${datos[i].cod_proyecto}',
+    //       '${datos[i].nom_proyecto}',
+    //       ${datos[i].porc_eficacia_proyecto},
+    //       ${datos[i].ejecucion_fisica},
+    //       ${datos[i].ejecucion_financiera},
+    //       ${datos[i].POAI},
+    //       ${datos[i].ppto_ajustado},
           
-          ${datos[i].ejecucion},
-          ${datos[i].Compromisos},
-          ${datos[i].Pagos},
-          ${datos[i].Facturas},
-          ${datos[i].num_valstat},
-          '${datos[i].tipo_proyecto}',
-          '${datos[i].espagopendiente}',
-          '${datos[i].saldo_no_ejec}',
-          '${datos[i].corte}'
-      );
-        `);
+    //       ${datos[i].ejecucion},
+    //       ${datos[i].Compromisos},
+    //       ${datos[i].Pagos},
+    //       ${datos[i].Facturas},
+    //       ${datos[i].num_valstat},
+    //       '${datos[i].tipo_proyecto}',
+    //       '${datos[i].espagopendiente}',
+    //       '${datos[i].saldo_no_ejec}',
+    //       '${datos[i].corte}'
+    //   );
+    //     `);
         
-         console.log(i,"-", datos[i].cod_proyecto, " -Ok")        
-      }
-*/
+    //      console.log(i,"-", datos[i].cod_proyecto, " -Ok")        
+    //   }
+
 
    } catch (error) {
      console.log(error)

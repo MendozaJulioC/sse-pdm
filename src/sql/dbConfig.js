@@ -31,7 +31,7 @@ const local_pool = new Pool ({
   port: 5433,
   max: 20,
   idleTimeoutMillis: 300000000,
-  connectionTimeoutMillis: 100000000
+  connectionTimeoutMillis: 100000000How to use PostgreSQL database in Next.js apps
 
 
 });
