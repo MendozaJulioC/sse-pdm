@@ -31,8 +31,7 @@ routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
     .get('/pa/api/cargaejecucionfisica', getEjecFisicaPA)
     .get('/pa/api/cargaejecucionfinanciera', getEjecFinancieraPA)
     .get('/pi/api/ejecfinancierapipa', getEjecFinanciera_PI_PA)
-
-    .get (`/auth/api/admin/:admin/gestion`, getAdminUsers)
+    .get (`/auth/api/admin/gestion/:admin`, getAdminUsers)
 
     routerAdmin.delete('/api/auth/:admin/:user',  deleteUsers )
     routerAdmin.post('/api/auth/:admin/edit/:user',   putUser )
