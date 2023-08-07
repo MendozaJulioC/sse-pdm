@@ -643,11 +643,11 @@ const putUser = async (req, res)=>{
 
 const getProyectosEspeciales = async(req,res)=>{
   try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/ProyectoseIndicadores.xlsx');
-    var nombreHoja = excel.SheetNames;
-    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    //console.log(datos)
-    let estadosgtoespecial=[]
+    // const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/ProyectoseIndicadores.xlsx');
+    // var nombreHoja = excel.SheetNames;
+    // var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+    // //console.log(datos)
+    // let estadosgtoespecial=[]
 
   //   for (let index = 0; index < datos.length; index++) {
   //     const response = await aws_pool.query(` 
