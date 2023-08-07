@@ -2,6 +2,7 @@
 const XLSX = require('xlsx');
 const { local_pool, aws_pool} = require('../sql/dbConfig');
 
+
 const getFichaCarga = async(req, res)=>{
   try {
     // const excel = XLSX.readFile('/Users/juliocesarmendoza/Desktop/pipApp/Backend-pi/src/public/uploads/BVCC.xlsx');
@@ -190,47 +191,47 @@ const getUpdateLogros = async (req, res)=>{
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    // console.log(datos)
+    console.log(datos)
     
-     for (let i=0; i<datos.length; i++){
+    //  for (let i=0; i<datos.length; i++){
       
-        //actualiza corte de la tabla indicador principal
-        await aws_pool.query(` 
-            UPDATE indicativo.tbl_indicador
-            SET 
-              cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
-              meta_2020=${datos[i].Meta2020},
-              meta_2021=${datos[i].Meta2021},
-              meta_2022=${datos[i].Meta2022},
-              meta_2023=${datos[i].Meta2023},
-              logro_2020=	${datos[i].Log20},
-              logro_2021=	${datos[i].Log21},
-              logro_2022=	${datos[i].Log22},
-              logro_2023=	${datos[i].Log23},
-              cumple_2020=	${datos[i].Cumplimiento20},
-              cumple_2021=	${datos[i].Cumplimiento21},
-              cumple_2022=	${datos[i].Cumplimiento22},
-              cumple_2023=	${datos[i].Cumplimiento23},
-              avance_cuatrienio = ${datos[i].avance_cuatrienio},
-              pesoxavnt=	${datos[i].PesoXAvnt},
-              avance2020=	${datos[i].Avance20},
-              avance2021=	${datos[i].Avance21},
-              avance2022=	${datos[i].Avance22},
-              avance2023=	${datos[i].Avance23},
-              semafav=	${datos[i].semafAv},
-              avnorm=		${datos[i].aVNorm},
-              avnormtemp=	${datos[i].AvNormTmp},
-              observaciones_indicador = '${datos[i].Observacion}' ,
-              avancepond= ${datos[i].AvancePond},
-              prog2020= ${datos[i].Prog2020},
-              prog2021= ${datos[i].Prog2021},
-              prog2022= ${datos[i].Prog2022},
-              prog2023= ${datos[i].Prog2023},
-              corte='${datos[i].Corte}'
-            WHERE cod_indicador= '${datos[i].CodigoIndicador}';
-        `)
-        console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
-      }
+    //     //actualiza corte de la tabla indicador principal
+    //     await aws_pool.query(` 
+    //         UPDATE indicativo.tbl_indicador
+    //         SET 
+    //           cod_responsable_reporte = ${datos[i].cod_responsable_reporte},
+    //           meta_2020=${datos[i].Meta2020},
+    //           meta_2021=${datos[i].Meta2021},
+    //           meta_2022=${datos[i].Meta2022},
+    //           meta_2023=${datos[i].Meta2023},
+    //           logro_2020=	${datos[i].Log20},
+    //           logro_2021=	${datos[i].Log21},
+    //           logro_2022=	${datos[i].Log22},
+    //           logro_2023=	${datos[i].Log23},
+    //           cumple_2020=	${datos[i].Cumplimiento20},
+    //           cumple_2021=	${datos[i].Cumplimiento21},
+    //           cumple_2022=	${datos[i].Cumplimiento22},
+    //           cumple_2023=	${datos[i].Cumplimiento23},
+    //           avance_cuatrienio = ${datos[i].avance_cuatrienio},
+    //           pesoxavnt=	${datos[i].PesoXAvnt},
+    //           avance2020=	${datos[i].Avance20},
+    //           avance2021=	${datos[i].Avance21},
+    //           avance2022=	${datos[i].Avance22},
+    //           avance2023=	${datos[i].Avance23},
+    //           semafav=	${datos[i].semafAv},
+    //           avnorm=		${datos[i].aVNorm},
+    //           avnormtemp=	${datos[i].AvNormTmp},
+    //           observaciones_indicador = '${datos[i].Observacion}' ,
+    //           avancepond= ${datos[i].AvancePond},
+    //           prog2020= ${datos[i].Prog2020},
+    //           prog2021= ${datos[i].Prog2021},
+    //           prog2022= ${datos[i].Prog2022},
+    //           prog2023= ${datos[i].Prog2023},
+    //           corte='${datos[i].Corte}'
+    //         WHERE cod_indicador= '${datos[i].CodigoIndicador}';
+    //     `)
+    //     console.log(i, "-", datos[i].CodigoIndicador, " -Ok")  
+    //   }
     
    } catch (error) {
      console.log('Error uodate logros: ', error)
@@ -247,26 +248,27 @@ const getUpdateAvanceLineas = async(req, res)=>{
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
     console.log(datos)
 
-    for (let i = 0; i < datos.length; i++) {
+    // for (let i = 0; i < datos.length; i++) {
      
 
-      if (datos[i].corte == "2023-04-30") {
-        await aws_pool.query(` 
-          INSERT INTO indicativo.tbl_comportamiento_lineas(
-            cod_linea, nom_linea, avance, cumplimiento, corte, tipo)
-          VALUES (
-            ${datos[i].cod_linea},
-            '${datos[i].linea}',
-            ${datos[i].avance}, 
-            ${datos[i].cumplimiento},
-            '${datos[i].corte}',
-            '${datos[i].tipo}');
-        `);
-        console.log(datos[i].linea, " ok");
-      }
+    //   if (datos[i].corte == "2023-06-30") {
+    //     await aws_pool.query(` 
+    //       INSERT INTO indicativo.tbl_comportamiento_lineas(
+    //         cod_linea, nom_linea, avance, cumplimiento, corte, tipo)
+    //       VALUES (
+    //         ${datos[i].cod_linea},
+    //         '${datos[i].linea}',
+    //         ${datos[i].avance}, 
+    //         ${datos[i].cumplimiento},
+    //         '${datos[i].corte}',
+    //         '${datos[i].tipo}');
+    //     `);
+    //     console.log(datos[i].linea, " ok");
+    //   }
+      
 
 
-    }
+    // }
 
 
   } catch (error) {
@@ -280,18 +282,18 @@ const getConsolidadoGeo = async (req, res)=>{
    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Estructuracion.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    //console.log(datos)
-    await aws_pool.query(` delete from inverpublica.tbl_consolidado`);
-    for (let i=0; i<datos.length; i++){
-      await aws_pool.query(`  
-            INSERT INTO inverpublica.tbl_consolidado(
-               cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
-            VALUES (${datos[i].CodDep},'${datos[i].EsPP}','${datos[i].CodProyecto}','${datos[i].NombreProyecto}', ${datos[i].inversion_real},${datos[i].vigencia},'${datos[i].corte}',${datos[i].Total_Georreferenciado},
-                    ${datos[i].c1},${datos[i].c2}, ${datos[i].c3},${datos[i].c4}, ${datos[i].c5},${datos[i].c6}, ${datos[i].c7},${datos[i].c8}, ${datos[i].c9},${datos[i].c10}, ${datos[i].c11}, ${datos[i].c12}, ${datos[i].c13},
-                    ${datos[i].c14}, ${datos[i].c15}, ${datos[i].c16}, ${datos[i].c50}, ${datos[i].c60},  ${datos[i].c70},  ${datos[i].c80},  ${datos[i].c90}, ${datos[i].c99}, ${datos[i].c97});
-                 `);
-            console.log(datos[i].CodProyecto, " ok")   
-    }
+    console.log(datos)
+    // await aws_pool.query(` delete from inverpublica.tbl_consolidado`);
+    // for (let i=0; i<datos.length; i++){
+    //   await aws_pool.query(`  
+    //         INSERT INTO inverpublica.tbl_consolidado(
+    //            cod_dependencia, espp, cod_proyecto, nom_proyecto, inversion_real, vigencia, corte, total_geo, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c50, c60, c70, c80, c90, c99, c97)
+    //         VALUES (${datos[i].CodDep},'${datos[i].EsPP}','${datos[i].CodProyecto}','${datos[i].NombreProyecto}', ${datos[i].inversion_real},${datos[i].vigencia},'${datos[i].corte}',${datos[i].Total_Georreferenciado},
+    //                 ${datos[i].c1},${datos[i].c2}, ${datos[i].c3},${datos[i].c4}, ${datos[i].c5},${datos[i].c6}, ${datos[i].c7},${datos[i].c8}, ${datos[i].c9},${datos[i].c10}, ${datos[i].c11}, ${datos[i].c12}, ${datos[i].c13},
+    //                 ${datos[i].c14}, ${datos[i].c15}, ${datos[i].c16}, ${datos[i].c50}, ${datos[i].c60},  ${datos[i].c70},  ${datos[i].c80},  ${datos[i].c90}, ${datos[i].c99}, ${datos[i].c97});
+    //              `);
+    //         console.log(datos[i].CodProyecto, " ok")   
+    // }
   } catch (error) {
      console.log(error)
   }
@@ -461,39 +463,39 @@ const getEjecFisicaPA = async (req, res)=>{
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
     console.log(datos)
   
-    await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
+    // await aws_pool.query('delete from plan_accion.tbl_exec_fisica')
 
-      for (let i=0; i<datos.length; i++){
+    //   for (let i=0; i<datos.length; i++){
         
-        await aws_pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
-          cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, 
-          ejec_fisica, ejec_financiera, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
-	        VALUES (
+    //     await aws_pool.query(` INSERT INTO plan_accion.tbl_exec_fisica(
+    //       cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, 
+    //       ejec_fisica, ejec_financiera, poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, "corte")
+	  //       VALUES (
         
-          ${datos[i].Codigo_Dependencia},
-          '${datos[i].Nombre_Dependencia}',   
-          '${datos[i].cod_proyecto}',
-          '${datos[i].nom_proyecto}',
-          ${datos[i].porc_eficacia_proyecto},
-          ${datos[i].ejecucion_fisica},
-          ${datos[i].ejecucion_financiera},
-          ${datos[i].POAI},
-          ${datos[i].ppto_ajustado},
+    //       ${datos[i].Codigo_Dependencia},
+    //       '${datos[i].Nombre_Dependencia}',   
+    //       '${datos[i].cod_proyecto}',
+    //       '${datos[i].nom_proyecto}',
+    //       ${datos[i].porc_eficacia_proyecto},
+    //       ${datos[i].ejecucion_fisica},
+    //       ${datos[i].ejecucion_financiera},
+    //       ${datos[i].POAI},
+    //       ${datos[i].ppto_ajustado},
           
-          ${datos[i].ejecucion},
-          ${datos[i].Compromisos},
-          ${datos[i].Pagos},
-          ${datos[i].Facturas},
-          ${datos[i].num_valstat},
-          '${datos[i].tipo_proyecto}',
-          '${datos[i].espagopendiente}',
-          '${datos[i].saldo_no_ejec}',
-          '${datos[i].corte}'
-      );
-        `);
+    //       ${datos[i].ejecucion},
+    //       ${datos[i].Compromisos},
+    //       ${datos[i].Pagos},
+    //       ${datos[i].Facturas},
+    //       ${datos[i].num_valstat},
+    //       '${datos[i].tipo_proyecto}',
+    //       '${datos[i].espagopendiente}',
+    //       '${datos[i].saldo_no_ejec}',
+    //       '${datos[i].corte}'
+    //   );
+    //     `);
         
-         console.log(i,"-", datos[i].cod_proyecto, " -Ok")        
-      }
+    //      console.log(i,"-", datos[i].cod_proyecto, " -Ok")        
+    //   }
 
 
    } catch (error) {
@@ -507,41 +509,41 @@ const getEjecFinancieraPA= async(req, res)=>{
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
-    // console.log(datos)
+    console.log(datos)
 
    
-  await aws_pool.query(' delete from plan_accion.tbl_exec_financiera')
+    // await aws_pool.query(' delete from plan_accion.tbl_exec_financiera')
 
-   for (let i=0; i<datos.length; i++){
-        await aws_pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
-	      cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, 
-	      porc_ejec_financiera,  poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, tipo_iniciativa,"corte")
-	        VALUES (
-          ${datos[i].cod_dependencia},
-          '${datos[i].nom_dependencia}',
-          '${datos[i].cod_proyecto}',
-          '${datos[i].nom_proyecto}',
-          ${datos[i].porc_eficacia_proyecto},
-          ${datos[i].ejecucion_financiera},
-          ${datos[i].porc_ejecucion_financiera},
+    // for (let i=0; i<datos.length; i++){
+    //     await aws_pool.query(` INSERT INTO plan_accion.tbl_exec_financiera(
+	  //     cod_dependencia, nom_dependencia, cod_proyecto, nom_proyecto, porc_eficacia_proyecto, ejec_financiera, 
+	  //     porc_ejec_financiera,  poai, ppto_ajustado, ejecucion, compromisos, pagos, facturas, num_valstat, tipo_proyecto, espago_pendiente, saldo_no_exec, tipo_iniciativa,"corte")
+	  //       VALUES (
+    //       ${datos[i].cod_dependencia},
+    //       '${datos[i].nom_dependencia}',
+    //       '${datos[i].cod_proyecto}',
+    //       '${datos[i].nom_proyecto}',
+    //       ${datos[i].porc_eficacia_proyecto},
+    //       ${datos[i].ejecucion_financiera},
+    //       ${datos[i].porc_ejecucion_financiera},
          
-          ${datos[i].POAI},
+    //       ${datos[i].POAI},
           
-          ${datos[i].ppto_ajustado},
-          ${datos[i].ejecucion},
-          ${datos[i].Compromisos},
-          ${datos[i].Pagos},
-          ${datos[i].Facturas},
-          ${datos[i].num_valstat},
-          '${datos[i].tipo_proyecto}',
-          '${datos[i].espagopendiente}',
-          '${datos[i].saldo_no_ejec}',
-          ${datos[i].tipo_iniciativa},
-          '${datos[i].corte}'
-      );
-        `);
-        console.log(i,"-", datos[i].cod_proyecto, " -Ok")         
-      }
+    //       ${datos[i].ppto_ajustado},
+    //       ${datos[i].ejecucion},
+    //       ${datos[i].Compromisos},
+    //       ${datos[i].Pagos},
+    //       ${datos[i].Facturas},
+    //       ${datos[i].num_valstat},
+    //       '${datos[i].tipo_proyecto}',
+    //       '${datos[i].espagopendiente}',
+    //       '${datos[i].saldo_no_ejec}',
+    //       ${datos[i].tipo_iniciativa},
+    //       '${datos[i].corte}'
+    //   );
+    //     `);
+    //     console.log(i,"-", datos[i].cod_proyecto, " -Ok")         
+    // }
 
 
    } catch (error) {
@@ -555,7 +557,7 @@ const getEjecFinanciera_PI_PA = async(req, res)=>{
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    //console.log(datos)
+    console.log(datos)
 
     
     // await aws_pool.query(` delete from  indicativo.tbl_ejec_finan_plan`)
@@ -639,7 +641,98 @@ const putUser = async (req, res)=>{
   }
 }
 
+const getProyectosEspeciales = async(req,res)=>{
+  try {
+    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/ProyectoseIndicadores.xlsx');
+    var nombreHoja = excel.SheetNames;
+    var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
+    //console.log(datos)
+    let estadosgtoespecial=[]
 
+    for (let index = 0; index < datos.length; index++) {
+      const response = await aws_pool.query(` 
+        SELECT 
+ 	        indicativo.tbl_ejec_finan_plan.cod_linea,
+	        indicativo.tbl_ejec_finan_plan.cod_componente,
+	        indicativo.tbl_ejec_finan_plan.cod_programa,
+	        indicativo.tbl_ejec_finan_plan.cod_dependencia,
+	        plan_accion.tbl_exec_financiera.cod_proyecto,
+	        plan_accion.tbl_exec_financiera.nom_proyecto,
+	        plan_accion.tbl_exec_financiera.ejec_financiera,
+	        plan_accion.tbl_exec_fisica.porc_eficacia_proyecto,
+	        plan_accion.tbl_exec_financiera.poai,
+	        plan_accion.tbl_exec_financiera.ppto_ajustado,
+	        plan_accion.tbl_exec_financiera.ejecucion,
+	        plan_accion.tbl_exec_financiera.compromisos,
+	        plan_accion.tbl_exec_financiera.pagos,
+	        plan_accion.tbl_exec_financiera.facturas,
+	        plan_accion.tbl_exec_financiera.num_valstat,
+	        plan_accion.tbl_exec_financiera.tipo_proyecto,
+	        plan_accion.tbl_exec_financiera.corte
+        FROM plan_accion.tbl_exec_fisica
+        LEFT JOIN plan_accion.tbl_exec_financiera ON tbl_exec_financiera.cod_proyecto = tbl_exec_fisica.cod_proyecto
+        LEFT JOIN indicativo.tbl_ejec_finan_plan ON indicativo.tbl_ejec_finan_plan.cod_proyecto = tbl_exec_financiera.cod_proyecto
+        WHERE plan_accion.tbl_exec_financiera.cod_proyecto=$1
+        GROUP BY 
+            indicativo.tbl_ejec_finan_plan.cod_linea,
+	        indicativo.tbl_ejec_finan_plan.cod_componente,
+	        indicativo.tbl_ejec_finan_plan.cod_programa,
+	        indicativo.tbl_ejec_finan_plan.cod_dependencia,
+	        plan_accion.tbl_exec_financiera.cod_proyecto,
+	        plan_accion.tbl_exec_financiera.nom_proyecto,
+	        plan_accion.tbl_exec_financiera.ejec_financiera,
+	        plan_accion.tbl_exec_fisica.porc_eficacia_proyecto,
+	        plan_accion.tbl_exec_financiera.poai,
+	        plan_accion.tbl_exec_financiera.ppto_ajustado,
+	        plan_accion.tbl_exec_financiera.ejecucion,
+	        plan_accion.tbl_exec_financiera.compromisos,
+	        plan_accion.tbl_exec_financiera.pagos,
+	        plan_accion.tbl_exec_financiera.facturas,
+	        plan_accion.tbl_exec_financiera.num_valstat,
+	        plan_accion.tbl_exec_financiera.tipo_proyecto,
+	        plan_accion.tbl_exec_financiera.corte
+        ORDER BY 
+            indicativo.tbl_ejec_finan_plan.cod_linea,
+	        indicativo.tbl_ejec_finan_plan.cod_componente,
+	        indicativo.tbl_ejec_finan_plan.cod_programa,
+	        indicativo.tbl_ejec_finan_plan.cod_dependencia,
+	        plan_accion.tbl_exec_financiera.cod_proyecto,
+	        plan_accion.tbl_exec_financiera.nom_proyecto,
+	        plan_accion.tbl_exec_financiera.ejec_financiera,
+	        plan_accion.tbl_exec_fisica.porc_eficacia_proyecto,
+	        plan_accion.tbl_exec_financiera.poai,
+	        plan_accion.tbl_exec_financiera.ppto_ajustado,
+	        plan_accion.tbl_exec_financiera.ejecucion,
+	        plan_accion.tbl_exec_financiera.compromisos,
+	        plan_accion.tbl_exec_financiera.pagos,
+	        plan_accion.tbl_exec_financiera.facturas,
+	        plan_accion.tbl_exec_financiera.num_valstat,
+	        plan_accion.tbl_exec_financiera.tipo_proyecto,
+	        plan_accion.tbl_exec_financiera.corte
+        `, [datos[index].cod_proyecto]);
+
+
+        estadosgtoespecial.push(response.rows)
+      
+    
+  }
+  console.log(estadosgtoespecial)
+  res.status(200). json({
+            Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
+            Version: '1.0',
+            Cobertura:'Municipio de Medelín',
+            Datos_Contacto:'Jhon Alexander Betancur  - USPDM - DAP - CAM Psio 8 - Tel:3855555 ext. 5838',
+            eMail_Contacto: 'jhon.betancur@medellin.gov.co',
+            data: estadosgtoespecial
+        })
+
+
+
+
+  } catch (error) {
+    console.error('Error getProyectosEspeciales: ', error);
+  }
+}
 
 
 module.exports = {
@@ -656,5 +749,6 @@ module.exports = {
   getEjecFinanciera_PI_PA,
   getAdminUsers,
   deleteUsers,
-  putUser
+  putUser,
+  getProyectosEspeciales
 };
