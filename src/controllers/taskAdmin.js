@@ -716,7 +716,7 @@ const getProyectosEspeciales = async(req,res)=>{
       
     
   }
-  console.log(estadosgtoespecial)
+  //console.log(estadosgtoespecial)
   res.status(200). json({
             Autor:'Alcaldía de Medellin - Departamento Administrativo de Planeación ',
             Version: '1.0',
