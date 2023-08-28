@@ -18,7 +18,8 @@ const {
   getAdminUsers,
   deleteUsers,
   putUser,
-  getProyectosEspeciales
+  getProyectosEspeciales,
+  getIndicadoresEspeciales
 } = require("../controllers/taskAdmin");
 
 routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
@@ -34,6 +35,7 @@ routerAdmin.get('/pi/api/fichametodologica',getFichaCarga)
     .get('/pi/api/ejecfinancierapipa', getEjecFinanciera_PI_PA)
     .get (`/auth/api/admin/gestion/:admin`, getAdminUsers)
     .get('/proyectos/admin/especial/seguimiento', getProyectosEspeciales)
+    .get('/proyectos/admin/especial/indicadores',  getIndicadoresEspeciales)
 
     routerAdmin.delete('/api/auth/:admin/:user',  deleteUsers )
     routerAdmin.post('/api/auth/:admin/edit/:user',   putUser )
