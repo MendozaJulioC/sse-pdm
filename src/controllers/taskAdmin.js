@@ -188,10 +188,10 @@ const getFichaMain = async(req, res)=>{
 //ruta para actualizar los cortes del avance delplan indicativo
 const getUpdateLogros = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx');
+    const excel = XLSX.readFile('src/public/uploads/tabla_Segto_PI.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
-    console.log(datos)
+   console.log(datos)
     
     //  for (let i=0; i<datos.length; i++){
       
@@ -242,7 +242,7 @@ const getUpdateLogros = async (req, res)=>{
 const getUpdateAvanceLineas = async(req, res)=>{
   try {
     const excel = XLSX.readFile(
-      "/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/tabla_Segto_PI.xlsx"
+      "src/public/uploads/tabla_Segto_PI.xlsx"
     );
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
@@ -251,7 +251,7 @@ const getUpdateAvanceLineas = async(req, res)=>{
     // for (let i = 0; i < datos.length; i++) {
      
 
-    //   if (datos[i].corte == "2023-06-30") {
+    //   if (datos[i].corte == "2023-08-31") {
     //     await aws_pool.query(` 
     //       INSERT INTO indicativo.tbl_comportamiento_lineas(
     //         cod_linea, nom_linea, avance, cumplimiento, corte, tipo)
@@ -279,7 +279,7 @@ const getUpdateAvanceLineas = async(req, res)=>{
 //ruta para cargar el consolidado de la geoinversión pública
 const getConsolidadoGeo = async (req, res)=>{
   try {
-   const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Estructuracion.xlsx');
+   const excel = XLSX.readFile('src/public/uploads/Estructuracion.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
     console.log(datos)
@@ -303,7 +303,7 @@ const getConsolidadoGeo = async (req, res)=>{
 const getTotalesGeo = async (req, res)=>{
   try {
     const excel = XLSX.readFile(
-      "/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Estructuracion.xlsx"
+      "src/public/uploads/Estructuracion.xlsx"
     );
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[4]]);
@@ -331,19 +331,19 @@ const getUpdateTotalesGeo = async(req, res)=>{
     const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Estructuracion.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[4]]);
-    // console.log(datos)
-    for (let i=0; i<datos.length; i++){
-      await aws_pool.query(` 
-        UPDATE inverpublica.tbl_tipoinver_geo
-        SET  
-          localizada=${datos[i].Localizada},
-          ciudad=${datos[i].Ciudad},
-          pp=${datos[i].pp},
-          total=${datos[i].total}
-         WHERE cod_comuna=${datos[i].CodigoComuna};
-        `);
-      console.log(datos[i].NombreComuna, " ok")   
-    }
+    console.log(datos)
+    // for (let i=0; i<datos.length; i++){
+    //   await aws_pool.query(` 
+    //     UPDATE inverpublica.tbl_tipoinver_geo
+    //     SET  
+    //       localizada=${datos[i].Localizada},
+    //       ciudad=${datos[i].Ciudad},
+    //       pp=${datos[i].pp},
+    //       total=${datos[i].total}
+    //      WHERE cod_comuna=${datos[i].CodigoComuna};
+    //     `);
+    //   console.log(datos[i].NombreComuna, " ok")   
+    // }
   } catch (error) {
     console.error('Update UpdateTotalesGeo: ', error);
   }
@@ -353,7 +353,7 @@ const getUpdateTotalesGeo = async(req, res)=>{
 const getPlanAccion = async (req, res) => {
   try {
     const excel = XLSX.readFile(
-      "/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/plan_accion_pdm.xlsx"
+      "src/public/uploads/plan_accion_pdm.xlsx"
     );
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[0]]);
@@ -458,7 +458,7 @@ const getPlanAccion = async (req, res) => {
 
 const getEjecFisicaPA = async (req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
+    const excel = XLSX.readFile('src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[1]]);
    console.log(datos)
@@ -506,7 +506,7 @@ const getEjecFisicaPA = async (req, res)=>{
 
 const getEjecFinancieraPA= async(req, res)=>{
   try {
-    const excel = XLSX.readFile('/Users/jcmendoza/Desktop/pipApp/sse-pdm/src/public/uploads/Visualizaciones_PAV.xlsx');
+    const excel = XLSX.readFile('src/public/uploads/Visualizaciones_PAV.xlsx');
     var nombreHoja = excel.SheetNames;
     var datos = XLSX.utils.sheet_to_json(excel.Sheets[nombreHoja[2]]);
     console.log(datos)
